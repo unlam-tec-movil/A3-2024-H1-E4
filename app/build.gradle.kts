@@ -54,6 +54,10 @@ android {
 }
 
 dependencies {
+    // mapbox & permission
+    implementation(libs.mapbox.maps)
+    implementation(libs.mapbox.android)
+    implementation(libs.google.permission)
 
     // Base
     implementation(libs.androidx.core.ktx)

@@ -5,8 +5,11 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
-import ar.edu.unlam.mobile.scaffolding.ui.components.Greeting
+import ar.edu.unlam.mobile.scaffolding.ui.components.MapboxContent
+import com.mapbox.maps.MapboxExperimental
+import com.mapbox.maps.extension.compose.animation.viewport.rememberMapViewportState
 
+@OptIn(MapboxExperimental::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -23,7 +26,18 @@ fun HomeScreen(
         }
 
         is HelloMessageUIState.Success -> {
-            Greeting(helloState.message, modifier)
+            val mapViewportState =
+                rememberMapViewportState {
+                    setCameraOptions {
+                        zoom(4.0)
+                        pitch(0.0)
+                    }
+                }
+
+            MapboxContent(
+                mapViewportState = mapViewportState,
+                modifier = modifier,
+            )
         }
 
         is HelloMessageUIState.Error -> {
