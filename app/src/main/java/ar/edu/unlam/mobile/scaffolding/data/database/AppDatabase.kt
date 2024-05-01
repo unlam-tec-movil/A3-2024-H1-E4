@@ -15,6 +15,8 @@ import ar.edu.unlam.mobile.scaffolding.data.database.entity.Route
 )
 abstract class AppDatabase : RoomDatabase() {
     abstract fun getRouteDao(): RouteDao
+
     abstract fun getCoordinateDao(): CoordinateDao
+
     abstract fun getChallengeDao(): ChallengeDao
 }

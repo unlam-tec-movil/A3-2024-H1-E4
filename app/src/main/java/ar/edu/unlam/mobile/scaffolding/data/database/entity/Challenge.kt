@@ -9,5 +9,5 @@ data class Challenge(
     val description: String,
     val points: Double,
     val amount: Double,
-    val complete: Boolean
+    val complete: Boolean,
 )

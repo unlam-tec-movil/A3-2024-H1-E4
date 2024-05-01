@@ -8,5 +8,5 @@ data class Route(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val userId: Long,
     val distance: Double,
-    val durationSeconds: Long
+    val durationSeconds: Long,
 )

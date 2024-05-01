@@ -8,5 +8,5 @@ data class Coordinate(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val routeId: Long,
     val latitude: Double,
-    val longitude: Double
+    val longitude: Double,
 )
