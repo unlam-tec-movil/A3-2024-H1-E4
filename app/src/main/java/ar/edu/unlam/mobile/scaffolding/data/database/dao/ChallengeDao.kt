@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import ar.edu.unlam.mobile.scaffolding.data.database.entity.Challenge
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface ChallengeDao {
@@ -20,8 +21,8 @@ interface ChallengeDao {
     fun update(challenge: Challenge)
 
     @Query("SELECT * FROM challenge where id=:challengeId")
-    fun getRoute(challengeId: Long): Challenge
+    fun getChallenge(challengeId: Long): Flow<Challenge>
 
-    @Query("SELECT * FROM route")
-    fun getAllRoutes(): List<Challenge>
+    @Query("SELECT * FROM challenge")
+    fun getAllChallenges(): Flow<List<Challenge>>
 }

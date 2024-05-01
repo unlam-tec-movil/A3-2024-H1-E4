@@ -7,6 +7,7 @@ import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
 import ar.edu.unlam.mobile.scaffolding.data.database.entity.Coordinate
+import kotlinx.coroutines.flow.Flow
 
 @Dao
 interface CoordinateDao {
@@ -20,8 +21,8 @@ interface CoordinateDao {
     fun update(coordinate: Coordinate)
 
     @Query("SELECT * FROM coordinate where id=:coordId")
-    fun getCoordinate(coordId: Long): Coordinate
+    fun getCoordinate(coordId: Long): Flow<Coordinate>
 
     @Query("SELECT * FROM coordinate")
-    fun getAllCoordinates(): List<Coordinate>
+    fun getAllCoordinates(): Flow<List<Coordinate>>
 }
