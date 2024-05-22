@@ -24,44 +24,44 @@ import ar.edu.unlam.mobile.scaffolding.R
 
 @Preview
 @Composable
-fun ActivityProgress (
-    prevFun: () -> Unit
-){
-    Column (
-        modifier = Modifier
-            .fillMaxWidth()
-            .padding(4.dp, 12.dp)
-            .background(color = Color.White),
+fun ActivityProgress(prevFun: () -> Unit) {
+    Column(
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(4.dp, 12.dp)
+                .background(color = Color.White),
         horizontalAlignment = Alignment.CenterHorizontally,
-
-    ){
+    ) {
         Box(modifier = Modifier.padding(12.dp))
         Button(
             onClick = {
-                      prevFun()
+                prevFun()
             },
             modifier = Modifier.size(90.dp),
             shape = CircleShape,
-            colors = ButtonDefaults.buttonColors(
-                containerColor = Color(35, 79, 113, 255)
-            )
+            colors =
+                ButtonDefaults.buttonColors(
+                    containerColor = Color(35, 79, 113, 255),
+                ),
         ) {
             Image(
                 painter = painterResource(id = R.drawable.baseline_play_arrow_24),
                 contentDescription = null,
-                modifier = Modifier
-                    .size(64.dp)
+                modifier =
+                    Modifier
+                        .size(64.dp),
             )
         }
         Text(
             text = "48'",
             fontWeight = FontWeight.ExtraBold,
-            fontSize = 64.sp
+            fontSize = 64.sp,
         )
         Text(
             text = "Tiempo",
             fontWeight = FontWeight.SemiBold,
-            fontSize = 18.sp
+            fontSize = 18.sp,
         )
     }
 }

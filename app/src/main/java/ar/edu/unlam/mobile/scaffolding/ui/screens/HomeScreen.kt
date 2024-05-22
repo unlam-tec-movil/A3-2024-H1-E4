@@ -22,10 +22,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.unlam.mobile.scaffolding.R
 import ar.edu.unlam.mobile.scaffolding.ui.components.CardAward
 import ar.edu.unlam.mobile.scaffolding.ui.components.MapContainer
-import ar.edu.unlam.mobile.scaffolding.ui.components.MapboxContent
 import ar.edu.unlam.mobile.scaffolding.ui.components.header
 import com.mapbox.maps.MapboxExperimental
-import com.mapbox.maps.extension.compose.animation.viewport.rememberMapViewportState
 
 @OptIn(MapboxExperimental::class)
 @Composable
@@ -67,31 +65,33 @@ fun HomeScreen(
 
 @Preview
 @Composable
-fun MainScreen(){
+fun MainScreen() {
     Column(
         Modifier
             .fillMaxHeight()
             .fillMaxWidth()
             .background(Color.Black),
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         header()
-        Column (
-            modifier = Modifier
-                .padding(12.dp, 8.dp)
-                .fillMaxWidth()
-        ){
-            Row (
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(2.dp, 8.dp),
-                horizontalArrangement = Arrangement.SpaceBetween
-            ){
+        Column(
+            modifier =
+                Modifier
+                    .padding(12.dp, 8.dp)
+                    .fillMaxWidth(),
+        ) {
+            Row(
+                modifier =
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(2.dp, 8.dp),
+                horizontalArrangement = Arrangement.SpaceBetween,
+            ) {
                 Text(
                     text = "Premios conseguidos",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold,
-                    color = Color.White
+                    color = Color.White,
                 )
                 Text(
                     text = "Ver todos",
@@ -100,18 +100,18 @@ fun MainScreen(){
                     color = Color(35, 79, 113, 255),
                 )
             }
-            Row (
+            Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
-                modifier = Modifier
-                    .fillMaxWidth()
-            ){
+                modifier =
+                    Modifier
+                        .fillMaxWidth(),
+            ) {
                 CardAward("145", R.drawable.copa, Modifier.weight(1f))
                 CardAward("22 dias", R.drawable.fuego, Modifier.weight(1f))
-                CardAward("16 km", R.drawable.trueno, Modifier.weight(1f) )
+                CardAward("16 km", R.drawable.trueno, Modifier.weight(1f))
             }
         }
         MapContainer()
     }
-
 }
