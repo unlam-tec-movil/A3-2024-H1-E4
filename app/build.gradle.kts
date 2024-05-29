@@ -59,6 +59,9 @@ dependencies {
     implementation(libs.mapbox.android)
     implementation(libs.google.permission)
 
+    // Google location service
+    implementation(libs.play.services.location)
+
     // Base
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)

@@ -16,20 +16,19 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ar.edu.unlam.mobile.scaffolding.R
 
-@Preview
 @Composable
 fun CardAward(
     title: String = "125",
     img: Int = R.drawable.trueno,
     modifier: Modifier,
+    action: () -> Unit = {},
 ) {
     Button(
-        onClick = {},
+        onClick = { action() },
         modifier = modifier.padding(1.dp, 0.dp),
         shape = RoundedCornerShape(32.dp),
         colors =
