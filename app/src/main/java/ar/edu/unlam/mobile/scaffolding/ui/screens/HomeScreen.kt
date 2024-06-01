@@ -28,6 +28,7 @@ import ar.edu.unlam.mobile.scaffolding.ui.components.CardAward
 import ar.edu.unlam.mobile.scaffolding.ui.components.HomeHeader
 import ar.edu.unlam.mobile.scaffolding.ui.components.MapContainer
 import ar.edu.unlam.mobile.scaffolding.ui.components.StartSwitch
+import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.ChronometerViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.HelloMessageUIState
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.HomeViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.LocationViewModel
@@ -64,6 +65,7 @@ fun HomeScreen(
 fun MainScreen(
     navController: NavController,
     locationViewModel: LocationViewModel = hiltViewModel(),
+    chronometerViewModel: ChronometerViewModel = hiltViewModel(),
 ) {
     Column(
         Modifier
@@ -117,7 +119,7 @@ fun MainScreen(
                     "4/15km",
                     R.drawable.copa,
                     Modifier.weight(1f),
-                ) { }
+                )
                 CardAward("22 dias", R.drawable.fuego, Modifier.weight(1f))
                 CardAward("500/2500 kcl", R.drawable.trueno, Modifier.weight(1f))
             }
