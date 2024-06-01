@@ -11,16 +11,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.navigation.NavController
 import ar.edu.unlam.mobile.scaffolding.ui.components.Header
 import ar.edu.unlam.mobile.scaffolding.ui.components.ShareButton
-import com.mapbox.maps.extension.style.expressions.dsl.generated.color
 
-@Preview
 @Composable
-fun AwardsScreen() {
+fun AwardsScreen(navController: NavController) {
     Column(
         Modifier
             .fillMaxHeight()

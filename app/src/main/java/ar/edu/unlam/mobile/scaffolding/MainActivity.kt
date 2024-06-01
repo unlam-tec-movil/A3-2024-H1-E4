@@ -15,7 +15,9 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import ar.edu.unlam.mobile.scaffolding.ui.screens.AwardsScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.HomeScreen
+import ar.edu.unlam.mobile.scaffolding.ui.screens.Routes
 import ar.edu.unlam.mobile.scaffolding.ui.theme.ScaffoldingV2Theme
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -31,8 +33,6 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background,
                 ) {
                     MainScreen()
-                    // AwardsScreen()
-                    // ActivityScreen()
                 }
             }
         }
@@ -41,9 +41,6 @@ class MainActivity : ComponentActivity() {
 
 @Composable
 fun MainScreen() {
-    // Controller es el elemento que nos permite navegar entre pantallas. Tiene las acciones
-    // para navegar como naviegate y también la información de en dónde se "encuentra" el usuario
-    // a través del back stack
     val controller = rememberNavController()
     Scaffold(
         /*bottomBar = { BottomBar(controller = controller) },
@@ -53,19 +50,18 @@ fun MainScreen() {
             }
         },*/
     ) { paddingValue ->
-        // NavHost es el componente que funciona como contenedor de los otros componentes que
-        // podrán ser destinos de navegación.
-        NavHost(navController = controller, startDestination = "home") {
-            // composable es el componente que se usa para definir un destino de navegación.
-            // Por parámetro recibe la ruta que se utilizará para navegar a dicho destino.
-            composable("home") {
-                // Home es el componente en sí que es el destino de navegación.
+        NavHost(navController = controller, startDestination = Routes.Home.name) {
+            composable(Routes.Home.name) {
                 HomeScreen(
+                    navController = controller,
                     modifier =
                         Modifier
                             .size(height = 660.dp, width = 400.dp)
                             .padding(paddingValue),
                 )
+            }
+            composable(Routes.Awards.name) {
+                AwardsScreen(navController = controller)
             }
         }
     }

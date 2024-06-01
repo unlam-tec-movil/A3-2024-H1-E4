@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">ScaffoldingV2</string>
+    <string name="app_name">WalkieTrackie</string>
     <string name="mapbox_access_token">pk.eyJ1IjoiZnNrdXJuaWsiLCJhIjoiY2x2MTRneXBtMDB6eDJpcGxlbG9iZzM3ciJ9.diQaafPkgGDUGHs8R_m9kQ</string>
 </resources>
