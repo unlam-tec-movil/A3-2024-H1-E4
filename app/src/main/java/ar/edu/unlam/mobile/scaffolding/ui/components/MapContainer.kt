@@ -21,11 +21,11 @@ import com.mapbox.maps.extension.compose.animation.viewport.rememberMapViewportS
 fun MapContainer() {
     Box(
         modifier =
-        Modifier
-            .padding(14.dp, 18.dp)
-            .border(BorderStroke(2.dp, Color.White))
-            .fillMaxWidth()
-            .height(500.dp),
+            Modifier
+                .padding(14.dp, 18.dp)
+                .border(BorderStroke(2.dp, Color.White))
+                .fillMaxWidth()
+                .height(500.dp),
     ) {
         val mapViewportState =
             rememberMapViewportState {
@@ -38,8 +38,8 @@ fun MapContainer() {
         MapboxContent(
             mapViewportState = mapViewportState,
             modifier =
-            Modifier
-                .fillMaxSize(),
+                Modifier
+                    .fillMaxSize(),
         )
     }
 }

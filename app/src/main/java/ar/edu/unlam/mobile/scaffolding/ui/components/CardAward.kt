@@ -33,15 +33,15 @@ fun CardAward(
         modifier = modifier.padding(0.dp, 0.dp),
         shape = RoundedCornerShape(32.dp),
         colors =
-        ButtonDefaults.buttonColors(
-            containerColor = Color(35, 79, 113, 255),
-        ),
+            ButtonDefaults.buttonColors(
+                containerColor = Color(35, 79, 113, 255),
+            ),
     ) {
         Row(
             modifier =
-            Modifier
-                .padding(0.dp)
-                .fillMaxWidth(),
+                Modifier
+                    .padding(0.dp)
+                    .fillMaxWidth(),
             // verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
@@ -49,10 +49,10 @@ fun CardAward(
                 painter = painterResource(id = img),
                 contentDescription = null,
                 modifier =
-                Modifier
-                    .width(18.dp)
-                    .height(18.dp)
-                    .clickable { },
+                    Modifier
+                        .width(18.dp)
+                        .height(18.dp)
+                        .clickable { },
             )
             Text(
                 text = title,

@@ -22,23 +22,25 @@ fun StartSwitch(modifier: Modifier = Modifier) {
         mutableStateOf(
             ToggleableInfo(
                 isChecked = false,
-                text = "Empezar"
-            )
+                text = "Empezar",
+            ),
         )
     }
 
     Row(
         verticalAlignment = Alignment.Bottom,
-        modifier = modifier
-            .fillMaxWidth()
+        modifier =
+            modifier
+                .fillMaxWidth(),
     ) {
         Switch(
             checked = switch.isChecked,
             onCheckedChange = { isChecked -> switch = switch.copy(isChecked) },
-            modifier = modifier
-                .scale(scaleX = 5f, scaleY = 2f)
-                .fillMaxWidth()
-                .padding(10.dp)
+            modifier =
+                modifier
+                    .scale(scaleX = 5f, scaleY = 2f)
+                    .fillMaxWidth()
+                    .padding(10.dp),
         )
     }
 }

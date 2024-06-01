@@ -54,9 +54,10 @@ fun MainScreen() {
             composable(Routes.Home.name) {
                 HomeScreen(
                     navController = controller,
-                    modifier = Modifier
-                        .size(height = 660.dp, width = 400.dp)
-                        .padding(paddingValue),
+                    modifier =
+                        Modifier
+                            .size(height = 660.dp, width = 400.dp)
+                            .padding(paddingValue),
                 )
             }
             composable(Routes.Awards.name) {

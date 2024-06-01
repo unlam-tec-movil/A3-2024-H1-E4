@@ -33,21 +33,21 @@ fun CardResultActivity(
 //    ) {
     Column(
         modifier =
-        Modifier
-            .background(
-                color = Color(35, 79, 113, 255),
-                shape = RoundedCornerShape(16.dp),
-            )
-            .padding(top = 5.dp, bottom = 5.dp)
-            .width(110.dp)
-            .wrapContentSize()
+            Modifier
+                .background(
+                    color = Color(35, 79, 113, 255),
+                    shape = RoundedCornerShape(16.dp),
+                )
+                .padding(top = 5.dp, bottom = 5.dp)
+                .width(110.dp)
+                .wrapContentSize(),
     ) {
         Text(
             text = title,
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
             color = Color.White,
-            modifier = modifier.padding(start = 10.dp)
+            modifier = modifier.padding(start = 10.dp),
         )
         Text(
             text = value,
@@ -56,8 +56,8 @@ fun CardResultActivity(
             textAlign = TextAlign.Center,
             color = Color.White,
             modifier =
-            Modifier
-                .fillMaxWidth(),
+                Modifier
+                    .fillMaxWidth(),
         )
     }
 //    }

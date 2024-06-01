@@ -35,39 +35,39 @@ import ar.edu.unlam.mobile.scaffolding.R
 fun Header() {
     ConstraintLayout(
         modifier =
-        Modifier
-            .fillMaxWidth()
-            .padding(10.dp, 20.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(10.dp, 20.dp),
     ) {
         val (box1, box2) = createRefs()
 
         Box(
             modifier =
-            Modifier
-                .constrainAs(box1) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(parent.start)
-                    end.linkTo(box2.start)
-                    width = Dimension.percent(0.7f)
-                }
-                .wrapContentHeight(),
+                Modifier
+                    .constrainAs(box1) {
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                        start.linkTo(parent.start)
+                        end.linkTo(box2.start)
+                        width = Dimension.percent(0.7f)
+                    }
+                    .wrapContentHeight(),
         ) {
             Column(
                 modifier =
-                Modifier
-                    .fillMaxWidth(),
+                    Modifier
+                        .fillMaxWidth(),
                 horizontalAlignment = Alignment.End,
             ) {
                 Box(
                     modifier =
-                    Modifier
-                        .width(168.dp)
-                        .height(168.dp)
-                        .background(
-                            color = Color(35, 79, 113, 255),
-                            shape = RoundedCornerShape(100),
-                        ),
+                        Modifier
+                            .width(168.dp)
+                            .height(168.dp)
+                            .background(
+                                color = Color(35, 79, 113, 255),
+                                shape = RoundedCornerShape(100),
+                            ),
                 ) {
                     Text(
                         text = "145",
@@ -76,19 +76,19 @@ fun Header() {
                         color = Color.White,
                         fontWeight = FontWeight.Black,
                         modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .height(48.dp)
-                            .offset(y = 4.dp),
+                            Modifier
+                                .fillMaxWidth()
+                                .height(48.dp)
+                                .offset(y = 4.dp),
                     )
                     Image(
                         painter = painterResource(id = R.drawable.copa),
                         contentDescription = null,
                         modifier =
-                        Modifier
-                            .width(168.dp)
-                            .height(136.dp)
-                            .offset(x = 0.dp, y = 50.dp),
+                            Modifier
+                                .width(168.dp)
+                                .height(136.dp)
+                                .offset(x = 0.dp, y = 50.dp),
                     )
                 }
             }
@@ -96,15 +96,15 @@ fun Header() {
 
         Column(
             modifier =
-            Modifier
-                .constrainAs(box2) {
-                    top.linkTo(parent.top)
-                    bottom.linkTo(parent.bottom)
-                    start.linkTo(box1.end)
-                    end.linkTo(parent.end)
-                    width = Dimension.percent(0.3f)
-                }
-                .wrapContentHeight(),
+                Modifier
+                    .constrainAs(box2) {
+                        top.linkTo(parent.top)
+                        bottom.linkTo(parent.bottom)
+                        start.linkTo(box1.end)
+                        end.linkTo(parent.end)
+                        width = Dimension.percent(0.3f)
+                    }
+                    .wrapContentHeight(),
             horizontalAlignment = Alignment.End,
         ) {
             Row(
@@ -116,9 +116,9 @@ fun Header() {
                     painter = painterResource(id = R.drawable.fuego),
                     contentDescription = null,
                     modifier =
-                    Modifier
-                        .width(32.dp)
-                        .height(32.dp),
+                        Modifier
+                            .width(32.dp)
+                            .height(32.dp),
                 )
                 Text(
                     text = "145",
@@ -138,9 +138,9 @@ fun Header() {
                     painter = painterResource(id = R.drawable.trueno),
                     contentDescription = null,
                     modifier =
-                    Modifier
-                        .width(30.dp)
-                        .height(30.dp),
+                        Modifier
+                            .width(30.dp)
+                            .height(30.dp),
                 )
                 Text(
                     text = "16",

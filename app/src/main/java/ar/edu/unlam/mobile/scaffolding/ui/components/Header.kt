@@ -40,9 +40,9 @@ fun HomeHeader() {
         ) {
             Row(
                 modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(top = 24.dp, start = 16.dp, end = 16.dp),
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = 24.dp, start = 16.dp, end = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -66,24 +66,24 @@ fun HomeHeader() {
                     painter = painterResource(id = R.drawable.user),
                     contentDescription = null,
                     modifier =
-                    Modifier
-                        .width(64.dp)
-                        .height(64.dp)
-                        .clickable { },
+                        Modifier
+                            .width(64.dp)
+                            .height(64.dp)
+                            .clickable { },
                 )
             }
         }
 
         Column(
             modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(top = 10.dp, start = 12.dp, end = 12.dp)
-                .shadow(3.dp, shape = RoundedCornerShape(20.dp))
-                .background(
-                    color = Color.White,
-                    shape = RoundedCornerShape(14.dp),
-                )
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp, start = 12.dp, end = 12.dp)
+                    .shadow(3.dp, shape = RoundedCornerShape(20.dp))
+                    .background(
+                        color = Color.White,
+                        shape = RoundedCornerShape(14.dp),
+                    ),
         ) {
             Text(
                 text = "Tu última actividad",
@@ -93,11 +93,12 @@ fun HomeHeader() {
                 modifier = Modifier.padding(top = 12.dp, start = 12.dp),
             )
             Row(
-                modifier = Modifier
-                    .height(80.dp)
-                    .fillMaxWidth()
-                    .padding(top = 10.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly
+                modifier =
+                    Modifier
+                        .height(80.dp)
+                        .fillMaxWidth()
+                        .padding(top = 10.dp),
+                horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
                 CardResultActivity(
                     "Tiempo",

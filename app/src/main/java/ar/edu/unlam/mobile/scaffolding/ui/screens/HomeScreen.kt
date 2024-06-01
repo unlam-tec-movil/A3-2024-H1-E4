@@ -38,7 +38,7 @@ import com.mapbox.maps.MapboxExperimental
 fun HomeScreen(
     navController: NavController,
     viewModel: HomeViewModel = hiltViewModel(),
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
 ) {
     // La información que obtenemos desde el view model la consumimos a través de un estado de
     // "tres vías": Loading, Success y Error. Esto nos permite mostrar un estado de carga,
@@ -63,7 +63,7 @@ fun HomeScreen(
 @Composable
 fun MainScreen(
     navController: NavController,
-    locationViewModel: LocationViewModel = hiltViewModel()
+    locationViewModel: LocationViewModel = hiltViewModel(),
 ) {
     Column(
         Modifier
@@ -75,15 +75,15 @@ fun MainScreen(
         HomeHeader()
         Column(
             modifier =
-            Modifier
-                .padding(12.dp, 8.dp)
-                .fillMaxWidth(),
+                Modifier
+                    .padding(12.dp, 8.dp)
+                    .fillMaxWidth(),
         ) {
             Row(
                 modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(2.dp, 8.dp),
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(2.dp, 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
@@ -96,7 +96,7 @@ fun MainScreen(
                     onClick = { navController.navigate(Routes.Awards.name) },
                     shape = RoundedCornerShape(10.dp),
                     border = BorderStroke(2.dp, Color.Blue),
-                    colors = ButtonDefaults.outlinedButtonColors(Color.White)
+                    colors = ButtonDefaults.outlinedButtonColors(Color.White),
                 ) {
                     Text(
                         text = "Ver todos",
@@ -110,19 +110,19 @@ fun MainScreen(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier =
-                Modifier
-                    .fillMaxWidth(),
+                    Modifier
+                        .fillMaxWidth(),
             ) {
                 CardAward(
                     "4/15km",
                     R.drawable.copa,
-                    Modifier.weight(1f)
+                    Modifier.weight(1f),
                 ) { }
                 CardAward("22 dias", R.drawable.fuego, Modifier.weight(1f))
                 CardAward("500/2500 kcl", R.drawable.trueno, Modifier.weight(1f))
             }
         }
-        Column() {
+        Column {
             MapContainer()
             StartSwitch()
         }
