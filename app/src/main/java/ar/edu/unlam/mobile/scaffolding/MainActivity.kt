@@ -15,6 +15,7 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import ar.edu.unlam.mobile.scaffolding.ui.screens.ActivityScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.AwardsScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.HomeScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.Routes
@@ -32,7 +33,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    MainScreen()
+                    //MainScreen()
+                    ActivityScreen()
                 }
             }
         }
@@ -55,9 +57,9 @@ fun MainScreen() {
                 HomeScreen(
                     navController = controller,
                     modifier =
-                        Modifier
-                            .size(height = 660.dp, width = 400.dp)
-                            .padding(paddingValue),
+                    Modifier
+                        .size(height = 660.dp, width = 400.dp)
+                        .padding(paddingValue),
                 )
             }
             composable(Routes.Awards.name) {

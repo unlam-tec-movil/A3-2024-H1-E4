@@ -2,6 +2,7 @@ package ar.edu.unlam.mobile.scaffolding.ui.screens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -94,19 +95,14 @@ fun MainScreen(
                     fontWeight = FontWeight.SemiBold,
                     color = Color.White,
                 )
-                OutlinedButton(
-                    onClick = { navController.navigate(Routes.Awards.name) },
-                    shape = RoundedCornerShape(10.dp),
-                    border = BorderStroke(2.dp, Color.Blue),
-                    colors = ButtonDefaults.outlinedButtonColors(Color.White),
-                ) {
+
                     Text(
                         text = "Ver todos",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = Color(35, 79, 113, 255),
+                        modifier = Modifier.clickable { navController.navigate(Routes.Awards.name) },
                     )
-                }
             }
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -121,7 +117,7 @@ fun MainScreen(
                     Modifier.weight(1f),
                 )
                 CardAward("22 dias", R.drawable.fuego, Modifier.weight(1f))
-                CardAward("500/2500 kcl", R.drawable.trueno, Modifier.weight(1f))
+                CardAward("2500 kcl", R.drawable.trueno, Modifier.weight(1f))
             }
         }
         Column {

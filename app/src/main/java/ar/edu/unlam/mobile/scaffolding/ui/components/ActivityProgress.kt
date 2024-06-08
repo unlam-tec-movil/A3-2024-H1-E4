@@ -2,8 +2,10 @@ package ar.edu.unlam.mobile.scaffolding.ui.components
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -22,15 +24,13 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ar.edu.unlam.mobile.scaffolding.R
 
-@Preview
 @Composable
 fun ActivityProgress(prevFun: () -> Unit) {
     Column(
         modifier =
             Modifier
                 .fillMaxWidth()
-                .padding(4.dp, 12.dp)
-                .background(color = Color.White),
+                .padding(4.dp, 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         Box(modifier = Modifier.padding(12.dp))
@@ -62,6 +62,51 @@ fun ActivityProgress(prevFun: () -> Unit) {
             text = "Tiempo",
             fontWeight = FontWeight.SemiBold,
             fontSize = 18.sp,
+        )
+        Row(
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically,
+            modifier =
+            Modifier
+                .padding(top = 32.dp)
+                .fillMaxWidth(),
+        ){
+            Component(
+                "Velocidad (Km/h)",
+                "48",
+                Modifier.weight(1f),
+            )
+            Component(
+                "Distancia (Km)",
+                "12.6",
+                Modifier.weight(1f),
+            )
+            Component(
+                "Calorias",
+                "196",
+                Modifier.weight(1f),
+            )
+        }
+    }
+}
+
+@Composable
+fun Component(
+    title: String,
+    value: String,
+    modifier: Modifier,
+){
+    Column(modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally){
+        Text(
+            text = value,
+            fontWeight = FontWeight.ExtraBold,
+            fontSize = 48.sp,
+        )
+        Text(
+            text = title,
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 12.sp,
         )
     }
 }
