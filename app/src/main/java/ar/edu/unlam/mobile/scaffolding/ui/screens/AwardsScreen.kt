@@ -11,24 +11,38 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
-import ar.edu.unlam.mobile.scaffolding.ui.components.Header
+import androidx.navigation.compose.rememberNavController
+import ar.edu.unlam.mobile.scaffolding.ui.components.Achievement
+import ar.edu.unlam.mobile.scaffolding.ui.components.AchievementHeader
 import ar.edu.unlam.mobile.scaffolding.ui.components.ShareButton
 
+@Preview
 @Composable
-fun AwardsScreen(navController: NavController) {
+fun AwardsScreen(
+    navController: NavController = rememberNavController(),
+    modifier: Modifier = Modifier,
+) {
+    val returnToHome = {
+        navController.popBackStack()
+    }
+
     Column(
-        Modifier
+        modifier
             .fillMaxHeight()
             .fillMaxWidth()
-            .background(Color.Black)
-            .padding(6.dp, 16.dp),
+            .background(Color.Gray),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
-        Header()
-        ShareButton()
+        AchievementHeader(returnToHome)
+        Column(modifier = modifier.padding(horizontal = 30.dp, vertical = 30.dp)) {
+            Achievement("Kilómetros")
+            Achievement("Calorías consumidas")
+            Achievement("Tiempo en Actividad")
+        }
         Text(
             text = "Tu mejor actividad",
             color = Color.White,
@@ -39,5 +53,6 @@ fun AwardsScreen(navController: NavController) {
                     .fillMaxWidth()
                     .padding(4.dp),
         )
+        ShareButton()
     }
 }
