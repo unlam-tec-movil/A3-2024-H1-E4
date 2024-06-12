@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -71,7 +72,7 @@ fun MainScreen(
         Modifier
             .fillMaxHeight()
             .fillMaxWidth()
-            .background(Color.Black),
+            .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         HomeHeader()
@@ -97,14 +98,14 @@ fun MainScreen(
                 OutlinedButton(
                     onClick = { navController.navigate(Routes.Awards.name) },
                     shape = RoundedCornerShape(10.dp),
-                    border = BorderStroke(2.dp, Color.Blue),
-                    colors = ButtonDefaults.outlinedButtonColors(Color.White),
+                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.onPrimary),
+                    colors = ButtonDefaults.outlinedButtonColors(MaterialTheme.colorScheme.primary),
                 ) {
                     Text(
                         text = "Ver todos",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = Color(35, 79, 113, 255),
+                        color = MaterialTheme.colorScheme.onPrimary,
                     )
                 }
             }
