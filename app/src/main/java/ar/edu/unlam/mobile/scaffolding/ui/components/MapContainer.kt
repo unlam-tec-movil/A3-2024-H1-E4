@@ -30,7 +30,7 @@ fun MapContainer() {
         val mapViewportState =
             rememberMapViewportState {
                 setCameraOptions {
-                    zoom(4.0)
+                    zoom(0.3)
                     pitch(0.0)
                 }
             }

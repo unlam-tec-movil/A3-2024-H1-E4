@@ -1,6 +1,6 @@
 package ar.edu.unlam.mobile.scaffolding.ui.screens
 
-import androidx.compose.foundation.BorderStroke
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
@@ -9,9 +9,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.ButtonDefaults
-import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
@@ -28,7 +25,6 @@ import ar.edu.unlam.mobile.scaffolding.R
 import ar.edu.unlam.mobile.scaffolding.ui.components.CardAward
 import ar.edu.unlam.mobile.scaffolding.ui.components.HomeHeader
 import ar.edu.unlam.mobile.scaffolding.ui.components.MapContainer
-import ar.edu.unlam.mobile.scaffolding.ui.components.StartSwitch
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.ChronometerViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.HelloMessageUIState
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.HomeViewModel
@@ -68,6 +64,7 @@ fun MainScreen(
     locationViewModel: LocationViewModel = hiltViewModel(),
     chronometerViewModel: ChronometerViewModel = hiltViewModel(),
 ) {
+    val locationUiState by locationViewModel.locationUiState.collectAsState()
     Column(
         Modifier
             .fillMaxHeight()
@@ -96,13 +93,13 @@ fun MainScreen(
                     color = Color.White,
                 )
 
-                    Text(
-                        text = "Ver todos",
-                        fontSize = 16.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = Color(35, 79, 113, 255),
-                        modifier = Modifier.clickable { navController.navigate(Routes.Awards.name) },
-                    )
+                Text(
+                    text = "Ver todos",
+                    fontSize = 16.sp,
+                    fontWeight = FontWeight.SemiBold,
+                    color = Color(35, 79, 113, 255),
+                    modifier = Modifier.clickable { navController.navigate(Routes.Awards.name) },
+                )
             }
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
@@ -115,14 +112,20 @@ fun MainScreen(
                     "4/15km",
                     R.drawable.copa,
                     Modifier.weight(1f),
-                )
-                CardAward("22 dias", R.drawable.fuego, Modifier.weight(1f))
-                CardAward("2500 kcl", R.drawable.trueno, Modifier.weight(1f))
+                ) {
+                    locationViewModel.startLocationService()
+                }
+                Log.i("PREV SCREEN LOCATION", "$locationUiState")
+                Log.i("SCREEN LOCATION", "Coordinates= $locationUiState")
+
+                CardAward("22 dias", R.drawable.fuego, Modifier.weight(1f)) {
+                    locationViewModel.stopLocationService()
+                }
+                CardAward("250 kcl", R.drawable.trueno, Modifier.weight(1f)) { navController.navigate(Routes.ActivityScreen.name) }
             }
         }
         Column {
             MapContainer()
-            StartSwitch()
         }
     }
 }

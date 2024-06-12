@@ -1,7 +1,6 @@
 package ar.edu.unlam.mobile.scaffolding.ui.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,18 +13,38 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.collectAsState
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableLongStateOf
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.unlam.mobile.scaffolding.R
+import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.ChronometerViewModel
+import java.util.concurrent.TimeUnit
 
 @Composable
-fun ActivityProgress(prevFun: () -> Unit) {
+fun ActivityProgress(
+    // prevFun: () -> Unit,
+    chronometerViewModel: ChronometerViewModel = hiltViewModel(),
+) {
+    val elapsedTime by chronometerViewModel.eleapsedTimeState.collectAsState()
+    var elapsedTimeState by remember {
+        mutableLongStateOf(0L)
+    }
+    var isRunning by remember {
+        mutableStateOf(false)
+    }
+    elapsedTimeState = elapsedTime
+
     Column(
         modifier =
             Modifier
@@ -36,7 +55,14 @@ fun ActivityProgress(prevFun: () -> Unit) {
         Box(modifier = Modifier.padding(12.dp))
         Button(
             onClick = {
-                prevFun()
+                // prevFun()
+                if (isRunning) {
+                    chronometerViewModel.stop()
+                    isRunning = false
+                } else {
+                    chronometerViewModel.start()
+                    isRunning = true
+                }
             },
             modifier = Modifier.size(90.dp),
             shape = CircleShape,
@@ -46,7 +72,14 @@ fun ActivityProgress(prevFun: () -> Unit) {
                 ),
         ) {
             Image(
-                painter = painterResource(id = R.drawable.baseline_play_arrow_24),
+                painter =
+                    if (isRunning) {
+                        painterResource(
+                            id = R.drawable.baseline_pause_24,
+                        )
+                    } else {
+                        painterResource(id = R.drawable.baseline_play_arrow_24)
+                    },
                 contentDescription = null,
                 modifier =
                     Modifier
@@ -54,7 +87,7 @@ fun ActivityProgress(prevFun: () -> Unit) {
             )
         }
         Text(
-            text = "48'",
+            text = formatTime(elapsedTimeState),
             fontWeight = FontWeight.ExtraBold,
             fontSize = 64.sp,
         )
@@ -67,10 +100,10 @@ fun ActivityProgress(prevFun: () -> Unit) {
             horizontalArrangement = Arrangement.SpaceBetween,
             verticalAlignment = Alignment.CenterVertically,
             modifier =
-            Modifier
-                .padding(top = 32.dp)
-                .fillMaxWidth(),
-        ){
+                Modifier
+                    .padding(top = 32.dp)
+                    .fillMaxWidth(),
+        ) {
             Component(
                 "Velocidad (Km/h)",
                 "48",
@@ -95,9 +128,11 @@ fun Component(
     title: String,
     value: String,
     modifier: Modifier,
-){
-    Column(modifier = modifier,
-        horizontalAlignment = Alignment.CenterHorizontally){
+) {
+    Column(
+        modifier = modifier,
+        horizontalAlignment = Alignment.CenterHorizontally,
+    ) {
         Text(
             text = value,
             fontWeight = FontWeight.ExtraBold,
@@ -109,4 +144,11 @@ fun Component(
             fontSize = 12.sp,
         )
     }
+}
+
+private fun formatTime(timeInMillis: Long): String {
+    val hours = TimeUnit.MILLISECONDS.toHours(timeInMillis)
+    val minutes = TimeUnit.MILLISECONDS.toMinutes(timeInMillis) % 60
+    val seconds = TimeUnit.MILLISECONDS.toSeconds(timeInMillis) % 60
+    return String.format("%02d:%02d:%02d", hours, minutes, seconds)
 }

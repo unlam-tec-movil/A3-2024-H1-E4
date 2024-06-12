@@ -33,8 +33,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    //MainScreen()
-                    ActivityScreen()
+                    MainScreen()
+                    // ActivityScreen()
                 }
             }
         }
@@ -57,13 +57,17 @@ fun MainScreen() {
                 HomeScreen(
                     navController = controller,
                     modifier =
-                    Modifier
-                        .size(height = 660.dp, width = 400.dp)
-                        .padding(paddingValue),
+                        Modifier
+                            .size(height = 660.dp, width = 400.dp)
+                            .padding(paddingValue),
                 )
             }
             composable(Routes.Awards.name) {
                 AwardsScreen(navController = controller)
+            }
+
+            composable(Routes.ActivityScreen.name) {
+                ActivityScreen()
             }
         }
     }

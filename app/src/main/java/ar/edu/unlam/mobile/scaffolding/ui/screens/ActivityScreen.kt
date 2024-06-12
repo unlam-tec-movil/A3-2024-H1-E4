@@ -23,8 +23,11 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ar.edu.unlam.mobile.scaffolding.ui.components.ActivityProgress
+import ar.edu.unlam.mobile.scaffolding.ui.components.MapboxContent
+import com.mapbox.maps.MapboxExperimental
+import com.mapbox.maps.extension.compose.animation.viewport.rememberMapViewportState
 
-@OptIn(ExperimentalMaterial3Api::class)
+@OptIn(ExperimentalMaterial3Api::class, MapboxExperimental::class)
 @Preview
 @Composable
 fun ActivityScreen() {
@@ -50,13 +53,21 @@ fun ActivityScreen() {
             }
         }
         if (isSheetOpen) {
+            val mapViewportState =
+                rememberMapViewportState {
+                    setCameraOptions {
+                        zoom(0.3)
+                        pitch(0.0)
+                    }
+                }
+            MapboxContent(mapViewportState = mapViewportState, modifier = Modifier.fillMaxSize())
             var heigthSheet by rememberSaveable {
                 mutableStateOf(690)
             }
             ModalBottomSheet(
                 sheetState = sheetState,
                 onDismissRequest = { isSheetOpen = false },
-                modifier = Modifier.background(color = Color.White),
+//                modifier = Modifier.background(color = Color.Transparent),
             ) {
                 Column(
                     modifier =
@@ -64,7 +75,7 @@ fun ActivityScreen() {
                             .height(heigthSheet.dp)
                             .fillMaxWidth(),
                 ) {
-                    ActivityProgress(prevFun = { heigthSheet = 140 })
+                    ActivityProgress() // prevFun = { heigthSheet = 140 }
                 }
             }
         }
