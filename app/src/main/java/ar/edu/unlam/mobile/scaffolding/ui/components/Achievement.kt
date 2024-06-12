@@ -30,16 +30,18 @@ fun Achievement(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.Start,
         modifier =
-        modifier
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.tertiaryContainer, shape = RoundedCornerShape(5.dp))
-            .border(
-                border = BorderStroke(
-                    5.dp,
-                    color = MaterialTheme.colorScheme.onTertiaryContainer
-                ), shape = RoundedCornerShape(5.dp)
-            )
-            .padding(10.dp)
+            modifier
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.tertiaryContainer, shape = RoundedCornerShape(5.dp))
+                .border(
+                    border =
+                        BorderStroke(
+                            5.dp,
+                            color = MaterialTheme.colorScheme.onTertiaryContainer,
+                        ),
+                    shape = RoundedCornerShape(5.dp),
+                )
+                .padding(10.dp),
     ) {
         Image(
             painter = painterResource(id = R.drawable.copa),

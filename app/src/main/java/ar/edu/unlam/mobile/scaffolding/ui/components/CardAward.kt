@@ -35,25 +35,25 @@ fun CardAward(
         modifier = modifier.padding(0.dp, 0.dp),
         shape = RoundedCornerShape(32.dp),
         colors =
-        ButtonDefaults.buttonColors(
-            containerColor = MaterialTheme.colorScheme.tertiary,
-        ),
+            ButtonDefaults.buttonColors(
+                containerColor = MaterialTheme.colorScheme.tertiary,
+            ),
     ) {
         Row(
             modifier =
-            Modifier
-                .padding(0.dp)
-                .fillMaxWidth(),
+                Modifier
+                    .padding(0.dp)
+                    .fillMaxWidth(),
             horizontalArrangement = Arrangement.Center,
         ) {
             Image(
                 painter = painterResource(id = img),
                 contentDescription = null,
                 modifier =
-                Modifier
-                    .width(18.dp)
-                    .height(18.dp)
-                    .clickable { },
+                    Modifier
+                        .width(18.dp)
+                        .height(18.dp)
+                        .clickable { },
             )
             Text(
                 text = title,

@@ -18,7 +18,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -35,14 +34,14 @@ fun HomeHeader() {
                 .fillMaxWidth()
                 .height(105.dp)
                 .background(
-                    color = MaterialTheme.colorScheme.primary
+                    color = MaterialTheme.colorScheme.primary,
                 ),
         ) {
             Row(
                 modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(top = 24.dp, start = 16.dp, end = 16.dp),
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(top = 24.dp, start = 16.dp, end = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -66,24 +65,24 @@ fun HomeHeader() {
                     painter = painterResource(id = R.drawable.user),
                     contentDescription = null,
                     modifier =
-                    Modifier
-                        .width(64.dp)
-                        .height(64.dp)
-                        .clickable { },
+                        Modifier
+                            .width(64.dp)
+                            .height(64.dp)
+                            .clickable { },
                 )
             }
         }
 
         Column(
             modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(top = 10.dp, start = 12.dp, end = 12.dp)
-                .shadow(3.dp, shape = RoundedCornerShape(20.dp))
-                .background(
-                    color = MaterialTheme.colorScheme.secondaryContainer,
-                    shape = RoundedCornerShape(14.dp),
-                ),
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 10.dp, start = 12.dp, end = 12.dp)
+                    .shadow(3.dp, shape = RoundedCornerShape(20.dp))
+                    .background(
+                        color = MaterialTheme.colorScheme.secondaryContainer,
+                        shape = RoundedCornerShape(14.dp),
+                    ),
         ) {
             Text(
                 text = "Tu última actividad",
@@ -94,10 +93,10 @@ fun HomeHeader() {
             )
             Row(
                 modifier =
-                Modifier
-                    .height(80.dp)
-                    .fillMaxWidth()
-                    .padding(top = 10.dp),
+                    Modifier
+                        .height(80.dp)
+                        .fillMaxWidth()
+                        .padding(top = 10.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
                 CardResultActivity(

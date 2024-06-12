@@ -27,14 +27,14 @@ fun AchievementHeader(
 ) {
     Column(
         verticalArrangement = Arrangement.Center,
-        modifier = modifier.background(color = MaterialTheme.colorScheme.primary)
+        modifier = modifier.background(color = MaterialTheme.colorScheme.primary),
     ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start,
             modifier =
-            modifier
-                .fillMaxWidth(),
+                modifier
+                    .fillMaxWidth(),
         ) {
             IconButton(onClick = { onBackClick() }) {
                 Icon(

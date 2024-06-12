@@ -78,15 +78,15 @@ fun MainScreen(
         HomeHeader()
         Column(
             modifier =
-            Modifier
-                .padding(12.dp, 8.dp)
-                .fillMaxWidth(),
+                Modifier
+                    .padding(12.dp, 8.dp)
+                    .fillMaxWidth(),
         ) {
             Row(
                 modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(2.dp, 8.dp),
+                    Modifier
+                        .fillMaxWidth()
+                        .padding(2.dp, 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
@@ -113,8 +113,8 @@ fun MainScreen(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier =
-                Modifier
-                    .fillMaxWidth(),
+                    Modifier
+                        .fillMaxWidth(),
             ) {
                 CardAward(
                     "4/15km",

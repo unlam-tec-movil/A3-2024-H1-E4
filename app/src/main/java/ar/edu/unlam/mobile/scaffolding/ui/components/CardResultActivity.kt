@@ -26,14 +26,14 @@ fun CardResultActivity(
 ) {
     Column(
         modifier =
-        modifier
-            .background(
-                color = MaterialTheme.colorScheme.secondary,
-                shape = RoundedCornerShape(16.dp),
-            )
-            .padding(top = 5.dp, bottom = 5.dp)
-            .width(110.dp)
-            .wrapContentSize(),
+            modifier
+                .background(
+                    color = MaterialTheme.colorScheme.secondary,
+                    shape = RoundedCornerShape(16.dp),
+                )
+                .padding(top = 5.dp, bottom = 5.dp)
+                .width(110.dp)
+                .wrapContentSize(),
     ) {
         Text(
             text = title,
@@ -49,8 +49,8 @@ fun CardResultActivity(
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSecondary,
             modifier =
-            Modifier
-                .fillMaxWidth(),
+                Modifier
+                    .fillMaxWidth(),
         )
     }
 }
