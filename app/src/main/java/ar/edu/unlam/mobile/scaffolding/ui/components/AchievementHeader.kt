@@ -10,11 +10,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -25,147 +25,30 @@ fun AchievementHeader(
     onBackClick: () -> Boolean = { false },
     modifier: Modifier = Modifier,
 ) {
-    Column(verticalArrangement = Arrangement.Center, modifier = modifier.background(color = Color(200, 200, 200))) {
+    Column(
+        verticalArrangement = Arrangement.Center,
+        modifier = modifier.background(color = MaterialTheme.colorScheme.primary)
+    ) {
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start,
             modifier =
-                modifier
-                    .fillMaxWidth(),
+            modifier
+                .fillMaxWidth(),
         ) {
             IconButton(onClick = { onBackClick() }) {
                 Icon(
                     imageVector = Icons.AutoMirrored.Filled.ArrowBack,
                     contentDescription = "Volver",
-                    tint = Color.White,
+                    tint = MaterialTheme.colorScheme.onPrimary,
                 )
             }
             Text(
                 text = "Logros",
                 fontSize = 32.sp,
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onPrimary,
                 modifier = modifier.padding(start = 95.dp),
             )
         }
     }
-//    ConstraintLayout(
-//        modifier =
-//            Modifier
-//                .fillMaxWidth()
-//                .padding(10.dp, 20.dp),
-//    ) {
-//        val (box1, box2) = createRefs()
-//
-//        Box(
-//            modifier =
-//                Modifier
-//                    .constrainAs(box1) {
-//                        top.linkTo(parent.top)
-//                        bottom.linkTo(parent.bottom)
-//                        start.linkTo(parent.start)
-//                        end.linkTo(box2.start)
-//                        width = Dimension.percent(0.7f)
-//                    }
-//                    .wrapContentHeight(),
-//        ) {
-//            Column(
-//                modifier =
-//                    Modifier
-//                        .fillMaxWidth(),
-//                horizontalAlignment = Alignment.End,
-//            ) {
-//                Box(
-//                    modifier =
-//                        Modifier
-//                            .width(168.dp)
-//                            .height(168.dp)
-//                            .background(
-//                                color = Color(35, 79, 113, 255),
-//                                shape = RoundedCornerShape(100),
-//                            ),
-//                ) {
-//                    Text(
-//                        text = "145",
-//                        fontSize = 48.sp,
-//                        textAlign = TextAlign.Center,
-//                        color = Color.White,
-//                        fontWeight = FontWeight.Black,
-//                        modifier =
-//                            Modifier
-//                                .fillMaxWidth()
-//                                .height(48.dp)
-//                                .offset(y = 4.dp),
-//                    )
-//                    Image(
-//                        painter = painterResource(id = R.drawable.copa),
-//                        contentDescription = null,
-//                        modifier =
-//                            Modifier
-//                                .width(168.dp)
-//                                .height(136.dp)
-//                                .offset(x = 0.dp, y = 50.dp),
-//                    )
-//                }
-//            }
-//        }
-//
-//        Column(
-//            modifier =
-//                Modifier
-//                    .constrainAs(box2) {
-//                        top.linkTo(parent.top)
-//                        bottom.linkTo(parent.bottom)
-//                        start.linkTo(box1.end)
-//                        end.linkTo(parent.end)
-//                        width = Dimension.percent(0.3f)
-//                    }
-//                    .wrapContentHeight(),
-//            horizontalAlignment = Alignment.End,
-//        ) {
-//            Row(
-//                horizontalArrangement = Arrangement.SpaceBetween,
-//                verticalAlignment = Alignment.CenterVertically,
-//                modifier = Modifier.padding(4.dp),
-//            ) {
-//                Image(
-//                    painter = painterResource(id = R.drawable.fuego),
-//                    contentDescription = null,
-//                    modifier =
-//                        Modifier
-//                            .width(32.dp)
-//                            .height(32.dp),
-//                )
-//                Text(
-//                    text = "145",
-//                    fontSize = 20.sp,
-//                    textAlign = TextAlign.Center,
-//                    color = Color.White,
-//                    fontWeight = FontWeight.Black,
-//                    modifier = Modifier,
-//                )
-//            }
-//            Row(
-//                horizontalArrangement = Arrangement.SpaceBetween,
-//                verticalAlignment = Alignment.CenterVertically,
-//                modifier = Modifier.padding(4.dp),
-//            ) {
-//                Image(
-//                    painter = painterResource(id = R.drawable.trueno),
-//                    contentDescription = null,
-//                    modifier =
-//                        Modifier
-//                            .width(30.dp)
-//                            .height(30.dp),
-//                )
-//                Text(
-//                    text = "16",
-//                    fontSize = 20.sp,
-//                    textAlign = TextAlign.Center,
-//                    color = Color.White,
-//                    fontWeight = FontWeight.Black,
-//                    modifier = Modifier,
-//                )
-//            }
-//        }
-//    }
 }

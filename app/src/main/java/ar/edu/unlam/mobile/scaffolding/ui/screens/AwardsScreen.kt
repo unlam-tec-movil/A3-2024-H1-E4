@@ -5,6 +5,7 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,7 +35,7 @@ fun AwardsScreen(
         modifier
             .fillMaxHeight()
             .fillMaxWidth()
-            .background(Color.Gray),
+            .background(MaterialTheme.colorScheme.primaryContainer),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         AchievementHeader(returnToHome)
@@ -45,13 +46,13 @@ fun AwardsScreen(
         }
         Text(
             text = "Tu mejor actividad",
-            color = Color.White,
+            color = MaterialTheme.colorScheme.onBackground,
             fontSize = 18.sp,
             fontWeight = FontWeight.SemiBold,
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(4.dp),
+            Modifier
+                .fillMaxWidth()
+                .padding(4.dp),
         )
         ShareButton()
     }

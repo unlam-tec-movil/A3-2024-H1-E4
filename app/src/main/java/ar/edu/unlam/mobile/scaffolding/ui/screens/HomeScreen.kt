@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -71,21 +72,21 @@ fun MainScreen(
         Modifier
             .fillMaxHeight()
             .fillMaxWidth()
-            .background(Color.Black),
+            .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         HomeHeader()
         Column(
             modifier =
-                Modifier
-                    .padding(12.dp, 8.dp)
-                    .fillMaxWidth(),
+            Modifier
+                .padding(12.dp, 8.dp)
+                .fillMaxWidth(),
         ) {
             Row(
                 modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(2.dp, 8.dp),
+                Modifier
+                    .fillMaxWidth()
+                    .padding(2.dp, 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
             ) {
                 Text(
@@ -97,14 +98,14 @@ fun MainScreen(
                 OutlinedButton(
                     onClick = { navController.navigate(Routes.Awards.name) },
                     shape = RoundedCornerShape(10.dp),
-                    border = BorderStroke(2.dp, Color.Blue),
-                    colors = ButtonDefaults.outlinedButtonColors(Color.White),
+                    border = BorderStroke(2.dp, MaterialTheme.colorScheme.onPrimary),
+                    colors = ButtonDefaults.outlinedButtonColors(MaterialTheme.colorScheme.primary),
                 ) {
                     Text(
                         text = "Ver todos",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold,
-                        color = Color(35, 79, 113, 255),
+                        color = MaterialTheme.colorScheme.onPrimary,
                     )
                 }
             }
@@ -112,8 +113,8 @@ fun MainScreen(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier =
-                    Modifier
-                        .fillMaxWidth(),
+                Modifier
+                    .fillMaxWidth(),
             ) {
                 CardAward(
                     "4/15km",

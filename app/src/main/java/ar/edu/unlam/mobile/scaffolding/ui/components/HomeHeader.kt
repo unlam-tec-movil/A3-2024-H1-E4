@@ -12,6 +12,7 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
@@ -34,15 +35,14 @@ fun HomeHeader() {
                 .fillMaxWidth()
                 .height(105.dp)
                 .background(
-                    color = Color(35, 79, 113, 255),
-                    // shape = RoundedCornerShape(bottomEnd = 35.dp, bottomStart = 35.dp)
+                    color = MaterialTheme.colorScheme.primary
                 ),
         ) {
             Row(
                 modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(top = 24.dp, start = 16.dp, end = 16.dp),
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 24.dp, start = 16.dp, end = 16.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
             ) {
@@ -50,54 +50,54 @@ fun HomeHeader() {
                     verticalArrangement = Arrangement.Center,
                 ) {
                     Text(
-                        text = "Bienvenido,",
+                        text = "Bienvenido",
                         fontSize = 32.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color(255, 255, 255),
+                        color = MaterialTheme.colorScheme.onPrimary,
                     )
                     Text(
                         text = "Emanuel Cisterna",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.ExtraBold,
-                        color = Color(255, 255, 255),
+                        color = MaterialTheme.colorScheme.onPrimary,
                     )
                 }
                 Image(
                     painter = painterResource(id = R.drawable.user),
                     contentDescription = null,
                     modifier =
-                        Modifier
-                            .width(64.dp)
-                            .height(64.dp)
-                            .clickable { },
+                    Modifier
+                        .width(64.dp)
+                        .height(64.dp)
+                        .clickable { },
                 )
             }
         }
 
         Column(
             modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp, start = 12.dp, end = 12.dp)
-                    .shadow(3.dp, shape = RoundedCornerShape(20.dp))
-                    .background(
-                        color = Color.White,
-                        shape = RoundedCornerShape(14.dp),
-                    ),
+            Modifier
+                .fillMaxWidth()
+                .padding(top = 10.dp, start = 12.dp, end = 12.dp)
+                .shadow(3.dp, shape = RoundedCornerShape(20.dp))
+                .background(
+                    color = MaterialTheme.colorScheme.secondaryContainer,
+                    shape = RoundedCornerShape(14.dp),
+                ),
         ) {
             Text(
                 text = "Tu última actividad",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold,
-                color = Color.Black,
+                color = MaterialTheme.colorScheme.onSecondaryContainer,
                 modifier = Modifier.padding(top = 12.dp, start = 12.dp),
             )
             Row(
                 modifier =
-                    Modifier
-                        .height(80.dp)
-                        .fillMaxWidth()
-                        .padding(top = 10.dp),
+                Modifier
+                    .height(80.dp)
+                    .fillMaxWidth()
+                    .padding(top = 10.dp),
                 horizontalArrangement = Arrangement.SpaceEvenly,
             ) {
                 CardResultActivity(
