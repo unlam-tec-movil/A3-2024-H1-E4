@@ -20,15 +20,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import ar.edu.unlam.mobile.scaffolding.R
 import ar.edu.unlam.mobile.scaffolding.ui.components.CardAward
 import ar.edu.unlam.mobile.scaffolding.ui.components.HomeHeader
 import ar.edu.unlam.mobile.scaffolding.ui.components.MapContainer
-import ar.edu.unlam.mobile.scaffolding.ui.components.StartSwitch
+import ar.edu.unlam.mobile.scaffolding.ui.components.StartButton
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.ChronometerViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.HelloMessageUIState
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.HomeViewModel
@@ -38,7 +40,7 @@ import com.mapbox.maps.MapboxExperimental
 @OptIn(MapboxExperimental::class)
 @Composable
 fun HomeScreen(
-    navController: NavController,
+    navController: NavController = rememberNavController(),
     viewModel: HomeViewModel = hiltViewModel(),
     modifier: Modifier = Modifier,
 ) {
@@ -62,9 +64,10 @@ fun HomeScreen(
     }
 }
 
+@Preview
 @Composable
 fun MainScreen(
-    navController: NavController,
+    navController: NavController = rememberNavController(),
     locationViewModel: LocationViewModel = hiltViewModel(),
     chronometerViewModel: ChronometerViewModel = hiltViewModel(),
 ) {
@@ -128,7 +131,7 @@ fun MainScreen(
         }
         Column {
             MapContainer()
-            StartSwitch()
+            StartButton()
         }
     }
 }
