@@ -110,7 +110,7 @@ fun HomeHeader() {
                     Modifier,
                 )
                 CardResultActivity(
-                    "Calorias",
+                    "Calorías",
                     "548",
                     Modifier,
                 )

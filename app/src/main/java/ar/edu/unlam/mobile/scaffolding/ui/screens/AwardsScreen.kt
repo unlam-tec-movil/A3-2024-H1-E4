@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import ar.edu.unlam.mobile.scaffolding.R
 import ar.edu.unlam.mobile.scaffolding.ui.components.Achievement
 import ar.edu.unlam.mobile.scaffolding.ui.components.AchievementHeader
 import ar.edu.unlam.mobile.scaffolding.ui.components.ShareButton
@@ -27,21 +28,22 @@ fun AwardsScreen(
     modifier: Modifier = Modifier,
 ) {
     val returnToHome = {
-        navController.popBackStack()
+        navController.navigate(Routes.Home.name)
     }
 
     Column(
         modifier
             .fillMaxHeight()
             .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.primaryContainer),
+            .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         AchievementHeader(returnToHome)
         Column(modifier = modifier.padding(horizontal = 30.dp, vertical = 30.dp)) {
-            Achievement("Kilómetros")
-            Achievement("Calorías consumidas")
-            Achievement("Tiempo en Actividad")
+            Achievement("Distancia (Kilómetros)", R.drawable.shoe_prints, 3)
+            Achievement("Calorías consumidas", R.drawable.flame, 5)
+            Achievement("Minutos en Actividad", R.drawable.clock_lines, 8)
+            Achievement("Días de Actividad", R.drawable.calendar_days, 1)
         }
         Text(
             text = "Tu mejor actividad",

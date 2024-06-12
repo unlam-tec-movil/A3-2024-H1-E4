@@ -2,7 +2,6 @@ package ar.edu.unlam.mobile.scaffolding.ui.components
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -22,27 +21,24 @@ import androidx.compose.ui.unit.sp
 @Preview
 @Composable
 fun AchievementHeader(
-    onBackClick: () -> Boolean = { false },
+    onBackClick: () -> Unit = { },
     modifier: Modifier = Modifier,
 ) {
-    Column(
-        verticalArrangement = Arrangement.Center,
+    Row(
+        verticalAlignment = Alignment.CenterVertically,
         modifier = modifier.background(color = MaterialTheme.colorScheme.primary),
     ) {
+        IconButton(onClick = { onBackClick() }) {
+            Icon(
+                imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                contentDescription = "Volver",
+                tint = MaterialTheme.colorScheme.onPrimary,
+            )
+        }
         Row(
-            verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Start,
-            modifier =
-                modifier
-                    .fillMaxWidth(),
+            modifier = modifier.fillMaxWidth(),
         ) {
-            IconButton(onClick = { onBackClick() }) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
-                    contentDescription = "Volver",
-                    tint = MaterialTheme.colorScheme.onPrimary,
-                )
-            }
             Text(
                 text = "Logros",
                 fontSize = 32.sp,
