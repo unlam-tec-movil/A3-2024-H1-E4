@@ -88,9 +88,10 @@ fun MainScreen(
                         .fillMaxWidth()
                         .padding(2.dp, 8.dp),
                 horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
             ) {
                 Text(
-                    text = "Premios conseguidos",
+                    text = "Logros",
                     fontSize = 18.sp,
                     fontWeight = FontWeight.SemiBold,
                     color = Color.White,
@@ -117,12 +118,12 @@ fun MainScreen(
                         .fillMaxWidth(),
             ) {
                 CardAward(
-                    "4/15km",
+                    "4KM",
                     R.drawable.copa,
                     Modifier.weight(1f),
                 )
                 CardAward("22 dias", R.drawable.fuego, Modifier.weight(1f))
-                CardAward("500/2500 kcl", R.drawable.trueno, Modifier.weight(1f))
+                CardAward("500 kcal", R.drawable.trueno, Modifier.weight(1f))
             }
         }
         Column {
