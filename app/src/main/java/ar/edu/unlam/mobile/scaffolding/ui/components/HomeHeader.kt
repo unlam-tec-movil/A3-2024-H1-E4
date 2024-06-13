@@ -102,17 +102,19 @@ fun HomeHeader() {
                 CardResultActivity(
                     "Tiempo",
                     "5:30:45",
-                    Modifier,
+                    modifier = Modifier,
                 )
                 CardResultActivity(
                     "Distancia",
-                    "6,12",
-                    Modifier,
+                    "6.12",
+                    unidad = "KM",
+                    modifier = Modifier,
                 )
                 CardResultActivity(
                     "Calorías",
                     "548",
-                    Modifier,
+                    unidad = "Kcal",
+                    modifier = Modifier,
                 )
             }
         }

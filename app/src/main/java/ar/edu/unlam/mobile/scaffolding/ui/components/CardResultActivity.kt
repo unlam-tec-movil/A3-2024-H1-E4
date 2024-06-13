@@ -3,9 +3,9 @@ package ar.edu.unlam.mobile.scaffolding.ui.components
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.layout.wrapContentSize
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -20,8 +20,9 @@ import androidx.compose.ui.unit.sp
 @Preview
 @Composable
 fun CardResultActivity(
-    title: String = "ejemplo",
-    value: String = "123",
+    titulo: String = "ejemplo",
+    valor: String = "123.0",
+    unidad: String? = "",
     modifier: Modifier = Modifier,
 ) {
     Column(
@@ -32,19 +33,19 @@ fun CardResultActivity(
                     shape = RoundedCornerShape(16.dp),
                 )
                 .padding(top = 5.dp, bottom = 5.dp)
-                .width(110.dp)
-                .wrapContentSize(),
+                .width(120.dp)
+                .height(50.dp),
     ) {
         Text(
-            text = title,
-            fontSize = 18.sp,
+            text = titulo,
+            fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSecondary,
             modifier = modifier.padding(start = 10.dp),
         )
         Text(
-            text = value,
-            fontSize = 24.sp,
+            text = "$valor$unidad",
+            fontSize = 18.sp,
             fontWeight = FontWeight.ExtraBold,
             textAlign = TextAlign.Center,
             color = MaterialTheme.colorScheme.onSecondary,

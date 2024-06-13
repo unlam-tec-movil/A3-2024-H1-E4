@@ -29,6 +29,9 @@ import ar.edu.unlam.mobile.scaffolding.R
 fun Achievement(
     nombre: String = "Kilómetros",
     imagen: Int = R.drawable.copa,
+    actual: Double = 5.0,
+    total: Double = 10.0,
+    decimales: Int = 2,
     nivel: Int = 1,
     modifier: Modifier = Modifier.padding(vertical = 2.dp),
 ) {
@@ -63,7 +66,7 @@ fun Achievement(
         )
         Column(modifier = modifier.padding(start = 30.dp)) {
             Text(text = nombre)
-            Text(text = "15.5 / 25")
+            Text(text = "${"%.${decimales}f".format(actual)} / ${"%.${decimales}f".format(total)}")
         }
         Column(
             verticalArrangement = Arrangement.Bottom,
@@ -71,7 +74,7 @@ fun Achievement(
             modifier =
                 modifier
                     .fillMaxWidth()
-                    .height(55.dp),
+                    .height(60.dp),
         ) {
             Text(text = "Nivel $nivel")
         }
