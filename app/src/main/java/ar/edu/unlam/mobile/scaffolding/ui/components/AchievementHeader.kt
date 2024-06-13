@@ -37,7 +37,10 @@ fun AchievementHeader(
         }
         Row(
             horizontalArrangement = Arrangement.Start,
-            modifier = modifier.fillMaxWidth(),
+            modifier =
+                modifier
+                    .fillMaxWidth()
+                    .padding(start = 30.dp),
         ) {
             Text(
                 text = "Logros",
