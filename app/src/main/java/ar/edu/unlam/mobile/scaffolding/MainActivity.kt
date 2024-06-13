@@ -15,7 +15,7 @@ import androidx.navigation.compose.rememberNavController
 import ar.edu.unlam.mobile.scaffolding.ui.screens.ActivityScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.AwardsScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.Routes
-import ar.edu.unlam.mobile.scaffolding.ui.theme.ScaffoldingV2Theme
+import ar.edu.unlam.mobile.scaffolding.ui.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -23,7 +23,7 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ScaffoldingV2Theme {
+            AppTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),

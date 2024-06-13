@@ -11,21 +11,23 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ar.edu.unlam.mobile.scaffolding.R
 
+@Preview
 @Composable
 fun CardAward(
     title: String = "125",
     img: Int = R.drawable.trueno,
-    modifier: Modifier,
+    modifier: Modifier = Modifier,
     action: () -> Unit = {},
 ) {
     Button(
@@ -34,7 +36,7 @@ fun CardAward(
         shape = RoundedCornerShape(32.dp),
         colors =
             ButtonDefaults.buttonColors(
-                containerColor = Color(35, 79, 113, 255),
+                containerColor = MaterialTheme.colorScheme.tertiary,
             ),
     ) {
         Row(
@@ -42,7 +44,6 @@ fun CardAward(
                 Modifier
                     .padding(0.dp)
                     .fillMaxWidth(),
-            // verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.Center,
         ) {
             Image(
@@ -58,7 +59,7 @@ fun CardAward(
                 text = title,
                 fontSize = 12.sp,
                 fontWeight = FontWeight.ExtraBold,
-                color = Color.White,
+                color = MaterialTheme.colorScheme.onTertiary,
                 modifier = Modifier.padding(start = 4.dp),
             )
         }

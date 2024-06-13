@@ -12,12 +12,12 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
@@ -34,8 +34,7 @@ fun HomeHeader() {
                 .fillMaxWidth()
                 .height(105.dp)
                 .background(
-                    color = Color(35, 79, 113, 255),
-                    // shape = RoundedCornerShape(bottomEnd = 35.dp, bottomStart = 35.dp)
+                    color = MaterialTheme.colorScheme.primary,
                 ),
         ) {
             Row(
@@ -50,16 +49,16 @@ fun HomeHeader() {
                     verticalArrangement = Arrangement.Center,
                 ) {
                     Text(
-                        text = "Bienvenido,",
+                        text = "Bienvenido",
                         fontSize = 32.sp,
                         fontWeight = FontWeight.Bold,
-                        color = Color(255, 255, 255),
+                        color = MaterialTheme.colorScheme.onPrimary,
                     )
                     Text(
                         text = "Emanuel Cisterna",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.ExtraBold,
-                        color = Color(255, 255, 255),
+                        color = MaterialTheme.colorScheme.onPrimary,
                     )
                 }
                 Image(
@@ -81,7 +80,7 @@ fun HomeHeader() {
                     .padding(top = 10.dp, start = 12.dp, end = 12.dp)
                     .shadow(3.dp, shape = RoundedCornerShape(20.dp))
                     .background(
-                        color = Color.White,
+                        color = MaterialTheme.colorScheme.secondaryContainer,
                         shape = RoundedCornerShape(14.dp),
                     ),
         ) {
@@ -89,7 +88,7 @@ fun HomeHeader() {
                 text = "Tu última actividad",
                 fontSize = 18.sp,
                 fontWeight = FontWeight.SemiBold,
-                color = Color.Black,
+                color = MaterialTheme.colorScheme.onSecondaryContainer,
                 modifier = Modifier.padding(top = 12.dp, start = 12.dp),
             )
             Row(
@@ -111,7 +110,7 @@ fun HomeHeader() {
                     Modifier,
                 )
                 CardResultActivity(
-                    "Calorias",
+                    "Calorías",
                     "548",
                     Modifier,
                 )
