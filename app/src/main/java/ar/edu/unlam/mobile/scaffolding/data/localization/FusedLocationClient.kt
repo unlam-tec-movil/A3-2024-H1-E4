@@ -15,12 +15,12 @@ import com.google.android.gms.location.LocationRequest
 import com.google.android.gms.location.LocationResult
 import com.google.android.gms.location.Priority
 import dagger.hilt.android.qualifiers.ApplicationContext
-import java.util.concurrent.TimeUnit
-import javax.inject.Inject
 import kotlinx.coroutines.channels.awaitClose
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.callbackFlow
 import kotlinx.coroutines.launch
+import java.util.concurrent.TimeUnit
+import javax.inject.Inject
 
 fun Context.hasLocationPermission(): Boolean =
     ContextCompat
@@ -40,7 +40,6 @@ class FusedLocationClient
         @ApplicationContext private val context: Context,
         private val locationClient: FusedLocationProviderClient,
     ) : LocationClient {
-
         private lateinit var locationCallback: LocationCallback
 
         override fun getLocationUpdates(interval: Long): Flow<Coordinate> {
@@ -94,7 +93,7 @@ class FusedLocationClient
             }
         }
 
-        fun stopLocationUpdates() {
+        override fun stopLocationUpdates() {
             locationClient.removeLocationUpdates(locationCallback)
         }
     }

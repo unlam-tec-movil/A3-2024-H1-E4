@@ -4,6 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -14,6 +15,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import ar.edu.unlam.mobile.scaffolding.ui.screens.ActivityScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.AwardsScreen
+import ar.edu.unlam.mobile.scaffolding.ui.screens.HomeScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.Routes
 import ar.edu.unlam.mobile.scaffolding.ui.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -30,7 +32,6 @@ class MainActivity : ComponentActivity() {
                     color = MaterialTheme.colorScheme.background,
                 ) {
                     MainScreen()
-                    // ActivityScreen()
                 }
             }
         }
@@ -50,7 +51,7 @@ fun MainScreen() {
     ) { paddingValue ->
         NavHost(navController = controller, startDestination = Routes.Home.name) {
             composable(Routes.Home.name) {
-                MainScreen()
+                HomeScreen(modifier = Modifier.padding(paddingValue), navController = controller)
             }
             composable(Routes.Awards.name) {
                 AwardsScreen(navController = controller)

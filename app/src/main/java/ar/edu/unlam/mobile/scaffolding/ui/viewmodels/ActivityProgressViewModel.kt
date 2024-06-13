@@ -11,7 +11,7 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class ChronometerViewModel
+class ActivityProgressViewModel
     @Inject
     constructor() : ViewModel() {
         private var startTime: Long = 0L

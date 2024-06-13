@@ -25,7 +25,6 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
-import ar.edu.unlam.mobile.scaffolding.ui.components.ActivityProgress
 import ar.edu.unlam.mobile.scaffolding.ui.components.MapboxContent
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.ActivityViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.CoordinateUIState
@@ -104,7 +103,7 @@ fun MapLoco(coordinates: List<Coordinate>) {
                             .height(heightSheet.dp)
                             .fillMaxWidth(),
                 ) {
-                    ActivityProgress() // prevFun = { heigthSheet = 140 }
+                    ActivityProgressScreen() // prevFun = { heigthSheet = 140 }
                 }
             }
         }

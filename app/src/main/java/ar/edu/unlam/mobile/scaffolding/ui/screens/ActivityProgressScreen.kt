@@ -1,4 +1,4 @@
-package ar.edu.unlam.mobile.scaffolding.ui.components
+package ar.edu.unlam.mobile.scaffolding.ui.screens
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -28,15 +28,15 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.unlam.mobile.scaffolding.R
-import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.ChronometerViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.ActivityProgressViewModel
 import java.util.concurrent.TimeUnit
 
 @Composable
-fun ActivityProgress(
+fun ActivityProgressScreen(
     // prevFun: () -> Unit,
-    chronometerViewModel: ChronometerViewModel = hiltViewModel(),
+    viewModel: ActivityProgressViewModel = hiltViewModel(),
 ) {
-    val elapsedTime by chronometerViewModel.eleapsedTimeState.collectAsState()
+    val elapsedTime by viewModel.eleapsedTimeState.collectAsState()
     var elapsedTimeState by remember {
         mutableLongStateOf(0L)
     }
@@ -57,10 +57,10 @@ fun ActivityProgress(
             onClick = {
                 // prevFun()
                 if (isRunning) {
-                    chronometerViewModel.stop()
+                    viewModel.stop()
                     isRunning = false
                 } else {
-                    chronometerViewModel.start()
+                    viewModel.start()
                     isRunning = true
                 }
             },
@@ -104,17 +104,17 @@ fun ActivityProgress(
                     .padding(top = 32.dp)
                     .fillMaxWidth(),
         ) {
-            Component(
+            ActivityData(
                 "Velocidad (Km/h)",
                 "48",
                 Modifier.weight(1f),
             )
-            Component(
+            ActivityData(
                 "Distancia (Km)",
                 "12.6",
                 Modifier.weight(1f),
             )
-            Component(
+            ActivityData(
                 "Calorias",
                 "196",
                 Modifier.weight(1f),
@@ -124,7 +124,7 @@ fun ActivityProgress(
 }
 
 @Composable
-fun Component(
+fun ActivityData(
     title: String,
     value: String,
     modifier: Modifier,

@@ -2,7 +2,6 @@ package ar.edu.unlam.mobile.scaffolding.ui.screens
 
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -21,61 +20,58 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import ar.edu.unlam.mobile.scaffolding.R
+import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
 import ar.edu.unlam.mobile.scaffolding.ui.components.CardAward
 import ar.edu.unlam.mobile.scaffolding.ui.components.HomeHeader
 import ar.edu.unlam.mobile.scaffolding.ui.components.MapContainer
 import ar.edu.unlam.mobile.scaffolding.ui.components.StartButton
-import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.ChronometerViewModel
-import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.HelloMessageUIState
+import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.HomeCoordinateUIState
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.HomeViewModel
-import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.LocationViewModel
-import com.mapbox.maps.MapboxExperimental
 
-@OptIn(MapboxExperimental::class)
 @Composable
 fun HomeScreen(
+    modifier: Modifier = Modifier,
     navController: NavController = rememberNavController(),
     viewModel: HomeViewModel = hiltViewModel(),
-    modifier: Modifier = Modifier,
 ) {
-    // La información que obtenemos desde el view model la consumimos a través de un estado de
-    // "tres vías": Loading, Success y Error. Esto nos permite mostrar un estado de carga,
-    // un estado de éxito y un mensaje de error.
-    val uiState by viewModel.uiState.collectAsState()
-
-    when (val homeUiState = uiState.helloMessageState) {
-        is HelloMessageUIState.Loading -> {
+    val homeUIState by viewModel.uiState.collectAsState()
+    when (val coordinateUIState = homeUIState.coordinateUIState) {
+        is HomeCoordinateUIState.Loading -> {
             // Loading
         }
 
-        is HelloMessageUIState.Success -> {
-            MainScreen(navController)
+        is HomeCoordinateUIState.Success -> {
+            HomeScreenContent(
+                coordinates = coordinateUIState.coordinateList,
+                navController = navController,
+                modifier = modifier,
+            )
         }
 
-        is HelloMessageUIState.Error -> {
+        is HomeCoordinateUIState.Error -> {
             // Error
         }
     }
 }
 
 @Composable
-fun MainScreen(
-    navController: NavController = rememberNavController(),
-    locationViewModel: LocationViewModel = hiltViewModel(),
+fun HomeScreenContent(
+    coordinates: List<Coordinate>,
+    navController: NavController,
+    modifier: Modifier = Modifier,
 ) {
-    val locationUiState by locationViewModel.locationUiState.collectAsState()
     Column(
-        Modifier
-            .fillMaxHeight()
-            .fillMaxWidth()
-            .background(MaterialTheme.colorScheme.background),
+        modifier =
+            modifier
+                .fillMaxHeight()
+                .fillMaxWidth()
+                .background(MaterialTheme.colorScheme.background),
         horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         HomeHeader()
@@ -130,7 +126,7 @@ fun MainScreen(
             }
         }
         Column {
-            MapContainer()
+            MapContainer(coordinates = coordinates)
             StartButton()
         }
     }

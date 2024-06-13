@@ -2,45 +2,104 @@ package ar.edu.unlam.mobile.scaffolding.ui.viewmodels
 
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
+import ar.edu.unlam.mobile.scaffolding.domain.services.location.LocationUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @Immutable
-sealed interface HelloMessageUIState {
-    data class Success(val message: String) : HelloMessageUIState
+sealed interface HomeCoordinateUIState {
+    data class Success(
+        val coordinateList: List<Coordinate>,
+    ) : HomeCoordinateUIState
 
-    data object Loading : HelloMessageUIState
+    data object Loading : HomeCoordinateUIState
 
-    data class Error(val message: String) : HelloMessageUIState
+    data class Error(
+        val message: String,
+    ) : HomeCoordinateUIState
+}
+
+@Immutable
+sealed interface LocatorState {
+    data object Success : LocatorState
+
+    data object Loading : LocatorState
+
+    data class Error(
+        val message: String,
+    ) : LocatorState
 }
 
 data class HomeUIState(
-    val helloMessageState: HelloMessageUIState,
+    val locatorState: LocatorState,
+    val coordinateUIState: HomeCoordinateUIState,
 )
 
 @HiltViewModel
 class HomeViewModel
     @Inject
-    constructor() : ViewModel() {
-        // Mutable State Flow contiene un objeto de estado mutable. Simplifica la operación de
-        // actualización de información y de manejo de estados de una aplicación: Cargando, Error, Éxito
-        // (https://developer.android.com/kotlin/flow/stateflow-and-sharedflow)
-        // _helloMessage State es el estado del componente "HelloMessage" inicializado como "Cargando"
-        private val helloMessage = MutableStateFlow(HelloMessageUIState.Loading)
+    constructor(
+        private val location: LocationUseCases,
+    ) : ViewModel() {
+        init {
+            startLocationService()
+        }
 
-        // _Ui State es el estado general del view model.
-        private val _uiState =
+        private var isRunning = location.isRunning()
+
+        private var _uiState =
             MutableStateFlow(
-                HomeUIState(helloMessage.value),
+                HomeUIState(
+                    locatorState = LocatorState.Loading,
+                    coordinateUIState = HomeCoordinateUIState.Loading,
+                ),
             )
 
-        // UIState expone el estado anterior como un Flujo de Estado de solo lectura.
-        // Esto impide que se pueda modificar el estado desde fuera del ViewModel.
         val uiState = _uiState.asStateFlow()
 
-        init {
-            _uiState.value = HomeUIState(HelloMessageUIState.Success("2b"))
+        fun getSpeed(): Float {
+            var accumulatedSpeed: Float = 0F
+            val quantitySpeeds = location.getSpeeds().size
+            for (speed in location.getSpeeds()) {
+                accumulatedSpeed += speed
+            }
+            return accumulatedSpeed / quantitySpeeds
+        }
+
+        private fun startLocationService() {
+            location.startLocation()
+            viewModelScope.launch {
+                isRunning.collect {
+                    if (it) {
+                        _uiState.value =
+                            _uiState.value.copy(
+                                locatorState = LocatorState.Success,
+                            )
+                    }
+                }
+            }
+        }
+
+        fun getCoordinates() {
+            viewModelScope.launch {
+                location
+                    .getLocationCoordinates()
+                    .collect {
+                        _uiState.value =
+                            _uiState.value.copy(
+                                coordinateUIState = HomeCoordinateUIState.Success(it),
+                            )
+                    }
+            }
+        }
+
+        fun stopLocationService() {
+            location.stopLocation()
+            // Log.i("CNO Coordinates VIEVM", "Coordinates: ${location.locationCoordinates.value}")
         }
     }
