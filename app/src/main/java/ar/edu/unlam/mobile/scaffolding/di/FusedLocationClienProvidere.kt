@@ -1,4 +1,4 @@
-package ar.edu.unlam.mobile.scaffolding.domain.di
+package ar.edu.unlam.mobile.scaffolding.di
 
 import android.content.Context
 import com.google.android.gms.location.FusedLocationProviderClient
@@ -15,7 +15,5 @@ object FusedLocationClienProvider {
     @Provides
     fun provideFusedLocationClient(
         @ApplicationContext context: Context,
-    ): FusedLocationProviderClient {
-        return LocationServices.getFusedLocationProviderClient(context)
-    }
+    ): FusedLocationProviderClient = LocationServices.getFusedLocationProviderClient(context)
 }

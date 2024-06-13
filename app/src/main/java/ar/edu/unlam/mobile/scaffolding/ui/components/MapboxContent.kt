@@ -8,16 +8,12 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
-import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.unlam.mobile.scaffolding.R
 import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
-import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.LocationViewModel
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
@@ -35,9 +31,9 @@ import com.mapbox.maps.plugin.locationcomponent.location
 @OptIn(MapboxExperimental::class, ExperimentalPermissionsApi::class)
 @Composable
 fun MapboxContent(
-    modifier: Modifier = Modifier,
     mapViewportState: MapViewportState,
-    locationViewModel: LocationViewModel = hiltViewModel(),
+    locationCoordinates: List<Coordinate>,
+    modifier: Modifier = Modifier,
 ) {
     MapboxOptions.accessToken = stringResource(id = R.string.mapbox_access_token)
     val permissionState =
@@ -47,11 +43,6 @@ fun MapboxContent(
         permissionState.launchPermissionRequest()
     }
 
-    var locationCoordinates by remember { mutableStateOf(mutableListOf(Coordinate(0.0, 0.0))) }
-
-    LaunchedEffect(key1 = true) {
-        locationCoordinates = locationViewModel.getLocationCoordinates()
-    }
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,

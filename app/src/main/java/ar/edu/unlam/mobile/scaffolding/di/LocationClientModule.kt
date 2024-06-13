@@ -1,6 +1,6 @@
-package ar.edu.unlam.mobile.scaffolding.domain.di
+package ar.edu.unlam.mobile.scaffolding.di
 
-import ar.edu.unlam.mobile.scaffolding.domain.services.location.DefaultLocationClient
+import ar.edu.unlam.mobile.scaffolding.data.localization.FusedLocationClient
 import ar.edu.unlam.mobile.scaffolding.domain.services.location.LocationClient
 import dagger.Binds
 import dagger.Module
@@ -11,5 +11,5 @@ import dagger.hilt.components.SingletonComponent
 @InstallIn(SingletonComponent::class)
 abstract class LocationClientModule {
     @Binds
-    abstract fun bindsLocationClient(defaultLocationClient: DefaultLocationClient): LocationClient
+    abstract fun bindsLocationClient(defaultLocationClient: FusedLocationClient): LocationClient
 }

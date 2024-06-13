@@ -25,7 +25,6 @@ import ar.edu.unlam.mobile.scaffolding.R
 import ar.edu.unlam.mobile.scaffolding.ui.components.CardAward
 import ar.edu.unlam.mobile.scaffolding.ui.components.HomeHeader
 import ar.edu.unlam.mobile.scaffolding.ui.components.MapContainer
-import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.ChronometerViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.HelloMessageUIState
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.HomeViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.LocationViewModel
@@ -62,7 +61,6 @@ fun HomeScreen(
 fun MainScreen(
     navController: NavController,
     locationViewModel: LocationViewModel = hiltViewModel(),
-    chronometerViewModel: ChronometerViewModel = hiltViewModel(),
 ) {
     val locationUiState by locationViewModel.locationUiState.collectAsState()
     Column(
@@ -108,19 +106,9 @@ fun MainScreen(
                     Modifier
                         .fillMaxWidth(),
             ) {
-                CardAward(
-                    "4/15km",
-                    R.drawable.copa,
-                    Modifier.weight(1f),
-                ) {
-                    locationViewModel.startLocationService()
-                }
                 Log.i("PREV SCREEN LOCATION", "$locationUiState")
                 Log.i("SCREEN LOCATION", "Coordinates= $locationUiState")
 
-                CardAward("22 dias", R.drawable.fuego, Modifier.weight(1f)) {
-                    locationViewModel.stopLocationService()
-                }
                 CardAward("250 kcl", R.drawable.trueno, Modifier.weight(1f)) { navController.navigate(Routes.ActivityScreen.name) }
             }
         }

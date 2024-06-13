@@ -1,15 +1,12 @@
 package ar.edu.unlam.mobile.scaffolding.ui.viewmodels
 
-import android.content.Context
-import android.content.Intent
 import android.util.Log
 import androidx.lifecycle.ViewModel
 import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
-import ar.edu.unlam.mobile.scaffolding.domain.services.location.LocationService
-import ar.edu.unlam.mobile.scaffolding.domain.services.location.LocationServiceImpl
+import ar.edu.unlam.mobile.scaffolding.domain.services.location.LocationUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
@@ -27,38 +24,33 @@ import javax.inject.Inject
 class LocationViewModel
     @Inject
     constructor(
-        @ApplicationContext private val context: Context,
-        private val locationService: LocationService,
-    ) :
-    ViewModel() {
+        private val location: LocationUseCases,
+    ) : ViewModel() {
+        init {
+            startLocationService()
+        }
+
         private val locationState =
-            MutableStateFlow(Coordinate(0.0, 0.0))
+            MutableStateFlow(Coordinate(0.0, 0.0, 0f))
         val locationUiState = locationState.asStateFlow()
 
-        fun getLocationCoordinates(): MutableList<Coordinate> = LocationServiceImpl.coordinatesState
+        fun getLocationCoordinates(): StateFlow<List<Coordinate>> = location.getLocationCoordinates()
 
         fun getSpeed(): Float {
             var accumulatedSpeed: Float = 0F
-            val quantitySpeeds = locationService.locationSpeeds.size
-            for (speed in locationService.getSpeeds()) {
+            val quantitySpeeds = location.getSpeeds().size
+            for (speed in location.getSpeeds()) {
                 accumulatedSpeed += speed
             }
             return accumulatedSpeed / quantitySpeeds
         }
 
-        fun startLocationService() {
-            Intent(context, LocationServiceImpl::class.java).apply {
-                action = LocationServiceImpl.ACTION_START
-                context.startService(this)
-            }
+        private fun startLocationService() {
+            location.startLocation()
         }
 
         fun stopLocationService() {
-            Intent(context, LocationServiceImpl::class.java).apply {
-                action = LocationServiceImpl.ACTION_STOP
-                context.startService(this)
-            }
-
-            Log.i("CNO Coordinates VIEVM", "Coordinates: ${locationService.locationCoordinates.value}")
+            location.stopLocation()
+            Log.i("CNO Coordinates VIEVM", "Coordinates: ${location.locationCoordinates.value}")
         }
     }
