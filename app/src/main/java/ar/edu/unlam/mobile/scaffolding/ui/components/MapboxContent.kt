@@ -1,12 +1,10 @@
 package ar.edu.unlam.mobile.scaffolding.ui.components
 
-import android.Manifest
 import android.annotation.SuppressLint
 import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -15,8 +13,6 @@ import androidx.compose.ui.res.stringResource
 import ar.edu.unlam.mobile.scaffolding.R
 import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberPermissionState
 import com.mapbox.common.MapboxOptions
 import com.mapbox.maps.MapboxExperimental
 import com.mapbox.maps.extension.compose.MapEffect
@@ -36,50 +32,40 @@ fun MapboxContent(
     modifier: Modifier = Modifier,
 ) {
     MapboxOptions.accessToken = stringResource(id = R.string.mapbox_access_token)
-    val permissionState =
-        rememberPermissionState(permission = Manifest.permission.ACCESS_FINE_LOCATION)
-
-    LaunchedEffect(key1 = true) {
-        permissionState.launchPermissionRequest()
-    }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
         modifier = modifier,
     ) {
-        if (permissionState.status.isGranted) {
-            MapboxMap(
-                modifier = modifier,
-                mapViewportState = mapViewportState,
-            ) {
-                MapEffect(key1 = true) { mapView ->
-                    mapView.location.updateSettings {
-                        locationPuck = createDefault2DPuck(withBearing = true)
-                        puckBearingEnabled = true
-                        puckBearing = PuckBearing.HEADING
-                        enabled = true
-                    }
-                }
-                mapViewportState.transitionToFollowPuckState()
-                Log.i("COORDINATES MAP CONTENT", "COORDENADAS: $locationCoordinates")
-                if (locationCoordinates.size > 1) {
-                    val points =
-                        locationCoordinates.map { coordinate ->
-                            coordinate.toPoint()
-                        }
-                    Log.i("COORDINATES MAP CONTENT", "COORDENADAS: $locationCoordinates")
-                    PolylineAnnotation(
-                        points = points,
-                        lineColorString = "#4dc6d1",
-                        lineGapWidth = 0.0,
-                        lineOpacity = 15.5,
-                        lineWidth = 5.0,
-                    )
+        MapboxMap(
+            modifier = modifier,
+            mapViewportState = mapViewportState,
+        ) {
+            MapEffect(key1 = true) { mapView ->
+                mapView.location.updateSettings {
+                    locationPuck = createDefault2DPuck(withBearing = true)
+                    puckBearingEnabled = true
+                    puckBearing = PuckBearing.HEADING
+                    enabled = true
                 }
             }
-        } else {
-            NoLocationPermissionContent()
+            mapViewportState.transitionToFollowPuckState()
+            Log.i("COORDINATES MAP CONTENT", "COORDENADAS: $locationCoordinates")
+            if (locationCoordinates.size > 1) {
+                val points =
+                    locationCoordinates.map { coordinate ->
+                        coordinate.toPoint()
+                    }
+                Log.i("COORDINATES MAP CONTENT", "COORDENADAS: $locationCoordinates")
+                PolylineAnnotation(
+                    points = points,
+                    lineColorString = "#4dc6d1",
+                    lineGapWidth = 0.0,
+                    lineOpacity = 15.5,
+                    lineWidth = 5.0,
+                )
+            }
         }
     }
 }

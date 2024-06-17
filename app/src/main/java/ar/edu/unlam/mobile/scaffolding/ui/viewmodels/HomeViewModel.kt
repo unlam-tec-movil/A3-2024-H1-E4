@@ -1,5 +1,6 @@
 package ar.edu.unlam.mobile.scaffolding.ui.viewmodels
 
+import android.util.Log
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,6 +9,7 @@ import ar.edu.unlam.mobile.scaffolding.domain.services.location.LocationUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.catch
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -46,10 +48,6 @@ class HomeViewModel
     constructor(
         private val location: LocationUseCases,
     ) : ViewModel() {
-        init {
-            startLocationService()
-        }
-
         private var isRunning = location.isRunning()
 
         private var _uiState =
@@ -71,17 +69,35 @@ class HomeViewModel
             return accumulatedSpeed / quantitySpeeds
         }
 
-        private fun startLocationService() {
-            location.startLocation()
+        fun startLocationService() {
+            Log.i("Inicio Location", "Valor=$isRunning")
+
             viewModelScope.launch {
-                isRunning.collect {
-                    if (it) {
-                        _uiState.value =
-                            _uiState.value.copy(
-                                locatorState = LocatorState.Success,
-                            )
-                    }
+                location.startLocation()
+                Log.i("VIEWMODEL SCOPE", "ENTRO A LA FUNCION START LOCATION")
+                isRunning.catch { e ->
+                    Log.i(
+                        "FUNCION STARLOC",
+                        "Message: ${e.message}, /" +
+                            "${e.cause?.message}",
+                    )
                 }
+                    .collect {
+                        Log.i("COLLECTANDO bloque IF", "Valor= $it")
+                        if (it) {
+                            _uiState.value =
+                                _uiState.value.copy(
+                                    locatorState = LocatorState.Success,
+                                    coordinateUIState =
+                                        HomeCoordinateUIState.Success(
+                                            coordinateList = location.getLocationCoordinates().value,
+                                        ),
+                                )
+                        } else {
+                            Log.i("COLLECTANDO BLOQUE ELSE", "Valor= $it")
+                            location.startLocation()
+                        }
+                    }
             }
         }
 
@@ -99,6 +115,7 @@ class HomeViewModel
         }
 
         fun stopLocationService() {
+            Log.i("COORDENADAS STOP LOC", "VALOR= ${location.getLocationCoordinates().value}")
             location.stopLocation()
             // Log.i("CNO Coordinates VIEVM", "Coordinates: ${location.locationCoordinates.value}")
         }

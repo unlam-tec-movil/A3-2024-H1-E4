@@ -5,7 +5,7 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
 interface LocationUseCases {
-    fun startLocation()
+    suspend fun startLocation()
 
     fun stopLocation()
 

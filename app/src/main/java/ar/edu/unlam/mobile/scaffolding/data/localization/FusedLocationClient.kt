@@ -4,6 +4,7 @@ import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Looper
+import android.util.Log
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
@@ -71,6 +72,7 @@ class FusedLocationClient
                 LocationRequest
                     .Builder(Priority.PRIORITY_HIGH_ACCURACY, TimeUnit.SECONDS.toMillis(interval))
                     .build()
+
             return callbackFlow {
                 locationCallback =
                     object : LocationCallback() {
@@ -79,6 +81,10 @@ class FusedLocationClient
                             result.locations.lastOrNull()?.let { location ->
                                 launch { send(location.toCoordinate()) }
                             }
+                            Log.i(
+                                "Location Callback",
+                                "${result.locations.lastOrNull()?.toCoordinate()}",
+                            )
                         }
                     }
                 locationClient.requestLocationUpdates(

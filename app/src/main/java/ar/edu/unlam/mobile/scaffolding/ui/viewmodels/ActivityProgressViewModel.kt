@@ -2,6 +2,7 @@ package ar.edu.unlam.mobile.scaffolding.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import ar.edu.unlam.mobile.scaffolding.domain.services.location.LocationUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
@@ -13,7 +14,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ActivityProgressViewModel
     @Inject
-    constructor() : ViewModel() {
+    constructor(private val locationUseCases: LocationUseCases) : ViewModel() {
         private var startTime: Long = 0L
         private var isRunning: Boolean = false
 
@@ -30,6 +31,7 @@ class ActivityProgressViewModel
                 job =
                     viewModelScope.launch {
                         while (isRunning) {
+                            locationUseCases.startLocation()
                             delay(1000)
                             _eleapsedTimeState.value = System.currentTimeMillis() - startTime
                         }

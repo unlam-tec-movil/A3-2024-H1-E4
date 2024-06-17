@@ -2,16 +2,12 @@ package ar.edu.unlam.mobile.scaffolding.domain.services.location
 
 import android.util.Log
 import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
-import dagger.hilt.android.scopes.ServiceScoped
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
-import kotlinx.coroutines.flow.onCompletion
-import kotlinx.coroutines.flow.onEach
 import javax.inject.Inject
 
-@ServiceScoped
 class LocationService
     @Inject
     constructor(
@@ -23,7 +19,7 @@ class LocationService
         //                LocationServices.getFusedLocationProviderClient(applicationContext),
         //            )
         private val running = MutableStateFlow(false)
-        private val _locationCoordinates = MutableStateFlow<List<Coordinate>>(emptyList())
+        private val _locationCoordinates = MutableStateFlow<MutableList<Coordinate>>(mutableListOf())
         private val _speeds = mutableListOf<Float>()
 
         override fun getLocationCoordinates(): StateFlow<List<Coordinate>> = _locationCoordinates.asStateFlow()
@@ -32,20 +28,23 @@ class LocationService
 
         override fun isRunning(): Flow<Boolean> = running
 
-        override fun startLocation() {
-            // Todo, this could be configurable
+        override suspend fun startLocation() {
             val threeSeconds = 3L
             locationClient
                 .getLocationUpdates(threeSeconds)
-                .onEach { coordinate ->
+                .collect { coordinate ->
                     running.value = true
-                    _locationCoordinates.value += coordinate
+                    _locationCoordinates.value.add(coordinate)
                     _speeds.add(coordinate.speed)
+                    Log.i("CNO Location", "latitude: ${coordinate.latitude}")
+                    Log.i("CNO Location", "longitude: ${coordinate.longitude}")
                     Log.i("CNO Location", "Speed: ${coordinate.speed}")
-                }.onCompletion { running.value = false }
+                } // .onCompletion { running.value = true }
         }
 
         override fun stopLocation() {
+            running.value = false
+            _locationCoordinates.value = mutableListOf()
             locationClient.stopLocationUpdates()
         }
     }
