@@ -44,7 +44,6 @@ class LocationService
 
         override fun stopLocation() {
             running.value = false
-            _locationCoordinates.value = mutableListOf()
             locationClient.stopLocationUpdates()
         }
     }

@@ -15,7 +15,7 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import ar.edu.unlam.mobile.scaffolding.ui.screens.ActivityScreen
+import ar.edu.unlam.mobile.scaffolding.ui.screens.ActivityProgressScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.AwardsScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.HomeScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.Routes
@@ -77,8 +77,8 @@ fun MainScreen() {
             composable(Routes.Awards.name) {
                 AwardsScreen(navController = controller)
             }
-            composable(Routes.ActivityScreen.name) {
-                ActivityScreen()
+            composable(Routes.ActivityProgressScreen.name) {
+                ActivityProgressScreen()
             }
         }
     }
