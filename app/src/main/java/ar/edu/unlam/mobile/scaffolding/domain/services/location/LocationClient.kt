@@ -1,10 +1,12 @@
 package ar.edu.unlam.mobile.scaffolding.domain.services.location
 
-import android.location.Location
+import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
 import kotlinx.coroutines.flow.Flow
 
 interface LocationClient {
-    fun getLocationUpdates(interval: Long): Flow<Location>
+    fun getLocationUpdates(interval: Long): Flow<Coordinate>
+
+    fun stopLocationUpdates()
 
     class LocationException(message: String) : Exception(message)
 }

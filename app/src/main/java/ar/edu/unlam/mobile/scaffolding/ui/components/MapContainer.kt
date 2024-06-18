@@ -10,15 +10,14 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
 import com.mapbox.maps.MapboxExperimental
 import com.mapbox.maps.extension.compose.animation.viewport.rememberMapViewportState
 
 @OptIn(MapboxExperimental::class)
-@Preview
 @Composable
-fun MapContainer() {
+fun MapContainer(coordinates: List<Coordinate>) {
     Box(
         modifier =
             Modifier
@@ -30,16 +29,15 @@ fun MapContainer() {
         val mapViewportState =
             rememberMapViewportState {
                 setCameraOptions {
-                    zoom(4.0)
+                    zoom(0.3)
                     pitch(0.0)
                 }
             }
 
         MapboxContent(
             mapViewportState = mapViewportState,
-            modifier =
-                Modifier
-                    .fillMaxSize(),
+            modifier = Modifier.fillMaxSize(),
+            locationCoordinates = coordinates,
         )
     }
 }

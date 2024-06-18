@@ -24,7 +24,10 @@ import ar.edu.unlam.mobile.scaffolding.ui.theme.displayFontFamily
 
 @Preview
 @Composable
-fun StartButton(modifier: Modifier = Modifier) {
+fun StartButton(
+    modifier: Modifier = Modifier,
+    action: () -> Unit = {},
+) {
     Row(
         verticalAlignment = Alignment.Bottom,
         modifier =
@@ -34,7 +37,7 @@ fun StartButton(modifier: Modifier = Modifier) {
                 .background(MaterialTheme.colorScheme.secondaryContainer),
     ) {
         Button(
-            onClick = {},
+            onClick = { action() },
             modifier =
                 modifier
                     .fillMaxWidth(),
