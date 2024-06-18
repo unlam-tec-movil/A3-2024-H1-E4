@@ -26,7 +26,7 @@ import ar.edu.unlam.mobile.scaffolding.ui.theme.displayFontFamily
 @Composable
 fun StartButton(
     modifier: Modifier = Modifier,
-    action: () -> Unit,
+    action: () -> Unit = {},
 ) {
     Row(
         verticalAlignment = Alignment.Bottom,

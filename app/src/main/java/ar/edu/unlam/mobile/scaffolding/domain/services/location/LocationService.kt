@@ -2,7 +2,6 @@ package ar.edu.unlam.mobile.scaffolding.domain.services.location
 
 import android.util.Log
 import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
@@ -26,14 +25,15 @@ class LocationService
 
         override fun getSpeeds(): List<Float> = _speeds
 
-        override fun isRunning(): Flow<Boolean> = running
+        override fun finish() {
+            _locationCoordinates.value = mutableListOf()
+        }
 
         override suspend fun startLocation() {
             val threeSeconds = 3L
             locationClient
                 .getLocationUpdates(threeSeconds)
                 .collect { coordinate ->
-                    running.value = true
                     _locationCoordinates.value.add(coordinate)
                     _speeds.add(coordinate.speed)
                     Log.i("CNO Location", "latitude: ${coordinate.latitude}")
@@ -43,7 +43,6 @@ class LocationService
         }
 
         override fun stopLocation() {
-            running.value = false
             locationClient.stopLocationUpdates()
         }
     }

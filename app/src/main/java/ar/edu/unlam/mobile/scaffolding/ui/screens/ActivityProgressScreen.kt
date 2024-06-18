@@ -1,23 +1,32 @@
 package ar.edu.unlam.mobile.scaffolding.ui.screens
 
+import android.Manifest
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
+import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
+import androidx.compose.material3.rememberBottomSheetScaffoldState
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -28,14 +37,46 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.unlam.mobile.scaffolding.R
+import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
+import ar.edu.unlam.mobile.scaffolding.ui.components.MapboxContent
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.ActivityProgressViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.CoordinateUIState
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
+import com.google.accompanist.permissions.isGranted
+import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import com.mapbox.maps.extension.compose.animation.viewport.rememberMapViewportState
 import java.util.concurrent.TimeUnit
 
+@OptIn(ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ActivityProgressScreen(
     // prevFun: () -> Unit,
     viewModel: ActivityProgressViewModel = hiltViewModel(),
 ) {
+    val uiState by viewModel.uiState.collectAsState()
+    var coordinates: List<Coordinate> = listOf()
+
+    val scaffoldState = rememberBottomSheetScaffoldState()
+    var isSheetOpen by rememberSaveable {
+        mutableStateOf(true)
+    }
+
+    when (val coordinateUIState = uiState.coordinateUIState) {
+        is CoordinateUIState.Loading -> {
+            Box(modifier = Modifier.fillMaxSize()) {
+                CircularProgressIndicator()
+            }
+        }
+
+        is CoordinateUIState.Success -> {
+            coordinates = coordinateUIState.coordinateList
+        }
+
+        is CoordinateUIState.Error -> {
+            // Error
+        }
+    }
+
     val elapsedTime by viewModel.eleapsedTimeState.collectAsState()
     var elapsedTimeState by remember {
         mutableLongStateOf(0L)
@@ -45,81 +86,121 @@ fun ActivityProgressScreen(
     }
     elapsedTimeState = elapsedTime
 
-    Column(
-        modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(4.dp, 12.dp),
-        horizontalAlignment = Alignment.CenterHorizontally,
+    val mapViewportState =
+        rememberMapViewportState {
+            setCameraOptions {
+                zoom(0.3)
+                pitch(0.0)
+            }
+        }
+
+    val permissions =
+        listOf(
+            Manifest.permission.ACCESS_FINE_LOCATION,
+            Manifest.permission.ACCESS_COARSE_LOCATION,
+        )
+
+    val rememberMultiplePermissionsState =
+        rememberMultiplePermissionsState(permissions = permissions)
+
+    LaunchedEffect(key1 = true) {
+        rememberMultiplePermissionsState.launchMultiplePermissionRequest()
+    }
+
+    if (rememberMultiplePermissionsState.permissions[0].status.isGranted ||
+        rememberMultiplePermissionsState.permissions[1].status.isGranted
     ) {
-        Box(modifier = Modifier.padding(12.dp))
-        Button(
-            onClick = {
-                // prevFun()
-                if (isRunning) {
-                    viewModel.stop()
-                    isRunning = false
-                } else {
-                    viewModel.start()
-                    isRunning = true
-                }
-            },
-            modifier = Modifier.size(90.dp),
-            shape = CircleShape,
-            colors =
-                ButtonDefaults.buttonColors(
-                    containerColor = Color(35, 79, 113, 255),
-                ),
-        ) {
-            Image(
-                painter =
-                    if (isRunning) {
-                        painterResource(
-                            id = R.drawable.baseline_pause_24,
-                        )
-                    } else {
-                        painterResource(id = R.drawable.baseline_play_arrow_24)
-                    },
-                contentDescription = null,
+        MapboxContent(
+            mapViewportState = mapViewportState,
+            locationCoordinates = coordinates,
+            modifier = Modifier.fillMaxSize(),
+        )
+    }
+
+    val heightSheet by rememberSaveable {
+        mutableIntStateOf(690)
+    }
+    BottomSheetScaffold(
+        scaffoldState = scaffoldState,
+        sheetContent = {
+            Column(
                 modifier =
                     Modifier
-                        .size(64.dp),
+                        .fillMaxWidth()
+                        .padding(4.dp, 12.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+            ) {
+                Box(modifier = Modifier.padding(12.dp))
+                Button(
+                    onClick = {
+                        // prevFun()
+                        if (isRunning) {
+                            viewModel.stop()
+                            isRunning = false
+                        } else {
+                            viewModel.start()
+                            isRunning = true
+                        }
+                    },
+                    modifier = Modifier.size(90.dp),
+                    shape = CircleShape,
+                    colors =
+                        ButtonDefaults.buttonColors(
+                            containerColor = Color(35, 79, 113, 255),
+                        ),
+                ) {
+                    Image(
+                        painter =
+                            if (isRunning) {
+                                painterResource(
+                                    id = R.drawable.baseline_pause_24,
+                                )
+                            } else {
+                                painterResource(id = R.drawable.baseline_play_arrow_24)
+                            },
+                        contentDescription = null,
+                        modifier =
+                            Modifier
+                                .size(64.dp),
+                    )
+                }
+            }
+            Text(
+                text = formatTime(elapsedTimeState),
+                fontWeight = FontWeight.ExtraBold,
+                fontSize = 64.sp,
             )
-        }
-        Text(
-            text = formatTime(elapsedTimeState),
-            fontWeight = FontWeight.ExtraBold,
-            fontSize = 64.sp,
-        )
-        Text(
-            text = "Tiempo",
-            fontWeight = FontWeight.SemiBold,
-            fontSize = 18.sp,
-        )
-        Row(
-            horizontalArrangement = Arrangement.SpaceBetween,
-            verticalAlignment = Alignment.CenterVertically,
-            modifier =
-                Modifier
-                    .padding(top = 32.dp)
-                    .fillMaxWidth(),
-        ) {
-            ActivityData(
-                "Velocidad (Km/h)",
-                "48",
-                Modifier.weight(1f),
+            Text(
+                text = "Tiempo",
+                fontWeight = FontWeight.SemiBold,
+                fontSize = 18.sp,
             )
-            ActivityData(
-                "Distancia (Km)",
-                "12.6",
-                Modifier.weight(1f),
-            )
-            ActivityData(
-                "Calorias",
-                "196",
-                Modifier.weight(1f),
-            )
-        }
+            Row(
+                horizontalArrangement = Arrangement.SpaceBetween,
+                verticalAlignment = Alignment.CenterVertically,
+                modifier =
+                    Modifier
+                        .padding(top = 32.dp)
+                        .fillMaxWidth(),
+            ) {
+                ActivityData(
+                    "Velocidad (Km/h)",
+                    "48",
+                    Modifier.weight(1f),
+                )
+                ActivityData(
+                    "Distancia (Km)",
+                    "12.6",
+                    Modifier.weight(1f),
+                )
+                ActivityData(
+                    "Calorias",
+                    "196",
+                    Modifier.weight(1f),
+                )
+            }
+        },
+    ) {
     }
 }
 

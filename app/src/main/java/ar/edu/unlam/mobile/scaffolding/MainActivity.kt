@@ -1,6 +1,5 @@
 package ar.edu.unlam.mobile.scaffolding
 
-import android.Manifest
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -10,7 +9,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
@@ -21,8 +19,6 @@ import ar.edu.unlam.mobile.scaffolding.ui.screens.HomeScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.Routes
 import ar.edu.unlam.mobile.scaffolding.ui.theme.AppTheme
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
-import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -37,26 +33,7 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background,
                 ) {
-                    val permissions =
-                        listOf(
-                            Manifest.permission.ACCESS_FINE_LOCATION,
-                            Manifest.permission.ACCESS_COARSE_LOCATION,
-                        )
-
-                    val rememberMultiplePermissionsState =
-                        rememberMultiplePermissionsState(permissions = permissions)
-
-                    LaunchedEffect(key1 = true) {
-                        rememberMultiplePermissionsState.launchMultiplePermissionRequest()
-                    }
-
-                    if ((
-                            rememberMultiplePermissionsState.permissions[0].status.isGranted ||
-                                rememberMultiplePermissionsState.permissions[1].status.isGranted
-                        )
-                    ) {
-                        MainScreen()
-                    }
+                    MainScreen()
                 }
             }
         }

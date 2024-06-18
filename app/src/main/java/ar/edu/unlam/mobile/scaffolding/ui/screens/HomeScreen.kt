@@ -28,20 +28,14 @@ import ar.edu.unlam.mobile.scaffolding.ui.components.CardAward
 import ar.edu.unlam.mobile.scaffolding.ui.components.HomeHeader
 import ar.edu.unlam.mobile.scaffolding.ui.components.StartButton
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.HomeViewModel
+import com.google.accompanist.permissions.ExperimentalPermissionsApi
 
+@OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
     navController: NavController = rememberNavController(),
     viewModel: HomeViewModel = hiltViewModel(),
-) {
-    HomeScreenContent(navController = navController)
-}
-
-@Composable
-fun HomeScreenContent(
-    navController: NavController,
-    modifier: Modifier = Modifier,
 ) {
     Column(
         modifier =

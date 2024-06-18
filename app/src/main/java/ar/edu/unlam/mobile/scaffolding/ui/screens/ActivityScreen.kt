@@ -26,15 +26,17 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
 import ar.edu.unlam.mobile.scaffolding.ui.components.MapboxContent
-import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.ActivityViewModel
+import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.ActivityProgressViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.CoordinateUIState
 import com.mapbox.maps.MapboxExperimental
 import com.mapbox.maps.extension.compose.animation.viewport.rememberMapViewportState
 
+// TODO: BORRAR
+
 @OptIn(ExperimentalMaterial3Api::class, MapboxExperimental::class)
 @Preview
 @Composable
-fun ActivityScreen(viewModel: ActivityViewModel = hiltViewModel()) {
+fun ActivityScreen(viewModel: ActivityProgressViewModel = hiltViewModel()) {
     val uiState by viewModel.uiState.collectAsState()
 
     when (val coordinateUIState = uiState.coordinateUIState) {
@@ -45,7 +47,7 @@ fun ActivityScreen(viewModel: ActivityViewModel = hiltViewModel()) {
         }
 
         is CoordinateUIState.Success -> {
-            MapLoco(coordinates = coordinateUIState.coordinateList)
+            MapContainer(coordinates = coordinateUIState.coordinateList)
         }
 
         is CoordinateUIState.Error -> {
@@ -54,9 +56,10 @@ fun ActivityScreen(viewModel: ActivityViewModel = hiltViewModel()) {
     }
 }
 
+@Preview
 @OptIn(ExperimentalMaterial3Api::class, MapboxExperimental::class)
 @Composable
-fun MapLoco(coordinates: List<Coordinate>) {
+fun MapContainer(coordinates: List<Coordinate> = listOf()) {
     Surface(
         modifier = Modifier.fillMaxSize(),
     ) {

@@ -1,6 +1,7 @@
 package ar.edu.unlam.mobile.scaffolding.ui.viewmodels
 
 import android.util.Log
+import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
@@ -16,12 +17,33 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
+@Immutable
+sealed interface CoordinateUIState {
+    data class Success(
+        val coordinateList: List<Coordinate>,
+    ) : CoordinateUIState
+
+    data object Loading : CoordinateUIState
+
+    data class Error(
+        val message: String,
+    ) : CoordinateUIState
+}
+
+data class ActivityUIState(
+    val coordinateUIState: CoordinateUIState,
+)
+
 @HiltViewModel
 class ActivityProgressViewModel
     @Inject
     constructor(private val locationUseCases: LocationUseCases) : ViewModel() {
         private var startTime: Long = 0L
         private var isRunning: Boolean = false
+        private val _uiState: MutableStateFlow<ActivityUIState> =
+            MutableStateFlow(ActivityUIState(coordinateUIState = CoordinateUIState.Loading))
+
+        var uiState = _uiState.asStateFlow()
 
         @Suppress("ktlint:standard:backing-property-naming")
         private var _eleapsedTimeState = MutableStateFlow(0L)
@@ -47,9 +69,15 @@ class ActivityProgressViewModel
                 viewModelScope.launch {
                     while (isRunning) {
                         locationUseCases.startLocation()
-                        delay(1000)
-                        withContext(Dispatchers.Main) {
-                            _eleapsedTimeState.value = System.currentTimeMillis() - startTime
+                    }
+                }
+                viewModelScope.launch {
+                    withContext(Dispatchers.IO) {
+                        while (isRunning) {
+                            delay(1000)
+                            if (isRunning) {
+                                _eleapsedTimeState.value = System.currentTimeMillis() - startTime
+                            }
                         }
                     }
                 }
@@ -70,7 +98,6 @@ class ActivityProgressViewModel
 
         fun reset() {
             isRunning = false
-            job?.cancel()
             _eleapsedTimeState.value = 0L
         }
     }

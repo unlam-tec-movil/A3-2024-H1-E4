@@ -1,7 +1,6 @@
 package ar.edu.unlam.mobile.scaffolding.domain.services.location
 
 import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
-import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.StateFlow
 
 interface LocationUseCases {
@@ -13,5 +12,5 @@ interface LocationUseCases {
 
     fun getSpeeds(): List<Float>
 
-    fun isRunning(): Flow<Boolean>
+    fun finish()
 }
