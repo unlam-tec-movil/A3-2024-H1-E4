@@ -8,7 +8,6 @@ import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
 import ar.edu.unlam.mobile.scaffolding.domain.services.location.LocationUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.Job
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
@@ -47,9 +46,10 @@ class ActivityProgressViewModel
 
         @Suppress("ktlint:standard:backing-property-naming")
         private var _eleapsedTimeState = MutableStateFlow(0L)
-        private var job: Job? = null
+        private var _speedState = MutableStateFlow(0F)
 
         val eleapsedTimeState = _eleapsedTimeState.asStateFlow()
+        val speedState = _speedState.asStateFlow()
 
         fun getSpeed(): Float {
             var accumulatedSpeed: Float = 0F
@@ -77,6 +77,8 @@ class ActivityProgressViewModel
                             delay(1000)
                             if (isRunning) {
                                 _eleapsedTimeState.value = System.currentTimeMillis() - startTime
+                                _speedState.value = getSpeed()
+                                Log.i("Velocidad: ", _speedState.value.toString())
                             }
                         }
                     }

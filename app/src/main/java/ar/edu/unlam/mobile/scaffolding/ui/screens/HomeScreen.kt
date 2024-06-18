@@ -97,7 +97,13 @@ fun HomeScreen(
             }
         }
         Column {
-            StartButton(action = { navController.navigate(Routes.ActivityProgressScreen.name) })
+            StartButton(action = {
+                navController.navigate(Routes.ActivityProgressScreen.name) {
+                    popUpTo(Routes.Home.name) {
+                        inclusive = true
+                    }
+                }
+            })
         }
     }
 }

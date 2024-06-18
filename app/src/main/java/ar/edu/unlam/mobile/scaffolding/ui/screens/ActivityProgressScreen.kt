@@ -6,6 +6,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
@@ -33,9 +34,12 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 import ar.edu.unlam.mobile.scaffolding.R
 import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
 import ar.edu.unlam.mobile.scaffolding.ui.components.MapboxContent
@@ -47,14 +51,16 @@ import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.mapbox.maps.extension.compose.animation.viewport.rememberMapViewportState
 import java.util.concurrent.TimeUnit
 
+@Preview
 @OptIn(ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ActivityProgressScreen(
-    // prevFun: () -> Unit,
     viewModel: ActivityProgressViewModel = hiltViewModel(),
+    navController: NavController = rememberNavController(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
     var coordinates: List<Coordinate> = listOf()
+    val speedState by viewModel.speedState.collectAsState()
 
     val scaffoldState = rememberBottomSheetScaffoldState()
     var isSheetOpen by rememberSaveable {
@@ -120,6 +126,7 @@ fun ActivityProgressScreen(
     val heightSheet by rememberSaveable {
         mutableIntStateOf(690)
     }
+
     BottomSheetScaffold(
         scaffoldState = scaffoldState,
         sheetContent = {
@@ -129,8 +136,9 @@ fun ActivityProgressScreen(
                         .fillMaxWidth()
                         .padding(4.dp, 12.dp),
                 horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
             ) {
-                Box(modifier = Modifier.padding(12.dp))
+                Spacer(modifier = Modifier.padding(12.dp))
                 Button(
                     onClick = {
                         // prevFun()
@@ -165,27 +173,33 @@ fun ActivityProgressScreen(
                     )
                 }
             }
-            Text(
-                text = formatTime(elapsedTimeState),
-                fontWeight = FontWeight.ExtraBold,
-                fontSize = 64.sp,
-            )
-            Text(
-                text = "Tiempo",
-                fontWeight = FontWeight.SemiBold,
-                fontSize = 18.sp,
-            )
+            Column(
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center,
+                modifier = Modifier.fillMaxWidth(),
+            ) {
+                Text(
+                    text = formatTime(elapsedTimeState),
+                    fontWeight = FontWeight.ExtraBold,
+                    fontSize = 64.sp,
+                )
+                Text(
+                    text = "Tiempo",
+                    fontWeight = FontWeight.SemiBold,
+                    fontSize = 18.sp,
+                )
+            }
             Row(
                 horizontalArrangement = Arrangement.SpaceBetween,
                 verticalAlignment = Alignment.CenterVertically,
                 modifier =
                     Modifier
-                        .padding(top = 32.dp)
+                        .padding(top = 32.dp, bottom = 24.dp)
                         .fillMaxWidth(),
             ) {
                 ActivityData(
                     "Velocidad (Km/h)",
-                    "48",
+                    "%.2f".format(speedState),
                     Modifier.weight(1f),
                 )
                 ActivityData(
