@@ -18,7 +18,7 @@ import ar.edu.unlam.mobile.scaffolding.R
 @Preview
 @Composable
 fun ActivityResult(modifier: Modifier = Modifier) {
-    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier.fillMaxWidth()) {
+    Column(horizontalAlignment = Alignment.CenterHorizontally, modifier = modifier.fillMaxWidth().padding(bottom = 10.dp)) {
         Image(
             painter = painterResource(id = R.drawable.map_result),
             contentDescription = "Trazado del recorrido en un mapa",

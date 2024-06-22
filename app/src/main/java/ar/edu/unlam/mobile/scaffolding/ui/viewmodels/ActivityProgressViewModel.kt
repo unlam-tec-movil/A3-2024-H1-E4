@@ -86,6 +86,13 @@ class ActivityProgressViewModel
             }
         }
 
+        fun pause() {
+            if (isRunning) {
+                locationUseCases.stopLocation()
+                isRunning = false
+            }
+        }
+
         fun stop() {
             if (isRunning) {
                 Log.i(
@@ -93,13 +100,8 @@ class ActivityProgressViewModel
                     "Valor= ${locationUseCases.getLocationCoordinates().value}",
                 )
                 locationUseCases.stopLocation()
+                _speedState.value = 0f
                 isRunning = false
-                // job?.cancel()
             }
-        }
-
-        fun reset() {
-            isRunning = false
-            _eleapsedTimeState.value = 0L
         }
     }
