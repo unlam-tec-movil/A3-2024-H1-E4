@@ -12,12 +12,6 @@ class LocationService
     constructor(
         private val locationClient: LocationClient,
     ) : LocationUseCases {
-        //        locationClient =
-        //            DefaultLocationClient(
-        //                applicationContext,
-        //                LocationServices.getFusedLocationProviderClient(applicationContext),
-        //            )
-        private val running = MutableStateFlow(false)
         private val _locationCoordinates = MutableStateFlow<MutableList<Coordinate>>(mutableListOf())
         private val _speeds = mutableListOf<Float>()
 
@@ -39,7 +33,7 @@ class LocationService
                     Log.i("CNO Location", "latitude: ${coordinate.latitude}")
                     Log.i("CNO Location", "longitude: ${coordinate.longitude}")
                     Log.i("CNO Location", "Speed: ${coordinate.speed}")
-                } // .onCompletion { running.value = true }
+                }
         }
 
         override fun stopLocation() {

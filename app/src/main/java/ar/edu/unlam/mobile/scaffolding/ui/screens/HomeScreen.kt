@@ -18,19 +18,18 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
-import ar.edu.unlam.mobile.scaffolding.R
-import ar.edu.unlam.mobile.scaffolding.ui.components.CardAward
+import ar.edu.unlam.mobile.scaffolding.ui.components.AnimatedAchievementRow
 import ar.edu.unlam.mobile.scaffolding.ui.components.HomeHeader
 import ar.edu.unlam.mobile.scaffolding.ui.components.StartButton
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.HomeViewModel
-import com.google.accompanist.permissions.ExperimentalPermissionsApi
 
-@OptIn(ExperimentalPermissionsApi::class)
+@Preview
 @Composable
 fun HomeScreen(
     modifier: Modifier = Modifier,
@@ -73,36 +72,16 @@ fun HomeScreen(
                     colors = ButtonDefaults.outlinedButtonColors(MaterialTheme.colorScheme.primary),
                 ) {
                     Text(
-                        text = "Ver todos",
+                        text = "Más Detalles",
                         fontSize = 16.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.onPrimary,
                     )
                 }
             }
-            Row(
-                horizontalArrangement = Arrangement.SpaceBetween,
-                verticalAlignment = Alignment.CenterVertically,
-                modifier =
-                    Modifier
-                        .fillMaxWidth(),
-            ) {
-                CardAward(
-                    "4KM",
-                    R.drawable.copa,
-                    Modifier.weight(1f),
-                )
-                CardAward("22 dias", R.drawable.fuego, Modifier.weight(1f))
-                CardAward("500 kcal", R.drawable.trueno, Modifier.weight(1f))
-            }
-        }
-        Column {
+            AnimatedAchievementRow()
             StartButton(action = {
-                navController.navigate(Routes.ActivityProgressScreen.name) {
-                    popUpTo(Routes.Home.name) {
-                        inclusive = true
-                    }
-                }
+                navController.navigate(Routes.ActivityProgressScreen.name)
             })
         }
     }

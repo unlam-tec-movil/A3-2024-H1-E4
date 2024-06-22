@@ -55,7 +55,7 @@ fun MainScreen() {
                 AwardsScreen(navController = controller)
             }
             composable(Routes.ActivityProgressScreen.name) {
-                ActivityProgressScreen()
+                ActivityProgressScreen(navController = controller)
             }
         }
     }

@@ -72,17 +72,13 @@ fun HomeHeader() {
                 )
             }
         }
-
         Column(
             modifier =
                 Modifier
                     .fillMaxWidth()
                     .padding(top = 10.dp, start = 12.dp, end = 12.dp)
-                    .shadow(3.dp, shape = RoundedCornerShape(20.dp))
-                    .background(
-                        color = MaterialTheme.colorScheme.secondaryContainer,
-                        shape = RoundedCornerShape(14.dp),
-                    ),
+                    .shadow(3.dp, shape = RoundedCornerShape(5.dp))
+                    .background(color = MaterialTheme.colorScheme.secondaryContainer),
         ) {
             Text(
                 text = "Tu última actividad",
@@ -91,32 +87,7 @@ fun HomeHeader() {
                 color = MaterialTheme.colorScheme.onSecondaryContainer,
                 modifier = Modifier.padding(top = 12.dp, start = 12.dp),
             )
-            Row(
-                modifier =
-                    Modifier
-                        .height(80.dp)
-                        .fillMaxWidth()
-                        .padding(top = 10.dp),
-                horizontalArrangement = Arrangement.SpaceEvenly,
-            ) {
-                CardResultActivity(
-                    "Tiempo",
-                    "5:30:45",
-                    modifier = Modifier,
-                )
-                CardResultActivity(
-                    "Distancia",
-                    "6.12",
-                    unidad = "KM",
-                    modifier = Modifier,
-                )
-                CardResultActivity(
-                    "Calorías",
-                    "548",
-                    unidad = "Kcal",
-                    modifier = Modifier,
-                )
-            }
+            ActivityResult()
         }
     }
 }
