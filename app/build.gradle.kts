@@ -74,6 +74,7 @@ dependencies {
     implementation(libs.androidx.room.ktx)
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.ui.text.google.fonts)
+    implementation(files("../spotify-app-remote-release-0.8.0.aar"))
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -92,4 +93,8 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     androidTestImplementation(libs.google.dagger.hilt.android.testing)
     testImplementation(libs.google.dagger.hilt.android.testing)
+
+    //coil
+    implementation(libs.coil.compose)
+
 }

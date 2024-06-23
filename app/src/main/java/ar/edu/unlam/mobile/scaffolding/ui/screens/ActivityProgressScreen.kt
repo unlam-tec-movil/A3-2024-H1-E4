@@ -53,8 +53,10 @@ import ar.edu.unlam.mobile.scaffolding.R
 import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
 import ar.edu.unlam.mobile.scaffolding.ui.components.ActivityData
 import ar.edu.unlam.mobile.scaffolding.ui.components.MapboxContent
+import ar.edu.unlam.mobile.scaffolding.ui.components.Spotify
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.ActivityProgressViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.CoordinateUIState
+import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.SpotifyViewModel
 import ar.edu.unlam.mobile.scaffolding.utils.DateTimeUtils
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
@@ -68,6 +70,7 @@ import com.mapbox.maps.extension.compose.animation.viewport.rememberMapViewportS
 fun ActivityProgressScreen(
     viewModel: ActivityProgressViewModel = hiltViewModel(),
     navController: NavController = rememberNavController(),
+    viewModelSpotify: SpotifyViewModel = hiltViewModel(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
     var coordinates: List<Coordinate> = listOf()
@@ -115,6 +118,7 @@ fun ActivityProgressScreen(
                     titleContentColor = MaterialTheme.colorScheme.onPrimary,
                 ),
             actions = {
+                Spotify(viewModelSpotify)
                 IconButton(onClick = {
                     viewModel.stop()
                     navController.navigate(Routes.Home.name)
