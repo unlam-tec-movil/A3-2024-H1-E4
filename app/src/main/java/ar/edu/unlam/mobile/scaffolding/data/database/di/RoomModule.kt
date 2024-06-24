@@ -31,5 +31,5 @@ object RoomModule {
 
     @Singleton
     @Provides
-    fun provideChallengeDao(db: AppDatabase) = db.getChallengeDao()
+    fun provideUserDao(db: AppDatabase) = db.getUserDao()
 }

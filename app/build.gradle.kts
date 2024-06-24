@@ -54,7 +54,7 @@ android {
 }
 
 dependencies {
-    // mapbox & permission
+    // Mapbox & permission
     implementation(libs.mapbox.maps)
     implementation(libs.mapbox.android)
     implementation(libs.google.permission)
@@ -72,6 +72,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.room.ktx)
+    ksp("androidx.room:room-compiler:2.6.1")
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.ui.text.google.fonts)
     testImplementation(libs.junit)
@@ -88,7 +89,7 @@ dependencies {
     implementation(libs.google.dagger.hilt.android.testing)
     implementation(libs.androidx.hilt.navigation.compose)
 
-    // compose
+    // Compose
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     androidTestImplementation(libs.google.dagger.hilt.android.testing)
     testImplementation(libs.google.dagger.hilt.android.testing)

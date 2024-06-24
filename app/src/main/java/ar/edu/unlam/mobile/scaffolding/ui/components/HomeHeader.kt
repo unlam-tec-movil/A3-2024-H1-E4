@@ -24,10 +24,11 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ar.edu.unlam.mobile.scaffolding.R
+import ar.edu.unlam.mobile.scaffolding.domain.models.user.User
 
 @Preview
 @Composable
-fun HomeHeader() {
+fun HomeHeader(user: User = User(1, "Juan", "Pérez", 22, 171, 75.0, 150.0, 5000, 300, 10)) {
     Column {
         Box(
             Modifier
@@ -55,7 +56,7 @@ fun HomeHeader() {
                         color = MaterialTheme.colorScheme.onPrimary,
                     )
                     Text(
-                        text = "Emanuel Cisterna",
+                        text = "${user.firstName} ${user.lastName}",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.ExtraBold,
                         color = MaterialTheme.colorScheme.onPrimary,
