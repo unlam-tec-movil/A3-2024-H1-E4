@@ -21,10 +21,12 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import ar.edu.unlam.mobile.scaffolding.R
+import ar.edu.unlam.mobile.scaffolding.domain.services.qr.QrManager
 import ar.edu.unlam.mobile.scaffolding.ui.components.Achievement
 import ar.edu.unlam.mobile.scaffolding.ui.components.AchievementHeader
 import ar.edu.unlam.mobile.scaffolding.ui.components.ActivityResult
 import ar.edu.unlam.mobile.scaffolding.ui.components.ShareButton
+import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.QrViewModel
 
 @Preview
 @Composable
@@ -32,6 +34,9 @@ fun AwardsScreen(
     navController: NavController = rememberNavController(),
     modifier: Modifier = Modifier,
 ) {
+    val qrManager = QrManager()
+    val viewModel = QrViewModel(qrManager)
+
     val scrollState = rememberScrollState()
     val returnToHome = {
         navController.navigate(Routes.Home.name)
@@ -46,7 +51,7 @@ fun AwardsScreen(
                 .background(MaterialTheme.colorScheme.background)
                 .verticalScroll(state = scrollState),
     ) {
-        AchievementHeader(returnToHome)
+        AchievementHeader(returnToHome, modifier, viewModel)
         Column(modifier = modifier.padding(horizontal = 30.dp, vertical = 30.dp)) {
             Achievement("Distancia (Kilómetros)", R.drawable.shoe_prints, 3.3, 10.0, 2, 2)
             Achievement("Calorías consumidas", R.drawable.flame, 5300.0, 7800.0, 0, 5)

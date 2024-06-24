@@ -92,4 +92,9 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     androidTestImplementation(libs.google.dagger.hilt.android.testing)
     testImplementation(libs.google.dagger.hilt.android.testing)
+
+    // zxing
+    implementation(libs.journeyapps.zxing)
+    implementation(libs.google.zxing.core)
+
 }
