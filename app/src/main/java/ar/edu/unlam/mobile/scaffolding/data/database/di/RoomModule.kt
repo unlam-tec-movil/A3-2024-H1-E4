@@ -27,9 +27,5 @@ object RoomModule {
 
     @Singleton
     @Provides
-    fun provideCoordinateDao(db: AppDatabase) = db.getCoordinateDao()
-
-    @Singleton
-    @Provides
     fun provideUserDao(db: AppDatabase) = db.getUserDao()
 }

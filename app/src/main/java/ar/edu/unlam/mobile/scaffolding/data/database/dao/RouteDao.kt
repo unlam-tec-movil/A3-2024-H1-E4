@@ -6,7 +6,9 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
+import androidx.room.Upsert
 import ar.edu.unlam.mobile.scaffolding.data.database.entity.Route
+import ar.edu.unlam.mobile.scaffolding.data.database.entity.User
 import kotlinx.coroutines.flow.Flow
 
 @Dao
@@ -19,6 +21,9 @@ interface RouteDao {
 
     @Update
     fun update(route: Route)
+
+    @Upsert
+    fun upsert(user: User)
 
     @Query("SELECT * FROM route where id=:routeId")
     fun getRoute(routeId: Long): Flow<Route>

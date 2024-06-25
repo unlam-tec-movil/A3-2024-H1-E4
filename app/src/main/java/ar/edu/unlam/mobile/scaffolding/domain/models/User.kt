@@ -1,4 +1,4 @@
-package ar.edu.unlam.mobile.scaffolding.domain.models.user
+package ar.edu.unlam.mobile.scaffolding.domain.models
 
 data class User(
     val id: Long,

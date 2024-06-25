@@ -2,7 +2,7 @@ package ar.edu.unlam.mobile.scaffolding.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import ar.edu.unlam.mobile.scaffolding.domain.models.user.User
+import ar.edu.unlam.mobile.scaffolding.domain.models.User
 import ar.edu.unlam.mobile.scaffolding.domain.usecases.UserUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
