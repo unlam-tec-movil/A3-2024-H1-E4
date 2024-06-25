@@ -29,7 +29,6 @@ import ar.edu.unlam.mobile.scaffolding.ui.components.MapboxContent
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.ActivityProgressViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.CoordinateUIState
 import com.mapbox.maps.MapboxExperimental
-import com.mapbox.maps.extension.compose.animation.viewport.rememberMapViewportState
 
 // TODO: BORRAR
 
@@ -80,15 +79,7 @@ fun MapContainer(coordinates: List<Coordinate> = listOf()) {
             }
         }
         if (isSheetOpen) {
-            val mapViewportState =
-                rememberMapViewportState {
-                    setCameraOptions {
-                        zoom(0.3)
-                        pitch(0.0)
-                    }
-                }
             MapboxContent(
-                mapViewportState = mapViewportState,
                 locationCoordinates = coordinates,
                 modifier = Modifier.fillMaxSize(),
             )

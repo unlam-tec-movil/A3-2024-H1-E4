@@ -3,10 +3,9 @@ package ar.edu.unlam.mobile.scaffolding.data.localization
 import android.Manifest
 import android.content.Context
 import android.content.pm.PackageManager
+import android.location.Location
 import android.os.Looper
-import android.util.Log
 import androidx.core.app.ActivityCompat
-import androidx.core.content.ContextCompat
 import ar.edu.unlam.mobile.scaffolding.domain.models.Coordinate
 import ar.edu.unlam.mobile.scaffolding.domain.models.toCoordinate
 import ar.edu.unlam.mobile.scaffolding.domain.services.location.LocationClient
@@ -23,18 +22,6 @@ import kotlinx.coroutines.launch
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
-fun Context.hasLocationPermission(): Boolean =
-    ContextCompat
-        .checkSelfPermission(
-            this,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
-        ) == PackageManager.PERMISSION_GRANTED &&
-        ContextCompat
-            .checkSelfPermission(
-                this,
-                Manifest.permission.ACCESS_FINE_LOCATION,
-            ) == PackageManager.PERMISSION_GRANTED
-
 class FusedLocationClient
     @Inject
     constructor(
@@ -44,6 +31,7 @@ class FusedLocationClient
         private lateinit var locationCallback: LocationCallback
 
         override fun getLocationUpdates(interval: Long): Flow<Coordinate> {
+            var distanceTracking = 0.0f
             if (ActivityCompat.checkSelfPermission(
                     context,
                     Manifest.permission.ACCESS_FINE_LOCATION,
@@ -55,19 +43,7 @@ class FusedLocationClient
             ) {
                 throw LocationClient.LocationException("Se requieren permisos de ubicación")
             }
-            //                if (!context.hasLocationPermission()) {
-            //                    throw LocationClient.LocationException("Se requieren permisos de ubicación")
-            //                }
 
-            //                val locationManager =
-            //                    context.getSystemService(Context.LOCATION_SERVICE) as LocationManager
-            //                val isGpsEnabled = locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)
-            //                val isNetworkEnabled =
-            //                    locationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER)
-            //
-            //                if (!isGpsEnabled && !isNetworkEnabled) {
-            //                    throw LocationClient.LocationException("El GPS está deshabilitado")
-            //                }
             val request =
                 LocationRequest
                     .Builder(Priority.PRIORITY_HIGH_ACCURACY, TimeUnit.SECONDS.toMillis(interval))
@@ -76,15 +52,18 @@ class FusedLocationClient
             return callbackFlow {
                 locationCallback =
                     object : LocationCallback() {
+                        private var lastLocation: Location? = null
+
                         override fun onLocationResult(result: LocationResult) {
                             super.onLocationResult(result)
                             result.locations.lastOrNull()?.let { location ->
-                                launch { send(location.toCoordinate()) }
+                                if (lastLocation != null) {
+                                    val distance = lastLocation!!.distanceTo(location) / 1000
+                                    distanceTracking += distance
+                                }
+                                lastLocation = location
+                                launch { send(location.toCoordinate(distanceTracking)) }
                             }
-                            Log.i(
-                                "Location Callback",
-                                "${result.locations.lastOrNull()?.toCoordinate()}",
-                            )
                         }
                     }
                 locationClient.requestLocationUpdates(

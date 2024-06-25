@@ -12,5 +12,7 @@ interface LocationUseCases {
 
     fun getSpeeds(): List<Float>
 
+    fun getDistance(): Float
+
     fun finish()
 }

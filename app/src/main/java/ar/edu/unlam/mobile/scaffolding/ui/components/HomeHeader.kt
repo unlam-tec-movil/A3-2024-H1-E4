@@ -19,6 +19,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -50,13 +51,13 @@ fun HomeHeader(user: User = User(1, "Juan", "Pérez", 22, 171, 75.0, 150.0, 5000
                     verticalArrangement = Arrangement.Center,
                 ) {
                     Text(
-                        text = "Bienvenido",
+                        text = stringResource(R.string.welcome_message),
                         fontSize = 32.sp,
                         fontWeight = FontWeight.Bold,
                         color = MaterialTheme.colorScheme.onPrimary,
                     )
                     Text(
-                        text = "${user.firstName} ${user.lastName}",
+                        text = "${user.firstName}!",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.ExtraBold,
                         color = MaterialTheme.colorScheme.onPrimary,
