@@ -5,7 +5,7 @@ import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
-import ar.edu.unlam.mobile.scaffolding.domain.services.location.LocationUseCases
+import ar.edu.unlam.mobile.scaffolding.domain.usecases.LocationUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay

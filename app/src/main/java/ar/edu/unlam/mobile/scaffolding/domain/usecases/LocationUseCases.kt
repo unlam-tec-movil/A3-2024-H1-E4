@@ -1,4 +1,4 @@
-package ar.edu.unlam.mobile.scaffolding.domain.services.location
+package ar.edu.unlam.mobile.scaffolding.domain.usecases
 
 import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
 import kotlinx.coroutines.flow.StateFlow
