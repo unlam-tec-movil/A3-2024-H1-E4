@@ -55,7 +55,7 @@ fun HomeHeader() {
                         color = MaterialTheme.colorScheme.onPrimary,
                     )
                     Text(
-                        text = "Emanuel Cisterna",
+                        text = "Franco!",
                         fontSize = 24.sp,
                         fontWeight = FontWeight.ExtraBold,
                         color = MaterialTheme.colorScheme.onPrimary,

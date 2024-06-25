@@ -2,6 +2,7 @@ package ar.edu.unlam.mobile.scaffolding.ui.screens
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -36,6 +37,7 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -59,7 +61,6 @@ import ar.edu.unlam.mobile.scaffolding.utils.DateTimeUtils
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
-import com.mapbox.maps.extension.compose.animation.viewport.rememberMapViewportState
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @Preview
@@ -70,8 +71,11 @@ fun ActivityProgressScreen(
     navController: NavController = rememberNavController(),
 ) {
     val uiState by viewModel.uiState.collectAsState()
-    var coordinates: List<Coordinate> = listOf()
-    val speedState by viewModel.speedState.collectAsState()
+    var coordinates by rememberSaveable {
+        mutableStateOf(listOf<Coordinate>())
+    }
+    val speedAverageState by viewModel.speedAverageState.collectAsState()
+    val distanceState by viewModel.distanceState.collectAsState()
     val scaffoldState = rememberBottomSheetScaffoldState()
     val context = LocalContext.current
 
@@ -79,18 +83,8 @@ fun ActivityProgressScreen(
     var elapsedTimeState by remember {
         mutableLongStateOf(0L)
     }
-    var isRunning by remember {
-        mutableStateOf(false)
-    }
-    elapsedTimeState = elapsedTime
 
-    val mapViewportState =
-        rememberMapViewportState {
-            setCameraOptions {
-                zoom(0.3)
-                pitch(0.0)
-            }
-        }
+    elapsedTimeState = elapsedTime
 
     val permissions =
         listOf(
@@ -150,11 +144,10 @@ fun ActivityProgressScreen(
             }
         }
 
-        if (rememberMultiplePermissionsState.permissions[0].status.isGranted ||
-            rememberMultiplePermissionsState.permissions[1].status.isGranted
+        if (rememberMultiplePermissionsState.permissions.any { it.status.isGranted }
         ) {
+            Log.i("Location Coordinates", "Activity Screen coord= $coordinates")
             MapboxContent(
-                mapViewportState = mapViewportState,
                 locationCoordinates = coordinates,
                 modifier = Modifier.fillMaxSize(),
             )
@@ -164,90 +157,110 @@ fun ActivityProgressScreen(
             scaffoldState = scaffoldState,
             sheetPeekHeight = 80.dp,
             sheetContent = {
-                Column(
-                    modifier =
-                        Modifier
-                            .fillMaxWidth()
-                            .padding(4.dp, 12.dp),
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                ) {
-                    Spacer(modifier = Modifier.padding(12.dp))
-                    Button(
-                        onClick = {
-                            if (isRunning) {
-                                viewModel.pause()
-                                isRunning = false
-                            } else {
-                                viewModel.start()
-                                isRunning = true
-                            }
-                        },
-                        modifier = Modifier.size(90.dp),
-                        shape = CircleShape,
-                        colors =
-                            ButtonDefaults.buttonColors(
-                                containerColor = Color(35, 79, 113, 255),
-                            ),
-                    ) {
-                        Image(
-                            painter =
-                                if (isRunning) {
-                                    painterResource(
-                                        id = R.drawable.baseline_pause_24,
-                                    )
-                                } else {
-                                    painterResource(id = R.drawable.baseline_play_arrow_24)
-                                },
-                            contentDescription = null,
-                            modifier =
-                                Modifier
-                                    .size(64.dp),
-                        )
-                    }
-                }
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    verticalArrangement = Arrangement.Center,
-                    modifier = Modifier.fillMaxWidth(),
-                ) {
-                    Text(
-                        text = DateTimeUtils.formatTime(elapsedTimeState),
-                        fontWeight = FontWeight.ExtraBold,
-                        fontSize = 64.sp,
-                    )
-                    Text(
-                        text = "Tiempo",
-                        fontWeight = FontWeight.SemiBold,
-                        fontSize = 18.sp,
-                    )
-                }
-                Row(
-                    horizontalArrangement = Arrangement.SpaceBetween,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier =
-                        Modifier
-                            .padding(top = 32.dp, bottom = 24.dp)
-                            .fillMaxWidth(),
-                ) {
-                    ActivityData(
-                        "Velocidad (Km/h)",
-                        "%.2f".format(speedState),
-                        Modifier.weight(1f),
-                    )
-                    ActivityData(
-                        "Distancia (Km)",
-                        "12.6",
-                        Modifier.weight(1f),
-                    )
-                    ActivityData(
-                        "Calorias",
-                        "196",
-                        Modifier.weight(1f),
-                    )
-                }
+                BottomSheetContent(
+                    elapsedTimeState,
+                    speedAverageState,
+                    distanceState,
+                    onActivityStop = { viewModel.pause() },
+                    onActivityStart = { viewModel.start() },
+                )
             },
         ) {
         }
+    }
+}
+
+@Composable
+private fun BottomSheetContent(
+    elapsedTimeState: Long,
+    speedState: Float,
+    distanceState: Float,
+    onActivityStart: () -> Unit,
+    onActivityStop: () -> Unit,
+) {
+    var running by
+        rememberSaveable {
+            mutableStateOf(false)
+        }
+    Column(
+        modifier =
+            Modifier
+                .fillMaxWidth()
+                .padding(4.dp, 12.dp),
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+    ) {
+        Spacer(modifier = Modifier.padding(12.dp))
+        Button(
+            onClick = {
+                if (running) {
+                    onActivityStop()
+                } else {
+                    onActivityStart()
+                }
+                running = !running
+            },
+            modifier = Modifier.size(90.dp),
+            shape = CircleShape,
+            colors =
+                ButtonDefaults.buttonColors(
+                    containerColor = Color(35, 79, 113, 255),
+                ),
+        ) {
+            Image(
+                painter =
+                    if (running) {
+                        painterResource(
+                            id = R.drawable.baseline_pause_24,
+                        )
+                    } else {
+                        painterResource(id = R.drawable.baseline_play_arrow_24)
+                    },
+                contentDescription = null,
+                modifier =
+                    Modifier
+                        .size(64.dp),
+            )
+        }
+    }
+    Column(
+        horizontalAlignment = Alignment.CenterHorizontally,
+        verticalArrangement = Arrangement.Center,
+        modifier = Modifier.fillMaxWidth(),
+    ) {
+        Text(
+            text = DateTimeUtils.formatTime(elapsedTimeState),
+            fontWeight = FontWeight.ExtraBold,
+            fontSize = 64.sp,
+        )
+        Text(
+            text = "Tiempo",
+            fontWeight = FontWeight.SemiBold,
+            fontSize = 18.sp,
+        )
+    }
+    Row(
+        horizontalArrangement = Arrangement.SpaceBetween,
+        verticalAlignment = Alignment.CenterVertically,
+        modifier =
+            Modifier
+                .padding(top = 32.dp, bottom = 24.dp)
+                .fillMaxWidth(),
+    ) {
+        ActivityData(
+            "Velocidad (Km/h)",
+            "%.2f".format(speedState),
+            Modifier.weight(1f),
+        )
+        ActivityData(
+            "Distancia (Km)",
+            "%.2f".format(distanceState),
+            Modifier.weight(1f),
+        )
+        ActivityData(
+            "Calorias",
+            "196",
+            Modifier.weight(1f),
+        )
     }
 }

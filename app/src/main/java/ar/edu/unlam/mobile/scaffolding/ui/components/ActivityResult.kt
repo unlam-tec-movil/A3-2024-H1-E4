@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.size
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -22,7 +23,7 @@ fun ActivityResult(modifier: Modifier = Modifier) {
         Image(
             painter = painterResource(id = R.drawable.map_result),
             contentDescription = "Trazado del recorrido en un mapa",
-            modifier = modifier.padding(10.dp),
+            modifier = modifier.padding(10.dp).size(220.dp),
         )
         Row(
             verticalAlignment = Alignment.CenterVertically,

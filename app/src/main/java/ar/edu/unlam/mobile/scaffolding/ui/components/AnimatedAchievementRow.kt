@@ -14,7 +14,10 @@ import ar.edu.unlam.mobile.scaffolding.R
 
 @Preview
 @Composable
-fun AnimatedAchievementRow(
+fun
+
+
+        AnimatedAchievementRow(
     achievements: List<Triple<String, String, Int>> =
         listOf(
             Triple("Kilómetros", "4KM/10KM", R.drawable.shoe_prints),

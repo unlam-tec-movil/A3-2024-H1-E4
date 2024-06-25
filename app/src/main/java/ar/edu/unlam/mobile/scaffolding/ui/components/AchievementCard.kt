@@ -63,13 +63,13 @@ fun CardAward(
                 )
                 Text(
                     text = title,
-                    fontSize = 18.sp,
+                    fontSize = 13.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = MaterialTheme.colorScheme.onTertiary,
                     modifier = Modifier.padding(start = 4.dp),
                 )
             }
-            Text(text = amount, fontSize = 24.sp)
+            Text(text = amount, fontSize = 14.sp)
         }
     }
 }

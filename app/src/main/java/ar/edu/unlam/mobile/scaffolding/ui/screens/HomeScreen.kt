@@ -80,9 +80,11 @@ fun HomeScreen(
                 }
             }
             AnimatedAchievementRow()
-            StartButton(action = {
-                navController.navigate(Routes.ActivityProgressScreen.name)
-            })
+            StartButton(
+                action = {
+                    navController.navigate(Routes.ActivityProgressScreen.name)
+                },
+            )
         }
     }
 }

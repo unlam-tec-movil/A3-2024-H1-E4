@@ -10,7 +10,6 @@ import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
@@ -42,25 +41,19 @@ class ActivityProgressViewModel
         private val _uiState: MutableStateFlow<ActivityUIState> =
             MutableStateFlow(ActivityUIState(coordinateUIState = CoordinateUIState.Loading))
 
-        var uiState = _uiState.asStateFlow()
+        @Suppress("ktlint:standard:backing-property-naming")
+        private val _distanceState = MutableStateFlow(0F)
 
         @Suppress("ktlint:standard:backing-property-naming")
         private var _eleapsedTimeState = MutableStateFlow(0L)
+
+        @Suppress("ktlint:standard:backing-property-naming")
         private var _speedState = MutableStateFlow(0F)
 
+        val distanceState = _distanceState.asStateFlow()
+        var uiState = _uiState.asStateFlow()
         val eleapsedTimeState = _eleapsedTimeState.asStateFlow()
-        val speedState = _speedState.asStateFlow()
-
-        fun getSpeed(): Float {
-            var accumulatedSpeed: Float = 0F
-            val quantitySpeeds = locationUseCases.getSpeeds().size
-            for (speed in locationUseCases.getSpeeds()) {
-                accumulatedSpeed += speed
-            }
-            return accumulatedSpeed / quantitySpeeds
-        }
-
-        fun getCoordinates(): StateFlow<List<Coordinate>> = locationUseCases.getLocationCoordinates()
+        val speedAverageState = _speedState.asStateFlow()
 
         fun start() {
             if (!isRunning) {
@@ -76,8 +69,12 @@ class ActivityProgressViewModel
                         while (isRunning) {
                             delay(1000)
                             if (isRunning) {
+                                _uiState.value =
+                                    ActivityUIState(CoordinateUIState.Success(locationUseCases.getLocationCoordinates().value))
                                 _eleapsedTimeState.value = System.currentTimeMillis() - startTime
-                                _speedState.value = getSpeed()
+                                _speedState.value = getAverageSpeed()
+                                _distanceState.value = locationUseCases.getDistance()
+
                                 Log.i("Velocidad: ", _speedState.value.toString())
                             }
                         }
@@ -95,13 +92,18 @@ class ActivityProgressViewModel
 
         fun stop() {
             if (isRunning) {
-                Log.i(
-                    "Coordenadas obtenidas",
-                    "Valor= ${locationUseCases.getLocationCoordinates().value}",
-                )
-                locationUseCases.stopLocation()
+                locationUseCases.finish()
                 _speedState.value = 0f
                 isRunning = false
             }
+        }
+
+        private fun getAverageSpeed(): Float {
+            var accumulatedSpeed = 0F
+            val quantitySpeeds = locationUseCases.getSpeeds().size
+            for (speed in locationUseCases.getSpeeds()) {
+                accumulatedSpeed += speed
+            }
+            return accumulatedSpeed / quantitySpeeds
         }
     }
