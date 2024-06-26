@@ -6,8 +6,8 @@ import android.content.pm.PackageManager
 import android.location.Location
 import android.os.Looper
 import androidx.core.app.ActivityCompat
-import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
-import ar.edu.unlam.mobile.scaffolding.domain.models.location.toCoordinate
+import ar.edu.unlam.mobile.scaffolding.domain.models.Coordinate
+import ar.edu.unlam.mobile.scaffolding.domain.models.toCoordinate
 import ar.edu.unlam.mobile.scaffolding.domain.services.location.LocationClient
 import com.google.android.gms.location.FusedLocationProviderClient
 import com.google.android.gms.location.LocationCallback

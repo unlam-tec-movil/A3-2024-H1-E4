@@ -6,13 +6,13 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
+import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import ar.edu.unlam.mobile.scaffolding.R
-import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
+import ar.edu.unlam.mobile.scaffolding.domain.models.Coordinate
 import com.mapbox.common.MapboxOptions
 import com.mapbox.maps.MapboxExperimental
 import com.mapbox.maps.extension.compose.MapEffect
@@ -40,7 +40,7 @@ fun MapboxContent(
             }
         }
 
-    var coordinatesMemo by remember { mutableStateOf(listOf<Coordinate>()) }
+    var coordinatesMemo by rememberSaveable { mutableStateOf(listOf<Coordinate>()) }
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,

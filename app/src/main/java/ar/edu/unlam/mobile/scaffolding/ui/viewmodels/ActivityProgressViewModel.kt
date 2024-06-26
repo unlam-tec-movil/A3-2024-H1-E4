@@ -1,18 +1,19 @@
 package ar.edu.unlam.mobile.scaffolding.ui.viewmodels
 
-import android.util.Log
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
+import ar.edu.unlam.mobile.scaffolding.domain.models.Coordinate
 import ar.edu.unlam.mobile.scaffolding.domain.usecases.LocationUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
 @Immutable
@@ -32,6 +33,11 @@ data class ActivityUIState(
     val coordinateUIState: CoordinateUIState,
 )
 
+// MET es la Unidad Metabólica de Reposo.
+// Es una medida utilizada en fisiología del ejercicio para cuantificar
+// la cantidad de energia que se gasta durante distintas actividades físicas
+private const val MET = 13.0
+
 @HiltViewModel
 class ActivityProgressViewModel
     @Inject
@@ -40,6 +46,9 @@ class ActivityProgressViewModel
         private var isRunning: Boolean = false
         private val _uiState: MutableStateFlow<ActivityUIState> =
             MutableStateFlow(ActivityUIState(coordinateUIState = CoordinateUIState.Loading))
+
+        @Suppress("ktlint:standard:backing-property-naming")
+        private val _caloriesState = MutableStateFlow(0.0)
 
         @Suppress("ktlint:standard:backing-property-naming")
         private val _distanceState = MutableStateFlow(0F)
@@ -74,13 +83,24 @@ class ActivityProgressViewModel
                                 _eleapsedTimeState.value = System.currentTimeMillis() - startTime
                                 _speedState.value = getAverageSpeed()
                                 _distanceState.value = locationUseCases.getDistance()
-
-                                Log.i("Velocidad: ", _speedState.value.toString())
                             }
                         }
                     }
                 }
             }
+        }
+
+        fun getCalories(weightUser: Double): StateFlow<Double> {
+            val timeInHours =
+                TimeUnit.MINUTES.toSeconds(
+                    TimeUnit.MILLISECONDS.toMinutes(_eleapsedTimeState.value),
+                ).toDouble() / 60 / 60
+
+            if (locationUseCases.getSpeeds().lastOrNull() != 0f) {
+                _caloriesState.value = (MET * weightUser * timeInHours)
+            }
+
+            return _caloriesState.asStateFlow()
         }
 
         fun pause() {

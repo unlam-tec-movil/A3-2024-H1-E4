@@ -1,7 +1,7 @@
 package ar.edu.unlam.mobile.scaffolding.domain.services.location
 
 import android.util.Log
-import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
+import ar.edu.unlam.mobile.scaffolding.domain.models.Coordinate
 import ar.edu.unlam.mobile.scaffolding.domain.usecases.LocationUseCases
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

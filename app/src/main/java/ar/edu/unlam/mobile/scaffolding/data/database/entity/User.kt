@@ -2,7 +2,7 @@ package ar.edu.unlam.mobile.scaffolding.data.database.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import ar.edu.unlam.mobile.scaffolding.domain.models.user.User
+import ar.edu.unlam.mobile.scaffolding.domain.models.User
 
 @Entity
 data class User(

@@ -36,7 +36,6 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -44,15 +43,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import ar.edu.unlam.mobile.scaffolding.R
-import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
+import ar.edu.unlam.mobile.scaffolding.domain.models.Coordinate
 import ar.edu.unlam.mobile.scaffolding.ui.components.ActivityData
 import ar.edu.unlam.mobile.scaffolding.ui.components.MapboxContent
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.ActivityProgressViewModel
@@ -63,34 +62,35 @@ import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
-@Preview
 @OptIn(ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class)
 @Composable
 fun ActivityProgressScreen(
     viewModel: ActivityProgressViewModel = hiltViewModel(),
     navController: NavController = rememberNavController(),
+    userWeight: String = "",
 ) {
-    val uiState by viewModel.uiState.collectAsState()
     var coordinates by rememberSaveable {
         mutableStateOf(listOf<Coordinate>())
     }
-    val speedAverageState by viewModel.speedAverageState.collectAsState()
-    val distanceState by viewModel.distanceState.collectAsState()
     val scaffoldState = rememberBottomSheetScaffoldState()
-    val context = LocalContext.current
-
-    val elapsedTime by viewModel.eleapsedTimeState.collectAsState()
-    var elapsedTimeState by remember {
+    var elapsedTimeState by rememberSaveable {
         mutableLongStateOf(0L)
     }
 
-    elapsedTimeState = elapsedTime
+    val caloriesState by viewModel.getCalories(userWeight.toDouble()).collectAsState()
+    val uiState by viewModel.uiState.collectAsState()
+    val speedAverageState by viewModel.speedAverageState.collectAsState()
+    val distanceState by viewModel.distanceState.collectAsState()
+    val context = LocalContext.current
+    val elapsedTime by viewModel.eleapsedTimeState.collectAsState()
 
     val permissions =
         listOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION,
         )
+
+    elapsedTimeState = elapsedTime
 
     val rememberMultiplePermissionsState =
         rememberMultiplePermissionsState(permissions = permissions)
@@ -137,7 +137,7 @@ fun ActivityProgressScreen(
                 // TODO: llevar texto a strings.xml
                 Toast.makeText(
                     context,
-                    "Ocurrió un error al obtener la ubicación",
+                    stringResource(id = R.string.error_location_message),
                     Toast.LENGTH_LONG,
                 )
                     .show()
@@ -152,7 +152,7 @@ fun ActivityProgressScreen(
                 modifier = Modifier.fillMaxSize(),
             )
         }
-
+        // Log.i("PESO DEL USUARIO", "PESO RECIBIDO = $userWeight")
         BottomSheetScaffold(
             scaffoldState = scaffoldState,
             sheetPeekHeight = 80.dp,
@@ -161,6 +161,7 @@ fun ActivityProgressScreen(
                     elapsedTimeState,
                     speedAverageState,
                     distanceState,
+                    caloriesState,
                     onActivityStop = { viewModel.pause() },
                     onActivityStart = { viewModel.start() },
                 )
@@ -175,6 +176,7 @@ private fun BottomSheetContent(
     elapsedTimeState: Long,
     speedState: Float,
     distanceState: Float,
+    caloriesState: Double,
     onActivityStart: () -> Unit,
     onActivityStop: () -> Unit,
 ) {
@@ -257,9 +259,10 @@ private fun BottomSheetContent(
             "%.2f".format(distanceState),
             Modifier.weight(1f),
         )
+        Log.i("CALORIAS", "CALORIAS STATE = $caloriesState")
         ActivityData(
             "Calorias",
-            "196",
+            "%.2f".format(caloriesState),
             Modifier.weight(1f),
         )
     }
