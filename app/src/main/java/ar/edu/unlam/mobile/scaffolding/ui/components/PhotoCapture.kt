@@ -30,12 +30,12 @@ import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.PhotoCaptureViewModel
 
 @Composable
 fun PhotoCapture(viewModel: PhotoCaptureViewModel) {
-
     val context = LocalContext.current
     val bitmap by viewModel.bitmap.collectAsState()
     val permissionGranted by viewModel.permissionGranted.collectAsState()
 
-    val permissionLauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) { isGranted ->
+    val permissionLauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) {
+        isGranted ->
         viewModel.setPermissionGranted(isGranted)
         if (!isGranted) {
             Log.e("PhotoCapture", "Permission denied")
@@ -55,11 +55,12 @@ fun PhotoCapture(viewModel: PhotoCaptureViewModel) {
     }
 
     Column(
-        modifier = Modifier
+        modifier =
+        Modifier
             .fillMaxSize()
             .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
-        verticalArrangement = Arrangement.Center
+        verticalArrangement = Arrangement.Center,
     ) {
         if (permissionGranted) {
             Button(onClick = { launcher.launch() }) {
@@ -75,10 +76,11 @@ fun PhotoCapture(viewModel: PhotoCaptureViewModel) {
             Image(
                 bitmap = it.asImageBitmap(),
                 contentDescription = null,
-                modifier = Modifier
+                modifier =
+                Modifier
                     .fillMaxWidth()
                     .height(400.dp)
-                    .padding(16.dp)
+                    .padding(16.dp),
             )
         }
     }
