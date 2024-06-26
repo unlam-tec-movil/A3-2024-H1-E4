@@ -1,7 +1,6 @@
 package ar.edu.unlam.mobile.scaffolding.ui.components
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
@@ -58,18 +57,17 @@ fun CardAward(
                     modifier =
                         Modifier
                             .width(18.dp)
-                            .height(18.dp)
-                            .clickable { },
+                            .height(18.dp),
                 )
                 Text(
                     text = title,
-                    fontSize = 13.sp,
+                    fontSize = 14.sp,
                     fontWeight = FontWeight.ExtraBold,
                     color = MaterialTheme.colorScheme.onTertiary,
                     modifier = Modifier.padding(start = 4.dp),
                 )
             }
-            Text(text = amount, fontSize = 14.sp)
+            Text(text = amount, fontSize = 16.sp)
         }
     }
 }

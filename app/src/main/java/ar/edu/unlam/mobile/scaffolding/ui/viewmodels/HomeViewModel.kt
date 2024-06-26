@@ -2,7 +2,10 @@ package ar.edu.unlam.mobile.scaffolding.ui.viewmodels
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import ar.edu.unlam.mobile.scaffolding.domain.MockEntities
+import ar.edu.unlam.mobile.scaffolding.domain.models.Route
 import ar.edu.unlam.mobile.scaffolding.domain.models.User
+import ar.edu.unlam.mobile.scaffolding.domain.usecases.RouteUseCases
 import ar.edu.unlam.mobile.scaffolding.domain.usecases.UserUseCases
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -14,7 +17,13 @@ import kotlinx.coroutines.withContext
 import javax.inject.Inject
 
 data class UserUIState(
-    val user: User = User(1, "Juan", "Pérez", 22, 171, 75.0, 150.0, 5000, 300, 10),
+    val user: User = MockEntities.user,
+    val loading: Boolean = true,
+    val error: String = "",
+)
+
+data class RouteUIState(
+    val route: Route? = MockEntities.route,
     val loading: Boolean = true,
     val error: String = "",
 )
@@ -22,39 +31,57 @@ data class UserUIState(
 @HiltViewModel
 class HomeViewModel
     @Inject
-    constructor(private val userService: UserUseCases) : ViewModel() {
+    constructor(private val userService: UserUseCases, private val routeService: RouteUseCases) :
+    ViewModel() {
         private val _userUiState = MutableStateFlow(UserUIState())
         val userUiState = _userUiState.asStateFlow()
+        private val _routeUiState = MutableStateFlow(RouteUIState())
+        val routeUiState = _routeUiState.asStateFlow()
 
         init {
             getUser()
+            getLatestRoute()
         }
 
         fun getUser() {
             viewModelScope.launch {
-                userService.getUser(1).catch {
-                    _userUiState.value = _userUiState.value.copy(error = it.message.orEmpty())
-                    // TODO: Sacar e implementar una creacion de usuario por UI
-                    viewModelScope.launch {
-                        withContext(Dispatchers.IO) {
-                            userService.saveUser(
-                                User(
-                                    1,
-                                    "Juan",
-                                    "Pérez",
-                                    22,
-                                    171,
-                                    75.0,
-                                    150.0,
-                                    5000,
-                                    300,
-                                    10,
-                                ),
-                            )
+                withContext(Dispatchers.IO) {
+                    userService.getUser(1).catch {
+                        _userUiState.value = _userUiState.value.copy(error = it.message.orEmpty())
+                        // TODO: Sacar e implementar una creacion de usuario por UI
+                        viewModelScope.launch {
+                            withContext(Dispatchers.IO) {
+                                userService.saveUser(
+                                    User(
+                                        1,
+                                        "Juan",
+                                        "Pérez",
+                                        22,
+                                        171,
+                                        75.0,
+                                        150.0,
+                                        5000,
+                                        300,
+                                        10,
+                                    ),
+                                )
+                            }
                         }
+                    }.collect { user ->
+                        _userUiState.value = _userUiState.value.copy(user = user, loading = false)
                     }
-                }.collect { user ->
-                    _userUiState.value = _userUiState.value.copy(user = user, loading = false)
+                }
+            }
+        }
+
+        private fun getLatestRoute() {
+            viewModelScope.launch {
+                withContext(Dispatchers.IO) {
+                    routeService.getLatestRoute().catch {
+                        _routeUiState.value = _routeUiState.value.copy(error = it.message.orEmpty())
+                    }.collect { route ->
+                        _routeUiState.value = _routeUiState.value.copy(route = route, loading = false)
+                    }
                 }
             }
         }
