@@ -7,6 +7,7 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -34,7 +35,7 @@ fun HomeHeader(user: User = User(1, "Juan", "Pérez", 22, 171, 75.0, 150.0, 5000
         Box(
             Modifier
                 .fillMaxWidth()
-                .height(105.dp)
+                .fillMaxHeight(0.2f)
                 .background(
                     color = MaterialTheme.colorScheme.primary,
                 ),
@@ -78,6 +79,7 @@ fun HomeHeader(user: User = User(1, "Juan", "Pérez", 22, 171, 75.0, 150.0, 5000
             modifier =
                 Modifier
                     .fillMaxWidth()
+                    .fillMaxHeight(.87f)
                     .padding(top = 10.dp, start = 12.dp, end = 12.dp)
                     .shadow(3.dp, shape = RoundedCornerShape(5.dp))
                     .background(color = MaterialTheme.colorScheme.secondaryContainer),

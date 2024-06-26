@@ -76,6 +76,7 @@ fun HomeScreen(
                     modifier =
                         Modifier
                             .fillMaxWidth()
+                            .fillMaxHeight(.7f)
                             .padding(2.dp, 8.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,

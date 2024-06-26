@@ -12,8 +12,6 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import javax.inject.Inject
 
-// TODO: Borrar
-
 @HiltViewModel
 class AchievementViewModel
     @Inject
