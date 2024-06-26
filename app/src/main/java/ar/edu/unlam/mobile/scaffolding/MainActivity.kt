@@ -1,9 +1,10 @@
 package ar.edu.unlam.mobile.scaffolding
 
+import android.os.Build
 import android.os.Bundle
-import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.MaterialTheme
@@ -25,6 +26,7 @@ import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
@@ -41,6 +43,7 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainScreen() {
     val controller = rememberNavController()
@@ -56,15 +59,19 @@ fun MainScreen() {
                 AwardsScreen(navController = controller)
             }
             composable(
-                "${Routes.ActivityProgressScreen.name}/{userWeight}",
+                "${Routes.ActivityProgressScreen.name}/{userWeight}/{userId}",
                 arguments =
                     listOf(
                         navArgument("userWeight") { NavType.StringType },
                     ),
             ) {
                 val userWeight = it.arguments?.getString("userWeight")
-                Log.i("VALOR NAV BACK STACK", "PESO DE USUARIO= $userWeight")
-                ActivityProgressScreen(navController = controller, userWeight = userWeight ?: "")
+                val userId = it.arguments?.getString("userId")
+                ActivityProgressScreen(
+                    navController = controller,
+                    userWeight = userWeight.orEmpty(),
+                    userId = userId.orEmpty(),
+                )
             }
         }
     }

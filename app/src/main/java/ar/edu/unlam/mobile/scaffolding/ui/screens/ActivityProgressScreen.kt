@@ -2,8 +2,10 @@ package ar.edu.unlam.mobile.scaffolding.ui.screens
 
 import android.Manifest
 import android.annotation.SuppressLint
+import android.os.Build
 import android.util.Log
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -61,6 +63,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberMultiplePermissionsState
 
+@RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
 @OptIn(ExperimentalPermissionsApi::class, ExperimentalMaterial3Api::class)
 @Composable
@@ -68,6 +71,7 @@ fun ActivityProgressScreen(
     viewModel: ActivityProgressViewModel = hiltViewModel(),
     navController: NavController = rememberNavController(),
     userWeight: String = "",
+    userId: String = "",
 ) {
     var coordinates by rememberSaveable {
         mutableStateOf(listOf<Coordinate>())
@@ -110,7 +114,7 @@ fun ActivityProgressScreen(
                 ),
             actions = {
                 IconButton(onClick = {
-                    viewModel.stop()
+                    viewModel.stop(userId.toLong())
                     navController.navigate(Routes.Home.name)
                 }) {
                     Icon(
