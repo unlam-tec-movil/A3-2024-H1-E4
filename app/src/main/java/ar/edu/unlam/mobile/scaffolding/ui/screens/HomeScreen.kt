@@ -126,7 +126,8 @@ fun HomeScreen(
                         color = MaterialTheme.colorScheme.primary,
                     )
                     OutlinedButton(
-                        onClick = { navController.navigate(Routes.Awards.name) },
+                        //onClick = { navController.navigate(Routes.Awards.name) },
+                        onClick = { navController.navigate(Routes.RegisterScreen.name) },
                         shape = RoundedCornerShape(10.dp),
                         border = BorderStroke(2.dp, MaterialTheme.colorScheme.onPrimary),
                         colors = ButtonDefaults.outlinedButtonColors(MaterialTheme.colorScheme.primary),
