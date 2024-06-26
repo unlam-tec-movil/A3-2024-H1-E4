@@ -7,10 +7,10 @@ import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -34,7 +34,7 @@ fun Achievement(
     total: Double = 10.0,
     decimals: Int = 2,
     level: Int = 1,
-    rotation: Float = 1f,
+    rotation: Float = 0f,
     modifier: Modifier =
         Modifier
             .padding(vertical = 2.dp)
@@ -66,10 +66,10 @@ fun Achievement(
             colorFilter = ColorFilter.tint(Color.Black),
             modifier =
                 modifier
-                    .size(60.dp)
-                    .padding(start = 10.dp),
+                    .fillMaxWidth(.15f)
+                    .fillMaxHeight(.5f),
         )
-        Column(modifier = modifier.padding(start = 30.dp)) {
+        Column(modifier = modifier.padding(start = 30.dp).fillMaxWidth(.7f)) {
             Text(text = name)
             Text(text = "${"%.${decimals}f".format(current)} / ${"%.${decimals}f".format(total)}")
         }
