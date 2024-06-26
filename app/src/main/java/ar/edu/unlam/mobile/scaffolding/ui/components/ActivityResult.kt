@@ -60,7 +60,7 @@ fun ActivityResult(
         ) {
             ActivityResultCard(
                 titulo = "Dist. Total",
-                valor = "${route.distance}",
+                valor = "%.2f".format(route.distance),
                 unidad = "KM",
                 modifier = modifier.weight(1f),
             )
@@ -78,21 +78,21 @@ fun ActivityResult(
         ) {
             ActivityResultCard(
                 titulo = "Calorías",
-                valor = "${route.calories}",
+                valor = "%.2f".format(route.calories.toDouble()),
                 unidad = "Kcal",
                 modifier = modifier.weight(1f),
             )
             Spacer(modifier = modifier.padding(end = 10.dp))
             ActivityResultCard(
                 titulo = "Vel. Máx.",
-                valor = "${route.maxSpeed}",
+                valor = "%.2f".format(route.maxSpeed),
                 unidad = "KM/h",
                 modifier = modifier.weight(1f),
             )
             Spacer(modifier = modifier.padding(end = 10.dp))
             ActivityResultCard(
                 titulo = "Vel. Prom.",
-                valor = "${route.avgSpeed}",
+                valor = "%.2f".format(route.avgSpeed),
                 unidad = "KM/h",
                 modifier = modifier.weight(1f),
             )

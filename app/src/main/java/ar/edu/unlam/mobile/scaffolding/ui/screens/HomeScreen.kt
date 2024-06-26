@@ -147,7 +147,7 @@ fun HomeScreen(
                 AchievementRow(userUiState.user)
                 Spacer(modifier = modifier.padding(10.dp))
                 StartButton(action = {
-                    navController.navigate("${Routes.ActivityProgressScreen.name}/${userUiState.user.weight}")
+                    navController.navigate("${Routes.ActivityProgressScreen.name}/${userUiState.user.weight}/${userUiState.user.id}")
                 }, modifier = modifier.height(80.dp))
             }
         }

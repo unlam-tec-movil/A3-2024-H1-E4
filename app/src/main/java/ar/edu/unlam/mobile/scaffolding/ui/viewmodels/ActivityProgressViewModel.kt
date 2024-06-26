@@ -1,10 +1,15 @@
 package ar.edu.unlam.mobile.scaffolding.ui.viewmodels
 
+import android.os.Build
+import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import ar.edu.unlam.mobile.scaffolding.domain.models.Coordinate
+import ar.edu.unlam.mobile.scaffolding.domain.models.Route
 import ar.edu.unlam.mobile.scaffolding.domain.usecases.LocationUseCases
+import ar.edu.unlam.mobile.scaffolding.domain.usecases.RouteUseCases
+import com.mapbox.geojson.utils.PolylineUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.delay
@@ -13,6 +18,8 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
+import java.time.Instant
+import java.util.Date
 import java.util.concurrent.TimeUnit
 import javax.inject.Inject
 
@@ -41,7 +48,10 @@ private const val MET = 13.0
 @HiltViewModel
 class ActivityProgressViewModel
     @Inject
-    constructor(private val locationUseCases: LocationUseCases) : ViewModel() {
+    constructor(
+        private val locationUseCases: LocationUseCases,
+        private val routeUseCases: RouteUseCases,
+    ) : ViewModel() {
         private var startTime: Long = 0L
         private var isRunning: Boolean = false
         private val _uiState: MutableStateFlow<ActivityUIState> =
@@ -110,8 +120,42 @@ class ActivityProgressViewModel
             }
         }
 
-        fun stop() {
+        @RequiresApi(Build.VERSION_CODES.O)
+        fun stop(userId: Long) {
             if (isRunning) {
+                val polylineEncoded: String
+                val polylineEncodedAux: String =
+                    PolylineUtils.encode(
+                        locationUseCases.getLocationCoordinates().value.map { it.toPoint() },
+                        5,
+                    )
+                polylineEncoded =
+                    if (polylineEncodedAux.contains("?")) {
+                        polylineEncodedAux.replace("?", "63")
+                    } else {
+                        polylineEncodedAux
+                    }
+
+                val maxSpeed = locationUseCases.getSpeeds().max()
+                val date: Date = Date.from(Instant.now())
+                val route =
+                    Route(
+                        userId = userId,
+                        durationSeconds = _eleapsedTimeState.value,
+                        calories = _caloriesState.value.toLong(),
+                        maxSpeed = maxSpeed.toDouble(),
+                        avgSpeed = _speedState.value.toDouble(),
+                        distance = _distanceState.value.toDouble(),
+                        date = date,
+                        coordinates = polylineEncoded,
+                    )
+
+                viewModelScope.launch {
+                    withContext(Dispatchers.IO) {
+                        routeUseCases.saveRoute(route)
+                    }
+                }
+
                 locationUseCases.finish()
                 _speedState.value = 0f
                 isRunning = false

@@ -73,6 +73,7 @@ dependencies {
     implementation(libs.androidx.material3)
     implementation(libs.androidx.room.ktx)
     implementation("androidx.compose.material3.adaptive:adaptive:1.0.0-beta03")
+    implementation(libs.androidx.adaptive.android)
     ksp("androidx.room:room-compiler:2.6.1")
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.ui.text.google.fonts)
