@@ -47,6 +47,7 @@ fun AwardsScreen(
     homeViewModel: HomeViewModel = hiltViewModel(),
 ) {
     val userUiState by homeViewModel.userUiState.collectAsState()
+    val routeUiState by achievementViewModel.routeUiState.collectAsState()
     val scrollState = rememberScrollState()
     val returnToHome = {
         navController.navigate(Routes.Home.name)
@@ -113,21 +114,37 @@ fun AwardsScreen(
                     rotation,
                 )
             }
-            Text(
-                text = "Tu mejor actividad",
-                color = MaterialTheme.colorScheme.onBackground,
-                fontSize = 18.sp,
-                fontWeight = FontWeight.SemiBold,
-                textAlign = TextAlign.Center,
-                modifier =
-                    Modifier
-                        .fillMaxWidth()
-                        .padding(vertical = 10.dp),
-            )
-            ActivityResult()
-            Spacer(modifier = modifier.padding(10.dp))
-            ShareButton()
-            Spacer(modifier = modifier.padding(10.dp))
+            if (routeUiState.error.isBlank()) {
+                if (!routeUiState.loading) {
+                    Text(
+                        text = "Tu mejor actividad",
+                        color = MaterialTheme.colorScheme.onBackground,
+                        fontSize = 18.sp,
+                        fontWeight = FontWeight.SemiBold,
+                        textAlign = TextAlign.Center,
+                        modifier =
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(vertical = 10.dp),
+                    )
+                    ActivityResult(routeUiState.route!!)
+                    Spacer(modifier = modifier.padding(10.dp))
+                    ShareButton()
+                    Spacer(modifier = modifier.padding(10.dp))
+                } else {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        verticalArrangement = Arrangement.Center,
+                    ) {
+                        CircularProgressIndicator(
+                            modifier = Modifier.size(32.dp),
+                            color = MaterialTheme.colorScheme.primary,
+                            strokeCap = StrokeCap.Butt,
+                        )
+                    }
+                }
+            }
         } else {
             Column(
                 modifier = Modifier.fillMaxSize(),

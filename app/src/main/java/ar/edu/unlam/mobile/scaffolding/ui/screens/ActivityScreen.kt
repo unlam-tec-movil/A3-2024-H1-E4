@@ -24,7 +24,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import ar.edu.unlam.mobile.scaffolding.domain.models.location.Coordinate
+import ar.edu.unlam.mobile.scaffolding.domain.models.Coordinate
 import ar.edu.unlam.mobile.scaffolding.ui.components.MapboxContent
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.ActivityProgressViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.CoordinateUIState

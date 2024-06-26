@@ -1,6 +1,6 @@
 package ar.edu.unlam.mobile.scaffolding.data.repository
 
-import ar.edu.unlam.mobile.scaffolding.domain.models.user.User
+import ar.edu.unlam.mobile.scaffolding.domain.models.User
 import kotlinx.coroutines.flow.Flow
 
 interface UserRepository {
