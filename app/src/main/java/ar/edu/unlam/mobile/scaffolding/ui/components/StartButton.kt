@@ -8,8 +8,8 @@ import androidx.compose.animation.core.rememberInfiniteTransition
 import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.PlayArrow
@@ -82,7 +82,7 @@ fun StartButton(
                 .scale(scale)
                 .clip(RoundedCornerShape(20.dp))
                 .fillMaxWidth()
-                .height(70.dp)
+                .fillMaxHeight()
                 .background(buttonColor),
     ) {
         Button(

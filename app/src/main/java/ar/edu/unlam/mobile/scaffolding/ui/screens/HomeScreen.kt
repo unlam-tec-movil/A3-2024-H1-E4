@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -80,6 +81,7 @@ fun HomeScreen(
                     modifier =
                         Modifier
                             .fillMaxWidth()
+                            .fillMaxHeight(.55f)
                             .padding(top = 10.dp, start = 12.dp, end = 12.dp)
                             .shadow(3.dp, shape = RoundedCornerShape(5.dp))
                             .background(color = MaterialTheme.colorScheme.secondaryContainer),
@@ -109,12 +111,14 @@ fun HomeScreen(
                 modifier =
                     Modifier
                         .padding(12.dp, 8.dp)
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
             ) {
                 Row(
                     modifier =
                         Modifier
                             .fillMaxWidth()
+                            .fillMaxHeight(.25f)
                             .padding(2.dp, 8.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
@@ -124,6 +128,7 @@ fun HomeScreen(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.primary,
+                        modifier = modifier.height(25.dp),
                     )
                     OutlinedButton(
                         onClick = { navController.navigate(Routes.Awards.name) },
@@ -143,7 +148,7 @@ fun HomeScreen(
                 Spacer(modifier = modifier.padding(10.dp))
                 StartButton(action = {
                     navController.navigate("${Routes.ActivityProgressScreen.name}/${userUiState.user.weight}")
-                })
+                }, modifier = modifier.height(80.dp))
             }
         }
     }
