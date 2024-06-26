@@ -2,6 +2,7 @@ package ar.edu.unlam.mobile.scaffolding.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
@@ -23,6 +24,7 @@ fun AchievementRow(user: User = MockEntities.user) {
         modifier =
             Modifier
                 .fillMaxWidth()
+                .fillMaxHeight(.4f)
                 .padding(bottom = 10.dp),
     ) {
         items(1) {

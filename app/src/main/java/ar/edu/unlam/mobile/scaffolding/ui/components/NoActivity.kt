@@ -19,6 +19,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -52,12 +53,14 @@ fun NoActivity(modifier: Modifier = Modifier) {
             text = "Actualmente no tenés ningún recorrido",
             color = MaterialTheme.colorScheme.onPrimary,
             fontSize = 18.sp,
+            textAlign = TextAlign.Center,
         )
         Text(
             text = """Presioná "Iniciar Actividad" para empezar uno!""",
             color = MaterialTheme.colorScheme.onPrimary,
             fontSize = 18.sp,
             fontWeight = FontWeight.Bold,
+            textAlign = TextAlign.Center,
         )
     }
 }

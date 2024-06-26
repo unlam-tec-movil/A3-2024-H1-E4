@@ -39,8 +39,7 @@ fun AchievementHeader(
             horizontalArrangement = Arrangement.Start,
             modifier =
                 modifier
-                    .fillMaxWidth()
-                    .padding(start = 30.dp),
+                    .fillMaxWidth(1f),
         ) {
             Text(
                 text = "Logros",

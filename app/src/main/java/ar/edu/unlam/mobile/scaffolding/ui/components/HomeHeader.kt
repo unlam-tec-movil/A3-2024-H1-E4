@@ -7,7 +7,6 @@ import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
@@ -34,7 +33,7 @@ fun HomeHeader(user: User = MockEntities.user) {
         Box(
             Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.13f)
+                .height(100.dp)
                 .background(
                     color = MaterialTheme.colorScheme.primary,
                 ),

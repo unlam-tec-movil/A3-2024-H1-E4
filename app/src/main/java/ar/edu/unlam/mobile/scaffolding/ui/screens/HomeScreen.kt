@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -117,6 +118,7 @@ fun HomeScreen(
                     modifier =
                         Modifier
                             .fillMaxWidth()
+                            .fillMaxHeight(.25f)
                             .padding(2.dp, 8.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
@@ -126,6 +128,7 @@ fun HomeScreen(
                         fontSize = 18.sp,
                         fontWeight = FontWeight.SemiBold,
                         color = MaterialTheme.colorScheme.primary,
+                        modifier = modifier.height(25.dp),
                     )
                     OutlinedButton(
                         onClick = { navController.navigate(Routes.Awards.name) },
@@ -145,7 +148,7 @@ fun HomeScreen(
                 Spacer(modifier = modifier.padding(10.dp))
                 StartButton(action = {
                     navController.navigate("${Routes.ActivityProgressScreen.name}/${userUiState.user.weight}")
-                }, modifier = modifier.fillMaxHeight(.5f))
+                }, modifier = modifier.height(80.dp))
             }
         }
     }
