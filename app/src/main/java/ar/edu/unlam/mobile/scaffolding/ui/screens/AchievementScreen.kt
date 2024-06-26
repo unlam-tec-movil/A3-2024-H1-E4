@@ -41,8 +41,8 @@ import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.HomeViewModel
 @Preview
 @Composable
 fun AwardsScreen(
-    navController: NavController = rememberNavController(),
     modifier: Modifier = Modifier,
+    navController: NavController = rememberNavController(),
     achievementViewModel: AchievementViewModel = hiltViewModel(),
     homeViewModel: HomeViewModel = hiltViewModel(),
 ) {
