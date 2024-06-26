@@ -34,7 +34,7 @@ fun HomeHeader(user: User = MockEntities.user) {
         Box(
             Modifier
                 .fillMaxWidth()
-                .fillMaxHeight(0.2f)
+                .fillMaxHeight(0.13f)
                 .background(
                     color = MaterialTheme.colorScheme.primary,
                 ),

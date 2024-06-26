@@ -80,6 +80,7 @@ fun HomeScreen(
                     modifier =
                         Modifier
                             .fillMaxWidth()
+                            .fillMaxHeight(.55f)
                             .padding(top = 10.dp, start = 12.dp, end = 12.dp)
                             .shadow(3.dp, shape = RoundedCornerShape(5.dp))
                             .background(color = MaterialTheme.colorScheme.secondaryContainer),
@@ -109,13 +110,13 @@ fun HomeScreen(
                 modifier =
                     Modifier
                         .padding(12.dp, 8.dp)
-                        .fillMaxWidth(),
+                        .fillMaxWidth()
+                        .fillMaxHeight(),
             ) {
                 Row(
                     modifier =
                         Modifier
                             .fillMaxWidth()
-                            .fillMaxHeight(.7f)
                             .padding(2.dp, 8.dp),
                     horizontalArrangement = Arrangement.SpaceBetween,
                     verticalAlignment = Alignment.CenterVertically,
@@ -144,7 +145,7 @@ fun HomeScreen(
                 Spacer(modifier = modifier.padding(10.dp))
                 StartButton(action = {
                     navController.navigate("${Routes.ActivityProgressScreen.name}/${userUiState.user.weight}")
-                })
+                }, modifier = modifier.fillMaxHeight(.5f))
             }
         }
     }

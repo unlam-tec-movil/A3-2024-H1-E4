@@ -5,8 +5,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.RoundedCornerShape
@@ -33,7 +33,7 @@ fun NoActivity(modifier: Modifier = Modifier) {
             modifier
                 .fillMaxWidth()
                 .background(color = MaterialTheme.colorScheme.primary, shape = RoundedCornerShape(5.dp))
-                .height(450.dp)
+                .fillMaxHeight(0.5f)
                 .border(
                     BorderStroke(2.dp, MaterialTheme.colorScheme.primaryContainer),
                     shape = RoundedCornerShape(5.dp),
