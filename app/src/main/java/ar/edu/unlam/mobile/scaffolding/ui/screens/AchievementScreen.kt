@@ -41,8 +41,8 @@ import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.HomeViewModel
 @Preview
 @Composable
 fun AwardsScreen(
-    navController: NavController = rememberNavController(),
     modifier: Modifier = Modifier,
+    navController: NavController = rememberNavController(),
     achievementViewModel: AchievementViewModel = hiltViewModel(),
     homeViewModel: HomeViewModel = hiltViewModel(),
 ) {
@@ -123,22 +123,22 @@ fun AwardsScreen(
                         fontWeight = FontWeight.SemiBold,
                         textAlign = TextAlign.Center,
                         modifier =
-                            Modifier
+                            modifier
                                 .fillMaxWidth()
                                 .padding(vertical = 10.dp),
                     )
-                    ActivityResult(routeUiState.route!!)
+                    ActivityResult(route = routeUiState.route!!)
                     Spacer(modifier = modifier.padding(10.dp))
                     ShareButton()
                     Spacer(modifier = modifier.padding(10.dp))
                 } else {
                     Column(
-                        modifier = Modifier.fillMaxSize(),
+                        modifier = modifier.fillMaxSize(),
                         horizontalAlignment = Alignment.CenterHorizontally,
                         verticalArrangement = Arrangement.Center,
                     ) {
                         CircularProgressIndicator(
-                            modifier = Modifier.size(32.dp),
+                            modifier = modifier.size(32.dp),
                             color = MaterialTheme.colorScheme.primary,
                             strokeCap = StrokeCap.Butt,
                         )
@@ -147,12 +147,12 @@ fun AwardsScreen(
             }
         } else {
             Column(
-                modifier = Modifier.fillMaxSize(),
+                modifier = modifier.fillMaxSize(),
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center,
             ) {
                 CircularProgressIndicator(
-                    modifier = Modifier.size(32.dp),
+                    modifier = modifier.size(32.dp),
                     color = MaterialTheme.colorScheme.primary,
                     strokeCap = StrokeCap.Butt,
                 )

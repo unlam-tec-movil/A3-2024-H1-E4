@@ -122,7 +122,7 @@ class ActivityProgressViewModel
 
         @RequiresApi(Build.VERSION_CODES.O)
         fun stop(userId: Long) {
-            if (isRunning) {
+            if (!isRunning) {
                 val polylineEncoded: String
                 val polylineEncodedAux: String =
                     PolylineUtils.encode(
