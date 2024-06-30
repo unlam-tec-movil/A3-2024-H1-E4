@@ -62,6 +62,9 @@ dependencies {
     // Google location service
     implementation(libs.play.services.location)
 
+    // Coil
+    implementation(libs.coil)
+
     // Base
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.lifecycle.runtime.ktx)
