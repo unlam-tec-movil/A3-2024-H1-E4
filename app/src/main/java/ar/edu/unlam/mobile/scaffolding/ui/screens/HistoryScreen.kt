@@ -1,5 +1,6 @@
 package ar.edu.unlam.mobile.scaffolding.ui.screens
 
+import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -26,6 +27,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import ar.edu.unlam.mobile.scaffolding.ui.components.HistoryHeader
 import ar.edu.unlam.mobile.scaffolding.ui.components.HistoryItem
+import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.AchievementViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.HistoryViewModel
 
 @Preview
@@ -34,11 +36,23 @@ fun HistoryScreen(
     modifier: Modifier = Modifier,
     navController: NavController = rememberNavController(),
     historyViewModel: HistoryViewModel = hiltViewModel(),
+    achievementViewModel: AchievementViewModel = hiltViewModel(),
 ) {
     val historyUiState by historyViewModel.historyUiState.collectAsState()
     val returnToHome = {
         navController.navigate(Routes.Home.name)
     }
+    val sensorValue by achievementViewModel.sensorValue.collectAsState()
+    val rotation by animateFloatAsState(
+        if (sensorValue > 5) {
+            10f
+        } else if (sensorValue < -5) {
+            -10f
+        } else {
+            0f
+        },
+        label = "",
+    )
 
     Column(
         horizontalAlignment = Alignment.CenterHorizontally,
@@ -54,7 +68,7 @@ fun HistoryScreen(
                 items(historyUiState.routes) { route ->
                     if (route != null) {
                         Spacer(modifier = modifier.padding(7.dp))
-                        HistoryItem(route)
+                        HistoryItem(route, rotation)
                     }
                 }
             }
