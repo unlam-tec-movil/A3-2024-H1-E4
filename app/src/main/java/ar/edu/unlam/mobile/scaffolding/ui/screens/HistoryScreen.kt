@@ -3,7 +3,7 @@ package ar.edu.unlam.mobile.scaffolding.ui.screens
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,7 +13,6 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
@@ -26,8 +25,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import ar.edu.unlam.mobile.scaffolding.ui.components.HistoryHeader
+import ar.edu.unlam.mobile.scaffolding.ui.components.HistoryItem
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.HistoryViewModel
-import ar.edu.unlam.mobile.scaffolding.utils.DateTimeUtils
 
 @Preview
 @Composable
@@ -51,10 +50,11 @@ fun HistoryScreen(
     ) {
         HistoryHeader(returnToHome)
         if (!historyUiState.loading) {
-            LazyColumn(modifier = modifier.padding(horizontal = 30.dp, vertical = 30.dp)) {
+            LazyColumn(modifier = modifier.padding(horizontal = 5.dp, vertical = 10.dp)) {
                 items(historyUiState.routes) { route ->
-                    Row {
-                        Text(text = DateTimeUtils.formatTime(route?.date?.time!!))
+                    if (route != null) {
+                        Spacer(modifier = modifier.padding(7.dp))
+                        HistoryItem(route)
                     }
                 }
             }

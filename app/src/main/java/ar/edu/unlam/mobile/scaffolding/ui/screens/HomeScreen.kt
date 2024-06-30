@@ -94,7 +94,7 @@ fun HomeScreen(
                             color = MaterialTheme.colorScheme.onSecondaryContainer,
                             modifier = Modifier.padding(top = 12.dp, start = 12.dp),
                         )
-                        Spacer(modifier = modifier.padding(10.dp))
+                        Spacer(modifier = modifier.weight(1f))
                         OutlinedButton(
                             onClick = { navController.navigate(Routes.RouteHistory.name) },
                             shape = RoundedCornerShape(10.dp),
@@ -104,6 +104,7 @@ fun HomeScreen(
                                     MaterialTheme.colorScheme.onPrimaryContainer,
                                 ),
                             colors = ButtonDefaults.outlinedButtonColors(MaterialTheme.colorScheme.primary),
+                            modifier = modifier.padding(end = 10.dp),
                         ) {
                             Text(
                                 text = "Ver todas",

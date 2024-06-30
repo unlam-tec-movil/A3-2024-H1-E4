@@ -13,9 +13,11 @@ import androidx.compose.material3.adaptive.currentWindowAdaptiveInfo
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.window.core.layout.WindowSizeClass
+import ar.edu.unlam.mobile.scaffolding.R
 import ar.edu.unlam.mobile.scaffolding.domain.MockEntities
 import ar.edu.unlam.mobile.scaffolding.domain.models.Route
 import ar.edu.unlam.mobile.scaffolding.utils.DateTimeUtils
@@ -50,6 +52,7 @@ fun ActivityResult(
                         Modifier
                             .padding(7.dp)
                             .size(240.dp),
+                    error = painterResource(id = R.drawable.map_result),
                 )
             } else {
                 Spacer(modifier = modifier.padding(20.dp))
@@ -58,6 +61,7 @@ fun ActivityResult(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceAround,
+            modifier = modifier.padding(5.dp),
         ) {
             ActivityResultCard(
                 titulo = "Dist. Total",
@@ -76,6 +80,7 @@ fun ActivityResult(
         Row(
             verticalAlignment = Alignment.CenterVertically,
             horizontalArrangement = Arrangement.SpaceAround,
+            modifier = modifier.padding(5.dp),
         ) {
             ActivityResultCard(
                 titulo = "Calorías",

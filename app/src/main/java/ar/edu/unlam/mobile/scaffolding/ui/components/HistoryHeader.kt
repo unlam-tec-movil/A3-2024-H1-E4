@@ -42,7 +42,7 @@ fun HistoryHeader(
                     .fillMaxWidth(1f),
         ) {
             Text(
-                text = "Recorridos",
+                text = "Actividades",
                 fontSize = 32.sp,
                 color = MaterialTheme.colorScheme.onPrimary,
                 modifier = modifier.padding(start = 95.dp),

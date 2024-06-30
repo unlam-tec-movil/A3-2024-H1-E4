@@ -34,7 +34,6 @@ import ar.edu.unlam.mobile.scaffolding.domain.AchievementMultipliers
 import ar.edu.unlam.mobile.scaffolding.ui.components.Achievement
 import ar.edu.unlam.mobile.scaffolding.ui.components.AchievementHeader
 import ar.edu.unlam.mobile.scaffolding.ui.components.ActivityResult
-import ar.edu.unlam.mobile.scaffolding.ui.components.ShareButton
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.AchievementViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.HomeViewModel
 
@@ -128,8 +127,6 @@ fun AwardsScreen(
                                 .padding(vertical = 10.dp),
                     )
                     ActivityResult(route = routeUiState.route!!)
-                    Spacer(modifier = modifier.padding(10.dp))
-                    ShareButton()
                     Spacer(modifier = modifier.padding(10.dp))
                 } else {
                     Column(
