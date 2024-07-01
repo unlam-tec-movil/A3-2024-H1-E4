@@ -19,6 +19,7 @@ import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import ar.edu.unlam.mobile.scaffolding.ui.screens.ActivityProgressScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.AwardsScreen
+import ar.edu.unlam.mobile.scaffolding.ui.screens.HistoryScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.HomeScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.RegisterScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.Routes
@@ -64,6 +65,9 @@ fun MainScreen() {
             }
             composable(Routes.Awards.name) {
                 AwardsScreen(navController = controller)
+            }
+            composable(Routes.RouteHistory.name) {
+                HistoryScreen(navController = controller)
             }
             composable(
                 "${Routes.ActivityProgressScreen.name}/{userWeight}/{userId}",

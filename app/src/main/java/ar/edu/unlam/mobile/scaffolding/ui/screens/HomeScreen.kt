@@ -86,13 +86,34 @@ fun HomeScreen(
                             .shadow(3.dp, shape = RoundedCornerShape(5.dp))
                             .background(color = MaterialTheme.colorScheme.secondaryContainer),
                 ) {
-                    Text(
-                        text = "Tu última actividad",
-                        fontSize = 18.sp,
-                        fontWeight = FontWeight.SemiBold,
-                        color = MaterialTheme.colorScheme.onSecondaryContainer,
-                        modifier = Modifier.padding(top = 12.dp, start = 12.dp),
-                    )
+                    Row(horizontalArrangement = Arrangement.SpaceBetween) {
+                        Text(
+                            text = "Tu última actividad",
+                            fontSize = 18.sp,
+                            fontWeight = FontWeight.SemiBold,
+                            color = MaterialTheme.colorScheme.onSecondaryContainer,
+                            modifier = Modifier.padding(top = 12.dp, start = 12.dp),
+                        )
+                        Spacer(modifier = modifier.weight(1f))
+                        OutlinedButton(
+                            onClick = { navController.navigate(Routes.RouteHistory.name) },
+                            shape = RoundedCornerShape(10.dp),
+                            border =
+                                BorderStroke(
+                                    2.dp,
+                                    MaterialTheme.colorScheme.onPrimaryContainer,
+                                ),
+                            colors = ButtonDefaults.outlinedButtonColors(MaterialTheme.colorScheme.primary),
+                            modifier = modifier.padding(end = 10.dp),
+                        ) {
+                            Text(
+                                text = "Ver todas",
+                                fontSize = 16.sp,
+                                fontWeight = FontWeight.SemiBold,
+                                color = MaterialTheme.colorScheme.onSecondary,
+                            )
+                        }
+                    }
                     ActivityResult(route = routeUiState.route!!)
                 }
             } else {
