@@ -19,6 +19,7 @@ import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -34,7 +35,8 @@ val subtitleFontSize = 14.sp
 @Composable
 fun HistoryItem(
     route: Route = MockEntities.route,
-    modifier: Modifier = Modifier,
+    rotation: Float = 0.0f,
+    modifier: Modifier = Modifier.rotate(rotation),
 ) {
     val showDetail = remember { mutableStateOf(false) }
 

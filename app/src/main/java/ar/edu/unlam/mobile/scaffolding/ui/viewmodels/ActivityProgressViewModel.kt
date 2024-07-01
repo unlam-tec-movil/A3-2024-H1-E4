@@ -64,19 +64,19 @@ class ActivityProgressViewModel
         private val _distanceState = MutableStateFlow(0F)
 
         @Suppress("ktlint:standard:backing-property-naming")
-        private var _eleapsedTimeState = MutableStateFlow(0L)
+        private var _elapsedTimeState = MutableStateFlow(0L)
 
         @Suppress("ktlint:standard:backing-property-naming")
         private var _speedState = MutableStateFlow(0F)
 
         val distanceState = _distanceState.asStateFlow()
         var uiState = _uiState.asStateFlow()
-        val eleapsedTimeState = _eleapsedTimeState.asStateFlow()
+        val elapsedTimeState = _elapsedTimeState.asStateFlow()
         val speedAverageState = _speedState.asStateFlow()
 
         fun start() {
             if (!isRunning) {
-                startTime = System.currentTimeMillis() - eleapsedTimeState.value
+                startTime = System.currentTimeMillis() - elapsedTimeState.value
                 isRunning = true
                 viewModelScope.launch {
                     while (isRunning) {
@@ -90,7 +90,7 @@ class ActivityProgressViewModel
                             if (isRunning) {
                                 _uiState.value =
                                     ActivityUIState(CoordinateUIState.Success(locationUseCases.getLocationCoordinates().value))
-                                _eleapsedTimeState.value = System.currentTimeMillis() - startTime
+                                _elapsedTimeState.value = System.currentTimeMillis() - startTime
                                 _speedState.value = getAverageSpeed()
                                 _distanceState.value = locationUseCases.getDistance()
                             }
@@ -103,7 +103,7 @@ class ActivityProgressViewModel
         fun getCalories(weightUser: Double): StateFlow<Double> {
             val timeInHours =
                 TimeUnit.MINUTES.toSeconds(
-                    TimeUnit.MILLISECONDS.toMinutes(_eleapsedTimeState.value),
+                    TimeUnit.MILLISECONDS.toMinutes(_elapsedTimeState.value),
                 ).toDouble() / 60 / 60
 
             if (locationUseCases.getSpeeds().lastOrNull() != 0f) {
@@ -136,12 +136,18 @@ class ActivityProgressViewModel
                         polylineEncodedAux
                     }
 
-                val maxSpeed = locationUseCases.getSpeeds().max()
+                val maxSpeed =
+                    if (locationUseCases.getSpeeds().isNotEmpty()) {
+                        locationUseCases.getSpeeds()
+                            .max()
+                    } else {
+                        0f
+                    }
                 val date: Date = Date.from(Instant.now())
                 val route =
                     Route(
                         userId = userId,
-                        durationSeconds = _eleapsedTimeState.value,
+                        durationSeconds = _elapsedTimeState.value,
                         calories = _caloriesState.value.toLong(),
                         maxSpeed = maxSpeed.toDouble(),
                         avgSpeed = _speedState.value.toDouble(),
@@ -156,10 +162,12 @@ class ActivityProgressViewModel
                     }
                 }
 
-                locationUseCases.finish()
-                _speedState.value = 0f
-                isRunning = false
+                resetState()
             }
+        }
+
+        fun cancel() {
+            resetState()
         }
 
         private fun getAverageSpeed(): Float {
@@ -168,6 +176,16 @@ class ActivityProgressViewModel
             for (speed in locationUseCases.getSpeeds()) {
                 accumulatedSpeed += speed
             }
-            return accumulatedSpeed / quantitySpeeds
+            return if ((accumulatedSpeed / quantitySpeeds).isNaN()) 0.0f else (accumulatedSpeed / quantitySpeeds)
+        }
+
+        private fun resetState() {
+            locationUseCases.finish()
+            _speedState.value = 0f
+            _caloriesState.value = 0.0
+            _distanceState.value = 0F
+            _elapsedTimeState.value = 0L
+            _speedState.value = 0F
+            isRunning = false
         }
     }

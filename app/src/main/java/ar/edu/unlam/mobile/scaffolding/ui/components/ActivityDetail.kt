@@ -1,6 +1,5 @@
 package ar.edu.unlam.mobile.scaffolding.ui.components
 
-import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
@@ -57,7 +56,6 @@ fun ActivityDetail(
                         .padding(10.dp)
                         .fillMaxWidth(),
             )
-            Spacer(modifier.weight(1f))
             ActivityResult(route = route)
         }
     }
