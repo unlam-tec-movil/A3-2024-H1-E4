@@ -21,6 +21,7 @@ import ar.edu.unlam.mobile.scaffolding.ui.screens.ActivityProgressScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.AwardsScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.HistoryScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.HomeScreen
+import ar.edu.unlam.mobile.scaffolding.ui.screens.RegisterScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.Routes
 import ar.edu.unlam.mobile.scaffolding.ui.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
@@ -49,7 +50,13 @@ class MainActivity : ComponentActivity() {
 fun MainScreen() {
     val controller = rememberNavController()
     Scaffold { paddingValue ->
-        NavHost(navController = controller, startDestination = Routes.Home.name) {
+        NavHost(navController = controller, startDestination = Routes.RegisterScreen.name) {
+            composable(Routes.RegisterScreen.name) {
+                RegisterScreen(
+                    modifier = Modifier.padding(paddingValue),
+                    navController = controller,
+                )
+            }
             composable(Routes.Home.name) {
                 HomeScreen(
                     modifier = Modifier.padding(paddingValue),
