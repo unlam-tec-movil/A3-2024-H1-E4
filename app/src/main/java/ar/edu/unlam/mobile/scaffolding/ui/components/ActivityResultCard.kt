@@ -33,7 +33,7 @@ fun ActivityResultCard(
                 )
                 .padding(top = 5.dp, bottom = 5.dp)
                 .fillMaxWidth()
-                .height(50.dp),
+                .height(45.dp),
     ) {
         Text(
             text = titulo,

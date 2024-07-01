@@ -27,7 +27,7 @@ interface RouteDao {
     @Query("SELECT * FROM route where id=:routeId")
     fun getRoute(routeId: Long): Flow<Route>
 
-    @Query("SELECT * FROM route")
+    @Query("SELECT * FROM route ORDER BY date DESC")
     fun getAllRoutes(): Flow<List<Route>>
 
     @Query("SELECT * FROM route ORDER BY date DESC LIMIT 1")

@@ -6,7 +6,11 @@ import android.os.Build
 import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
-import androidx.compose.foundation.Image
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.Spring
+import androidx.compose.animation.core.spring
+import androidx.compose.animation.scaleIn
+import androidx.compose.animation.scaleOut
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -16,13 +20,11 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
-import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
-import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.material3.AlertDialog
 import androidx.compose.material3.BottomSheetScaffold
-import androidx.compose.material3.Button
-import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Icon
@@ -30,6 +32,7 @@ import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.material3.TopAppBar
 import androidx.compose.material3.TopAppBarDefaults.topAppBarColors
 import androidx.compose.material3.rememberBottomSheetScaffoldState
@@ -39,11 +42,12 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableLongStateOf
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -56,6 +60,8 @@ import androidx.navigation.compose.rememberNavController
 import ar.edu.unlam.mobile.scaffolding.R
 import ar.edu.unlam.mobile.scaffolding.domain.models.Coordinate
 import ar.edu.unlam.mobile.scaffolding.ui.components.ActivityData
+import ar.edu.unlam.mobile.scaffolding.ui.components.ActivityStartButton
+import ar.edu.unlam.mobile.scaffolding.ui.components.ActivityStopButton
 import ar.edu.unlam.mobile.scaffolding.ui.components.MapboxContent
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.ActivityProgressViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.CoordinateUIState
@@ -81,13 +87,17 @@ fun ActivityProgressScreen(
     var elapsedTimeState by rememberSaveable {
         mutableLongStateOf(0L)
     }
+    val showEndDialog =
+        remember {
+            mutableStateOf(false)
+        }
 
-    val caloriesState by viewModel.getCalories(userWeight.toDouble()).collectAsState()
     val uiState by viewModel.uiState.collectAsState()
+    val caloriesState by viewModel.getCalories(userWeight.toDouble()).collectAsState()
     val speedAverageState by viewModel.speedAverageState.collectAsState()
     val distanceState by viewModel.distanceState.collectAsState()
     val context = LocalContext.current
-    val elapsedTime by viewModel.eleapsedTimeState.collectAsState()
+    val elapsedTime by viewModel.elapsedTimeState.collectAsState()
 
     val permissions =
         listOf(
@@ -114,8 +124,7 @@ fun ActivityProgressScreen(
                 ),
             actions = {
                 IconButton(onClick = {
-                    viewModel.stop(userId.toLong())
-                    navController.navigate(Routes.Home.name)
+                    showEndDialog.value = true
                 }) {
                     Icon(
                         imageVector = Icons.AutoMirrored.Filled.ArrowForward,
@@ -126,6 +135,37 @@ fun ActivityProgressScreen(
             },
         )
     }) {
+        if (showEndDialog.value) {
+            AlertDialog(
+                onDismissRequest = { showEndDialog.value = false },
+                icon = {
+                    Icon(
+                        painter = painterResource(id = R.drawable.xmark_solid),
+                        contentDescription = "Exit",
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(20.dp),
+                    )
+                },
+                title = {
+                    Text(text = "Abandonar Actividad")
+                },
+                text = { Text(text = "¿Está seguro que desea abandonar la actividad? No se guardará.") },
+                confirmButton = {
+                    TextButton(onClick = {
+                        viewModel.cancel()
+                        navController.navigate(Routes.Home.name)
+                    }) {
+                        Text(text = "Confirmar")
+                    }
+                },
+                dismissButton = {
+                    TextButton(onClick = { showEndDialog.value = false }) {
+                        Text(text = "Cancelar")
+                    }
+                },
+            )
+        }
+
         when (val coordinateUIState = uiState.coordinateUIState) {
             is CoordinateUIState.Loading -> {
                 Box(modifier = Modifier.fillMaxSize()) {
@@ -138,7 +178,6 @@ fun ActivityProgressScreen(
             }
 
             is CoordinateUIState.Error -> {
-                // TODO: llevar texto a strings.xml
                 Toast.makeText(
                     context,
                     stringResource(id = R.string.error_location_message),
@@ -156,7 +195,6 @@ fun ActivityProgressScreen(
                 modifier = Modifier.fillMaxSize(),
             )
         }
-        // Log.i("PESO DEL USUARIO", "PESO RECIBIDO = $userWeight")
         BottomSheetScaffold(
             scaffoldState = scaffoldState,
             sheetPeekHeight = 80.dp,
@@ -168,7 +206,10 @@ fun ActivityProgressScreen(
                     caloriesState,
                     onActivityStop = { viewModel.pause() },
                     onActivityStart = { viewModel.start() },
-                    onActivityFinish = { viewModel.stop(userId.toLong()) },
+                    onActivityEnd = {
+                        viewModel.stop(if (userId != "") userId.toLong() else 1)
+                        navController.navigate(Routes.Home.name)
+                    },
                 )
             },
         ) {
@@ -184,12 +225,15 @@ private fun BottomSheetContent(
     caloriesState: Double,
     onActivityStart: () -> Unit,
     onActivityStop: () -> Unit,
-    onActivityFinish: () -> Unit,
+    onActivityEnd: () -> Unit,
 ) {
     var running by
         rememberSaveable {
             mutableStateOf(false)
         }
+
+    val swapRunningState = { running = !running }
+
     Column(
         modifier =
             Modifier
@@ -199,93 +243,39 @@ private fun BottomSheetContent(
         verticalArrangement = Arrangement.Center,
     ) {
         Spacer(modifier = Modifier.padding(12.dp))
-        if (running) {
-            Button(
-                onClick = {
-                    if (running) {
-                        onActivityStop()
-                    } else {
-                        onActivityStart()
-                    }
-                    running = !running
-                },
-                modifier = Modifier.size(90.dp),
-                shape = CircleShape,
-                colors =
-                    ButtonDefaults.buttonColors(
-                        containerColor = Color(35, 79, 113, 255),
+        Row(
+            modifier =
+                Modifier
+                    .width(200.dp),
+            horizontalArrangement = Arrangement.Center,
+            verticalAlignment = Alignment.CenterVertically,
+        ) {
+            AnimatedVisibility(
+                visible = (!running && elapsedTimeState > 0),
+                enter =
+                    scaleIn(
+                        animationSpec = spring(stiffness = Spring.StiffnessMediumLow),
+                        initialScale = 0f,
+                        transformOrigin = TransformOrigin.Center,
                     ),
+                exit = scaleOut(),
             ) {
-                Image(
-                    painter =
-                        if (running) {
-                            painterResource(
-                                id = R.drawable.baseline_pause_24,
-                            )
-                        } else {
-                            painterResource(id = R.drawable.baseline_play_arrow_24)
-                        },
-                    contentDescription = null,
-                    modifier =
-                        Modifier
-                            .size(64.dp),
-                )
-            }
-        } else {
-            Row {
-                Button(
-                    onClick = {
-                        if (running) {
-                            onActivityStop()
-                        } else {
-                            onActivityStart()
-                        }
-                        running = !running
-                    },
-                    modifier = Modifier.size(90.dp),
-                    shape = CircleShape,
-                    colors =
-                        ButtonDefaults.buttonColors(
-                            containerColor = Color(35, 79, 113, 255),
-                        ),
-                ) {
-                    Image(
-                        painter =
-                            if (running) {
-                                painterResource(
-                                    id = R.drawable.baseline_pause_24,
-                                )
-                            } else {
-                                painterResource(id = R.drawable.baseline_play_arrow_24)
-                            },
-                        contentDescription = null,
-                        modifier =
-                            Modifier
-                                .size(64.dp),
+                Row {
+                    ActivityStopButton(
+                        running = running,
+                        onActivityEnd = onActivityEnd,
+                        swapRunningState = swapRunningState,
                     )
-                }
-                Button(
-                    onClick = {
-                        running = !running
-                        onActivityFinish()
-                    },
-                    modifier = Modifier.size(90.dp),
-                    shape = CircleShape,
-                    colors =
-                        ButtonDefaults.buttonColors(
-                            containerColor = Color(35, 79, 113, 255),
-                        ),
-                ) {
-                    Icon(
-                        imageVector = Icons.AutoMirrored.Filled.ExitToApp,
-                        tint = Color.White,
-                        contentDescription = null,
-                        modifier =
-                            Modifier
-                                .size(64.dp),
-                    )
+                    Spacer(modifier = Modifier.padding(10.dp))
                 }
             }
+            ActivityStartButton(
+                running = running,
+                onActivityStop = onActivityStop,
+                onActivityStart = onActivityStart,
+                swapRunningState = swapRunningState,
+                modifier = Modifier.weight(1f),
+            )
         }
     }
     Column(
