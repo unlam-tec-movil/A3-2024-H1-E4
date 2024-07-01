@@ -61,6 +61,7 @@ fun RegisterScreen (
     fun handleContinueButtonClick() {
         if(name == "" || lastName == "" || weight == "" || height == "" || age == "" ){
             Toast.makeText(context, "Todos los datos son obligatorios!", Toast.LENGTH_SHORT).show()
+            return
         }
         val user = User(1, name, lastName, age.toInt(), height.toInt(), weight.toDouble(), 0.0, 0,0,0)
         viewModel.setUser(user)

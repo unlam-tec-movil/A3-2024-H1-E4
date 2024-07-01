@@ -7,6 +7,7 @@ import ar.edu.unlam.mobile.scaffolding.domain.models.Route
 import ar.edu.unlam.mobile.scaffolding.domain.models.User
 import ar.edu.unlam.mobile.scaffolding.domain.usecases.RouteUseCases
 import ar.edu.unlam.mobile.scaffolding.domain.usecases.UserUseCases
+import com.mapbox.maps.extension.style.expressions.dsl.generated.get
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
@@ -23,6 +24,11 @@ constructor(private val userService: UserUseCases) :
     ViewModel() {
     private val _userUiState = MutableStateFlow(UserUIState())
     val userUiState = _userUiState.asStateFlow()
+
+    init {
+        getUser()
+    }
+
     fun setUser(user:User){
         viewModelScope.launch {
             withContext(Dispatchers.IO) {
@@ -37,11 +43,10 @@ constructor(private val userService: UserUseCases) :
                     _userUiState.value = _userUiState.value.copy(error = it.message.orEmpty())
                 }
                 .collect { user ->
-                    _userUiState.value = _userUiState.value.copy(user = user, loading = false)
+                    _userUiState.value = UserUIState(user, false)
                 }
             }
         }
     }
-
 
 }

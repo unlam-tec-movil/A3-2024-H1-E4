@@ -19,6 +19,8 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowForward
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
+import androidx.compose.material.icons.automirrored.filled.Send
 import androidx.compose.material3.BottomSheetScaffold
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
@@ -168,6 +170,7 @@ fun ActivityProgressScreen(
                     caloriesState,
                     onActivityStop = { viewModel.pause() },
                     onActivityStart = { viewModel.start() },
+                    onActivityFinish = { viewModel.stop(userId.toLong()) }
                 )
             },
         ) {
@@ -183,6 +186,7 @@ private fun BottomSheetContent(
     caloriesState: Double,
     onActivityStart: () -> Unit,
     onActivityStop: () -> Unit,
+    onActivityFinish: () -> Unit,
 ) {
     var running by
         rememberSaveable {
@@ -190,31 +194,32 @@ private fun BottomSheetContent(
         }
     Column(
         modifier =
-            Modifier
-                .fillMaxWidth()
-                .padding(4.dp, 12.dp),
+        Modifier
+            .fillMaxWidth()
+            .padding(4.dp, 12.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
         Spacer(modifier = Modifier.padding(12.dp))
-        Button(
-            onClick = {
-                if (running) {
-                    onActivityStop()
-                } else {
-                    onActivityStart()
-                }
-                running = !running
-            },
-            modifier = Modifier.size(90.dp),
-            shape = CircleShape,
-            colors =
+        if(running) {
+            Button(
+                onClick = {
+                    if (running) {
+                        onActivityStop()
+                    } else {
+                        onActivityStart()
+                    }
+                    running = !running
+                },
+                modifier = Modifier.size(90.dp),
+                shape = CircleShape,
+                colors =
                 ButtonDefaults.buttonColors(
                     containerColor = Color(35, 79, 113, 255),
                 ),
-        ) {
-            Image(
-                painter =
+            ) {
+                Image(
+                    painter =
                     if (running) {
                         painterResource(
                             id = R.drawable.baseline_pause_24,
@@ -222,11 +227,67 @@ private fun BottomSheetContent(
                     } else {
                         painterResource(id = R.drawable.baseline_play_arrow_24)
                     },
-                contentDescription = null,
-                modifier =
+                    contentDescription = null,
+                    modifier =
                     Modifier
                         .size(64.dp),
-            )
+                )
+            }
+        } else {
+            Row {
+                Button(
+                    onClick = {
+                        if (running) {
+                            onActivityStop()
+                        } else {
+                            onActivityStart()
+                        }
+                        running = !running
+                    },
+                    modifier = Modifier.size(90.dp),
+                    shape = CircleShape,
+                    colors =
+                    ButtonDefaults.buttonColors(
+                        containerColor = Color(35, 79, 113, 255),
+                    ),
+                ) {
+                    Image(
+                        painter =
+                        if (running) {
+                            painterResource(
+                                id = R.drawable.baseline_pause_24,
+                            )
+                        } else {
+                            painterResource(id = R.drawable.baseline_play_arrow_24)
+                        },
+                        contentDescription = null,
+                        modifier =
+                        Modifier
+                            .size(64.dp),
+                    )
+                }
+            Button(
+                onClick = {
+                    running = !running
+                    onActivityFinish()
+                },
+                modifier = Modifier.size(90.dp),
+                shape = CircleShape,
+                colors =
+                ButtonDefaults.buttonColors(
+                    containerColor = Color(35, 79, 113, 255),
+                ),
+            ) {
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.ExitToApp,
+                    tint = Color.White,
+                    contentDescription = null,
+                    modifier =
+                    Modifier
+                        .size(64.dp),
+                )
+            }
+            }
         }
     }
     Column(
@@ -249,9 +310,9 @@ private fun BottomSheetContent(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
         modifier =
-            Modifier
-                .padding(top = 32.dp, bottom = 24.dp)
-                .fillMaxWidth(),
+        Modifier
+            .padding(top = 32.dp, bottom = 24.dp)
+            .fillMaxWidth(),
     ) {
         ActivityData(
             "Velocidad (Km/h)",
