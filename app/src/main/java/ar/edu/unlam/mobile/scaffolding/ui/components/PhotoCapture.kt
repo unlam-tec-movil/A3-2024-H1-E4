@@ -34,13 +34,14 @@ fun PhotoCapture(viewModel: PhotoCaptureViewModel) {
     val bitmap by viewModel.bitmap.collectAsState()
     val permissionGranted by viewModel.permissionGranted.collectAsState()
 
-    val permissionLauncher = rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) {
-        isGranted ->
-        viewModel.setPermissionGranted(isGranted)
-        if (!isGranted) {
-            Log.e("PhotoCapture", "Permission denied")
+    val permissionLauncher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.RequestPermission()) {
+                isGranted ->
+            viewModel.setPermissionGranted(isGranted)
+            if (!isGranted) {
+                Log.e("PhotoCapture", "Permission denied")
+            }
         }
-    }
 
     LaunchedEffect(Unit) {
         if (ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED) {
@@ -50,15 +51,16 @@ fun PhotoCapture(viewModel: PhotoCaptureViewModel) {
         }
     }
 
-    val launcher = rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicturePreview()) { result ->
-        viewModel.setBitmap(result)
-    }
+    val launcher =
+        rememberLauncherForActivityResult(contract = ActivityResultContracts.TakePicturePreview()) { result ->
+            viewModel.setBitmap(result)
+        }
 
     Column(
         modifier =
-        Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+            Modifier
+                .fillMaxSize()
+                .padding(16.dp),
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.Center,
     ) {
@@ -77,10 +79,10 @@ fun PhotoCapture(viewModel: PhotoCaptureViewModel) {
                 bitmap = it.asImageBitmap(),
                 contentDescription = null,
                 modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .height(400.dp)
-                    .padding(16.dp),
+                    Modifier
+                        .fillMaxWidth()
+                        .height(400.dp)
+                        .padding(16.dp),
             )
         }
     }
