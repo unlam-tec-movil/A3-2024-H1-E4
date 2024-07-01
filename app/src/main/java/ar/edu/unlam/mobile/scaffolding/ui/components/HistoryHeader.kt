@@ -20,7 +20,7 @@ import androidx.compose.ui.unit.sp
 
 @Preview
 @Composable
-fun AchievementHeader(
+fun HistoryHeader(
     onBackClick: () -> Unit = { },
     modifier: Modifier = Modifier,
 ) {
@@ -42,7 +42,7 @@ fun AchievementHeader(
                     .fillMaxWidth(1f),
         ) {
             Text(
-                text = "Logros",
+                text = "Actividades",
                 fontSize = 32.sp,
                 color = MaterialTheme.colorScheme.onPrimary,
                 modifier = modifier.padding(start = 95.dp),

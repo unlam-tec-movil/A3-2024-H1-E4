@@ -19,15 +19,12 @@ object RoomModule {
     @Provides
     fun provideRoom(
         @ApplicationContext context: Context,
-    ) = Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME).build()
+    ) = Room.databaseBuilder(context, AppDatabase::class.java, DATABASE_NAME)
+        .fallbackToDestructiveMigration().build()
 
     @Singleton
     @Provides
     fun provideRouteDao(db: AppDatabase) = db.getRouteDao()
-
-    @Singleton
-    @Provides
-    fun provideCoordinateDao(db: AppDatabase) = db.getCoordinateDao()
 
     @Singleton
     @Provides

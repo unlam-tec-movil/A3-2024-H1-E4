@@ -4,4 +4,6 @@ enum class Routes {
     Home,
     Awards,
     ActivityProgressScreen,
+    RegisterScreen,
+    RouteHistory,
 }

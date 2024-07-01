@@ -11,13 +11,11 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
@@ -25,16 +23,17 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import ar.edu.unlam.mobile.scaffolding.R
-import ar.edu.unlam.mobile.scaffolding.domain.models.user.User
+import ar.edu.unlam.mobile.scaffolding.domain.MockEntities
+import ar.edu.unlam.mobile.scaffolding.domain.models.User
 
 @Preview
 @Composable
-fun HomeHeader(user: User = User(1, "Juan", "Pérez", 22, 171, 75.0, 150.0, 5000, 300, 10)) {
+fun HomeHeader(user: User = MockEntities.user) {
     Column {
         Box(
             Modifier
                 .fillMaxWidth()
-                .height(105.dp)
+                .height(100.dp)
                 .background(
                     color = MaterialTheme.colorScheme.primary,
                 ),
@@ -73,23 +72,6 @@ fun HomeHeader(user: User = User(1, "Juan", "Pérez", 22, 171, 75.0, 150.0, 5000
                             .clickable { },
                 )
             }
-        }
-        Column(
-            modifier =
-                Modifier
-                    .fillMaxWidth()
-                    .padding(top = 10.dp, start = 12.dp, end = 12.dp)
-                    .shadow(3.dp, shape = RoundedCornerShape(5.dp))
-                    .background(color = MaterialTheme.colorScheme.secondaryContainer),
-        ) {
-            Text(
-                text = "Tu última actividad",
-                fontSize = 18.sp,
-                fontWeight = FontWeight.SemiBold,
-                color = MaterialTheme.colorScheme.onSecondaryContainer,
-                modifier = Modifier.padding(top = 12.dp, start = 12.dp),
-            )
-            ActivityResult()
         }
     }
 }

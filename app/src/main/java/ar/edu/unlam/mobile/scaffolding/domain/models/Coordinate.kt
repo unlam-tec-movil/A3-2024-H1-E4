@@ -1,4 +1,4 @@
-package ar.edu.unlam.mobile.scaffolding.domain.models.location
+package ar.edu.unlam.mobile.scaffolding.domain.models
 
 import android.location.Location
 import android.os.Parcel
