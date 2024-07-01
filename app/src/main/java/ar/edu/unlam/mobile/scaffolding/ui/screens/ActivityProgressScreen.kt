@@ -92,7 +92,6 @@ fun ActivityProgressScreen(
     val permissions =
         listOf(
             Manifest.permission.ACCESS_FINE_LOCATION,
-            Manifest.permission.ACCESS_COARSE_LOCATION,
         )
 
     elapsedTimeState = elapsedTime
