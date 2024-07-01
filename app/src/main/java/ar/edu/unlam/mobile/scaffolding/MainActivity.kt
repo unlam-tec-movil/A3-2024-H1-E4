@@ -50,7 +50,7 @@ fun MainScreen() {
     val controller = rememberNavController()
     Scaffold { paddingValue ->
         NavHost(navController = controller, startDestination = Routes.RegisterScreen.name) {
-            composable(Routes.RegisterScreen.name){
+            composable(Routes.RegisterScreen.name) {
                 RegisterScreen(
                     modifier = Modifier.padding(paddingValue),
                     navController = controller,

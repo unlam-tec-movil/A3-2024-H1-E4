@@ -48,7 +48,6 @@ class HomeViewModel
                 withContext(Dispatchers.IO) {
                     userService.getUser(1).catch {
                         _userUiState.value = _userUiState.value.copy(error = it.message.orEmpty())
-
                     }.collect { user ->
                         _userUiState.value = _userUiState.value.copy(user = user, loading = false)
                     }

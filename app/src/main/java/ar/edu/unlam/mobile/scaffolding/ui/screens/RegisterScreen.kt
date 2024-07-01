@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
-import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
@@ -34,21 +33,19 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import ar.edu.unlam.mobile.scaffolding.domain.models.User
-import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.HomeViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.RegisterViewModel
-import com.mapbox.maps.extension.style.expressions.dsl.generated.id
 
 @Preview
 @Composable
-fun RegisterScreen (
+fun RegisterScreen(
     modifier: Modifier = Modifier,
     navController: NavController = rememberNavController(),
     viewModel: RegisterViewModel = hiltViewModel(),
-){
+) {
     val context = LocalContext.current
     val uiState by viewModel.userUiState.collectAsState()
     LaunchedEffect(key1 = true) {
-        if(!uiState.loading){
+        if (!uiState.loading) {
             navController.navigate(Routes.Home.name)
         }
     }
@@ -59,28 +56,29 @@ fun RegisterScreen (
     var age by remember { mutableStateOf("") }
 
     fun handleContinueButtonClick() {
-        if(name == "" || lastName == "" || weight == "" || height == "" || age == "" ){
+        if (name == "" || lastName == "" || weight == "" || height == "" || age == "") {
             Toast.makeText(context, "Todos los datos son obligatorios!", Toast.LENGTH_SHORT).show()
             return
         }
-        val user = User(1, name, lastName, age.toInt(), height.toInt(), weight.toDouble(), 0.0, 0,0,0)
+        val user = User(1, name, lastName, age.toInt(), height.toInt(), weight.toDouble(), 0.0, 0, 0, 0)
         viewModel.setUser(user)
         navController.navigate(Routes.Home.name)
     }
 
     Column(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(16.dp),
+        modifier =
+            Modifier
+                .fillMaxSize()
+                .padding(16.dp),
         verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
+        horizontalAlignment = Alignment.CenterHorizontally,
     ) {
         // Título
         Text(
             text = "Ingresa tus datos",
             fontSize = 32.sp,
             fontWeight = FontWeight.Bold,
-            modifier = Modifier.padding(bottom = 32.dp)
+            modifier = Modifier.padding(bottom = 32.dp),
         )
 
         // Input para el nombre
@@ -88,17 +86,19 @@ fun RegisterScreen (
             value = name,
             onValueChange = { name = it },
             label = { Text("Nombre") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
         )
         OutlinedTextField(
             value = lastName,
             onValueChange = { lastName = it },
             label = { Text("Apellido") },
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
         )
 
         OutlinedTextField(
@@ -107,9 +107,10 @@ fun RegisterScreen (
             label = { Text("Altura (cm)") },
             placeholder = { Text("Ejemplo: 180") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
         )
         // Input para el peso
         OutlinedTextField(
@@ -118,9 +119,10 @@ fun RegisterScreen (
             label = { Text("Peso (Kg)") },
             placeholder = { Text("Ejemplo: 85.5") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 16.dp)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 16.dp),
         )
 
         // Input para la edad
@@ -129,9 +131,10 @@ fun RegisterScreen (
             onValueChange = { age = it },
             label = { Text("Edad") },
             keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Number),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(bottom = 32.dp)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(bottom = 32.dp),
         )
 
         // Botón continuar
@@ -140,9 +143,10 @@ fun RegisterScreen (
             shape = RoundedCornerShape(10.dp),
             border = BorderStroke(2.dp, MaterialTheme.colorScheme.onPrimary),
             colors = ButtonDefaults.outlinedButtonColors(MaterialTheme.colorScheme.primary),
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(top = 4.dp, bottom = 4.dp)
+            modifier =
+                Modifier
+                    .fillMaxWidth()
+                    .padding(top = 4.dp, bottom = 4.dp),
         ) {
             Text(
                 text = "Continuar",
