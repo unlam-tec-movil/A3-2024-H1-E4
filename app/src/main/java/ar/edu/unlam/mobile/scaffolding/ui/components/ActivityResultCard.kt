@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -19,8 +18,8 @@ import androidx.compose.ui.unit.sp
 
 @Preview
 @Composable
-fun CardResultActivity(
-    titulo: String = "ejemplo",
+fun ActivityResultCard(
+    titulo: String = "Ejemplo de texto largo",
     valor: String = "123.0",
     unidad: String? = "",
     modifier: Modifier = Modifier,
@@ -33,15 +32,18 @@ fun CardResultActivity(
                     shape = RoundedCornerShape(16.dp),
                 )
                 .padding(top = 5.dp, bottom = 5.dp)
-                .width(120.dp)
-                .height(50.dp),
+                .fillMaxWidth()
+                .height(45.dp),
     ) {
         Text(
             text = titulo,
             fontSize = 14.sp,
             fontWeight = FontWeight.Bold,
             color = MaterialTheme.colorScheme.onSecondary,
-            modifier = modifier.padding(start = 10.dp),
+            textAlign = TextAlign.Center,
+            modifier =
+                modifier
+                    .fillMaxWidth(),
         )
         Text(
             text = "$valor$unidad",

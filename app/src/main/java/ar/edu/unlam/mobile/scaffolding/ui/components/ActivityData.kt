@@ -23,7 +23,7 @@ fun ActivityData(
         Text(
             text = value,
             fontWeight = FontWeight.ExtraBold,
-            fontSize = 48.sp,
+            fontSize = 33.sp,
         )
         Text(
             text = title,

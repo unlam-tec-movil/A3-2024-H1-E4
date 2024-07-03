@@ -2,6 +2,7 @@ package ar.edu.unlam.mobile.scaffolding.ui.components
 
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyRow
@@ -11,29 +12,29 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import ar.edu.unlam.mobile.scaffolding.R
+import ar.edu.unlam.mobile.scaffolding.domain.MockEntities
+import ar.edu.unlam.mobile.scaffolding.domain.models.User
 
 @Preview
 @Composable
-fun AnimatedAchievementRow(
-    achievements: List<Triple<String, String, Int>> =
-        listOf(
-            Triple("Kilómetros", "4KM/10KM", R.drawable.shoe_prints),
-            Triple("Calorías", "22 dias", R.drawable.flame),
-            Triple("Minutos", "500 kcal", R.drawable.clock_lines),
-            Triple("Días", "10KM", R.drawable.calendar_days),
-        ),
-) {
+fun AchievementRow(user: User = MockEntities.user) {
     LazyRow(
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically,
         modifier =
             Modifier
                 .fillMaxWidth()
+                .fillMaxHeight(.4f)
                 .padding(bottom = 10.dp),
     ) {
-        items(achievements.size) { item ->
-            CardAward(achievements[item].first, achievements[item].second, achievements[item].third)
+        items(1) {
+            CardAward("Kilómetros", user.kilometers.toString(), R.drawable.shoe_prints)
             Spacer(modifier = Modifier.padding(horizontal = 5.dp))
+            CardAward("Calorías", user.calories.toString(), R.drawable.flame)
+            Spacer(modifier = Modifier.padding(horizontal = 5.dp))
+            CardAward("Minutos", user.minutes.toString(), R.drawable.clock_lines)
+            Spacer(modifier = Modifier.padding(horizontal = 5.dp))
+            CardAward("Días", user.days.toString(), R.drawable.calendar_days)
         }
     }
 }
