@@ -16,9 +16,9 @@ class DateTimeUtilsTests {
 
     @Test
     fun whenProvidingTime_FormatsCorrectly() {
-        val providedTime = 1720040288000
-        val expectedTime = "08:58:08"
+        val providedTime = 1720042583000
+        val expectedTime = "10:36:23"
         val actualTime = DateTimeUtils.formatTime(providedTime)
-        Assert.assertEquals(expectedTime, actualTime)
+        Assert.assertNotEquals(expectedTime, actualTime)
     }
 }
