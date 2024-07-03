@@ -63,12 +63,13 @@ import ar.edu.unlam.mobile.scaffolding.ui.components.ActivityData
 import ar.edu.unlam.mobile.scaffolding.ui.components.ActivityStartButton
 import ar.edu.unlam.mobile.scaffolding.ui.components.ActivityStopButton
 import ar.edu.unlam.mobile.scaffolding.ui.components.MapboxContent
+import ar.edu.unlam.mobile.scaffolding.ui.components.NoLocationPermissionContent
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.ActivityProgressViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.CoordinateUIState
 import ar.edu.unlam.mobile.scaffolding.utils.DateTimeUtils
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
-import com.google.accompanist.permissions.rememberMultiplePermissionsState
+import com.google.accompanist.permissions.rememberPermissionState
 
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -99,18 +100,15 @@ fun ActivityProgressScreen(
     val context = LocalContext.current
     val elapsedTime by viewModel.elapsedTimeState.collectAsState()
 
-    val permissions =
-        listOf(
-            Manifest.permission.ACCESS_FINE_LOCATION,
-        )
+    val fineLocationPermission = Manifest.permission.ACCESS_FINE_LOCATION
 
     elapsedTimeState = elapsedTime
 
-    val rememberMultiplePermissionsState =
-        rememberMultiplePermissionsState(permissions = permissions)
+    val rememberPermissionState =
+        rememberPermissionState(permission = fineLocationPermission)
 
     LaunchedEffect(key1 = true) {
-        rememberMultiplePermissionsState.launchMultiplePermissionRequest()
+        rememberPermissionState.launchPermissionRequest()
         scaffoldState.bottomSheetState.expand()
     }
 
@@ -187,32 +185,32 @@ fun ActivityProgressScreen(
             }
         }
 
-        if (rememberMultiplePermissionsState.permissions.any { it.status.isGranted }
-        ) {
-            Log.i("Location Coordinates", "Activity Screen coord= $coordinates")
+        if (rememberPermissionState.status.isGranted) {
             MapboxContent(
                 locationCoordinates = coordinates,
                 modifier = Modifier.fillMaxSize(),
             )
-        }
-        BottomSheetScaffold(
-            scaffoldState = scaffoldState,
-            sheetPeekHeight = 80.dp,
-            sheetContent = {
-                BottomSheetContent(
-                    elapsedTimeState,
-                    speedAverageState,
-                    distanceState,
-                    caloriesState,
-                    onActivityStop = { viewModel.pause() },
-                    onActivityStart = { viewModel.start() },
-                    onActivityEnd = {
-                        viewModel.stop(if (userId != "") userId.toLong() else 1)
-                        navController.navigate(Routes.Home.name)
-                    },
-                )
-            },
-        ) {
+
+            BottomSheetScaffold(
+                scaffoldState = scaffoldState,
+                sheetPeekHeight = 80.dp,
+                sheetContent = {
+                    BottomSheetContent(
+                        elapsedTimeState,
+                        speedAverageState,
+                        distanceState,
+                        caloriesState,
+                        onActivityStop = { viewModel.pause() },
+                        onActivityStart = { viewModel.start() },
+                        onActivityEnd = {
+                            viewModel.stop(if (userId != "") userId.toLong() else 1)
+                            navController.navigate(Routes.Home.name)
+                        },
+                    )
+                },
+            ) {}
+        } else {
+            NoLocationPermissionContent()
         }
     }
 }

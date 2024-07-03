@@ -51,7 +51,6 @@ fun HomeScreen(
     val routeUiState by viewModel.routeUiState.collectAsState()
 
     if (userUiState.loading) {
-        Log.i("UiState", "Cargando")
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,

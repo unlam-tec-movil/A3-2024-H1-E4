@@ -4,4 +4,8 @@
     <string name="start_activity">Iniciar actividad</string>
     <string name="welcome_message">Bienvenido,</string>
     <string name="error_location_message">Ha ocurrido un error al obtener la ubicación. Intente nuevamente.</string>
+    <string name="title_location_dialog_info">Permisos requeridos</string>
+    <string name="open_settings_message">Habilitar en ajustes\n</string>
+    <string name="no_permissions_granted">Logo ubicación sin permisos</string>
+    <string name="no_location_permissions_granted">La aplicación requiere permisos de ubicación precisa para funcionar correctamente.</string>
 </resources>
