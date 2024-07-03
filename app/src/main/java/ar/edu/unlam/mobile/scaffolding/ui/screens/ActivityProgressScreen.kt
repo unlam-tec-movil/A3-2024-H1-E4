@@ -66,10 +66,12 @@ import ar.edu.unlam.mobile.scaffolding.ui.components.MapboxContent
 import ar.edu.unlam.mobile.scaffolding.ui.components.NoLocationPermissionContent
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.ActivityProgressViewModel
 import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.CoordinateUIState
+import ar.edu.unlam.mobile.scaffolding.ui.viewmodels.SpotifyViewModel
 import ar.edu.unlam.mobile.scaffolding.utils.DateTimeUtils
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
+import ar.edu.unlam.mobile.scaffolding.ui.components.Spotify
 
 @RequiresApi(Build.VERSION_CODES.O)
 @SuppressLint("UnusedMaterial3ScaffoldPaddingParameter")
@@ -78,6 +80,7 @@ import com.google.accompanist.permissions.rememberPermissionState
 fun ActivityProgressScreen(
     viewModel: ActivityProgressViewModel = hiltViewModel(),
     navController: NavController = rememberNavController(),
+    viewModelSpotify: SpotifyViewModel = hiltViewModel(),
     userWeight: String = "",
     userId: String = "",
 ) {
@@ -121,6 +124,7 @@ fun ActivityProgressScreen(
                     titleContentColor = MaterialTheme.colorScheme.onPrimary,
                 ),
             actions = {
+                Spotify(viewModelSpotify)
                 IconButton(onClick = {
                     showEndDialog.value = true
                 }) {
