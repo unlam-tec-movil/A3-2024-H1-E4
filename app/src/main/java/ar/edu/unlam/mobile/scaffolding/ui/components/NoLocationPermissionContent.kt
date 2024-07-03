@@ -33,10 +33,11 @@ import ar.edu.unlam.mobile.scaffolding.R
 @Composable
 fun NoLocationPermissionContent() {
     Column(
-        modifier = Modifier.fillMaxSize().background(color = MaterialTheme.colorScheme.primaryContainer),
+        modifier =
+            Modifier.fillMaxSize()
+                .background(color = MaterialTheme.colorScheme.primaryContainer),
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
-
     ) {
         Image(
             painter = painterResource(id = R.drawable.ic_no_location_permission),
