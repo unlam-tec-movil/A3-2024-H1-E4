@@ -1,4 +1,19 @@
 <resources>
-    <string name="app_name">ScaffoldingV2</string>
+    <string name="app_name">WalkieTrackie</string>
     <string name="mapbox_access_token">pk.eyJ1IjoiZnNrdXJuaWsiLCJhIjoiY2x2MTRneXBtMDB6eDJpcGxlbG9iZzM3ciJ9.diQaafPkgGDUGHs8R_m9kQ</string>
+    <string name="start_activity">Iniciar actividad</string>
+    <string name="welcome_message">Bienvenido,</string>
+    <string name="error_location_message">Ha ocurrido un error al obtener la ubicación. Intente nuevamente.</string>
+    <string name="register_title">Bienvenido a WalkieTrackie!</string>
+    <string name="register_subtitle">Ingresa tus datos</string>
+    <string name="register_name">Nombre</string>
+    <string name="register_lastname">Apellido</string>
+    <string name="register_height">Altura (cm)</string>
+    <string name="register_weight">Peso (Kg)</string>
+    <string name="register_age">Edad</string>
+    <string name="register_continue">Continuar</string>
+    <string name="title_location_dialog_info">Permisos requeridos</string>
+    <string name="open_settings_message">Habilitar en ajustes\n</string>
+    <string name="no_permissions_granted">Logo ubicación sin permisos</string>
+    <string name="no_location_permissions_granted">La aplicación requiere permisos de ubicación precisa para funcionar correctamente.</string>
 </resources>

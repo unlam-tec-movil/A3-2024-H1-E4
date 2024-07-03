@@ -1,35 +1,38 @@
 package ar.edu.unlam.mobile.scaffolding
 
+import android.os.Build
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
+import androidx.annotation.RequiresApi
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Home
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.unit.dp
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import ar.edu.unlam.mobile.scaffolding.ui.components.BottomBar
+import androidx.navigation.navArgument
+import ar.edu.unlam.mobile.scaffolding.ui.screens.ActivityProgressScreen
+import ar.edu.unlam.mobile.scaffolding.ui.screens.AwardsScreen
+import ar.edu.unlam.mobile.scaffolding.ui.screens.HistoryScreen
 import ar.edu.unlam.mobile.scaffolding.ui.screens.HomeScreen
-import ar.edu.unlam.mobile.scaffolding.ui.theme.ScaffoldingV2Theme
+import ar.edu.unlam.mobile.scaffolding.ui.screens.RegisterScreen
+import ar.edu.unlam.mobile.scaffolding.ui.screens.Routes
+import ar.edu.unlam.mobile.scaffolding.ui.theme.AppTheme
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
 class MainActivity : ComponentActivity() {
+    @RequiresApi(Build.VERSION_CODES.O)
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContent {
-            ScaffoldingV2Theme {
+            AppTheme {
                 // A surface container using the 'background' color from the theme
                 Surface(
                     modifier = Modifier.fillMaxSize(),
@@ -42,28 +45,44 @@ class MainActivity : ComponentActivity() {
     }
 }
 
+@RequiresApi(Build.VERSION_CODES.O)
 @Composable
 fun MainScreen() {
-    // Controller es el elemento que nos permite navegar entre pantallas. Tiene las acciones
-    // para navegar como naviegate y también la información de en dónde se "encuentra" el usuario
-    // a través del back stack
     val controller = rememberNavController()
-    Scaffold(
-        bottomBar = { BottomBar(controller = controller) },
-        floatingActionButton = {
-            IconButton(onClick = { controller.navigate("home") }) {
-                Icon(Icons.Filled.Home, contentDescription = "Home")
+    Scaffold { paddingValue ->
+        NavHost(navController = controller, startDestination = Routes.RegisterScreen.name) {
+            composable(Routes.RegisterScreen.name) {
+                RegisterScreen(
+                    modifier = Modifier.padding(paddingValue),
+                    navController = controller,
+                )
             }
-        },
-    ) { paddingValue ->
-        // NavHost es el componente que funciona como contenedor de los otros componentes que
-        // podrán ser destinos de navegación.
-        NavHost(navController = controller, startDestination = "home") {
-            // composable es el componente que se usa para definir un destino de navegación.
-            // Por parámetro recibe la ruta que se utilizará para navegar a dicho destino.
-            composable("home") {
-                // Home es el componente en sí que es el destino de navegación.
-                HomeScreen(modifier = Modifier.size(height = 660.dp, width = 400.dp).padding(paddingValue))
+            composable(Routes.Home.name) {
+                HomeScreen(
+                    modifier = Modifier.padding(paddingValue),
+                    navController = controller,
+                )
+            }
+            composable(Routes.Awards.name) {
+                AwardsScreen(navController = controller)
+            }
+            composable(Routes.RouteHistory.name) {
+                HistoryScreen(navController = controller)
+            }
+            composable(
+                "${Routes.ActivityProgressScreen.name}/{userWeight}/{userId}",
+                arguments =
+                    listOf(
+                        navArgument("userWeight") { NavType.StringType },
+                    ),
+            ) {
+                val userWeight = it.arguments?.getString("userWeight")
+                val userId = it.arguments?.getString("userId")
+                ActivityProgressScreen(
+                    navController = controller,
+                    userWeight = userWeight.orEmpty(),
+                    userId = userId.orEmpty(),
+                )
             }
         }
     }
