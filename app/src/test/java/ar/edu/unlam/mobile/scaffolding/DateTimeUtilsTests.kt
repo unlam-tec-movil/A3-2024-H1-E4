@@ -13,4 +13,12 @@ class DateTimeUtilsTests {
         val actualDate = DateTimeUtils.formatDate(providedDate)
         Assert.assertEquals(expectedFormattedDate, actualDate)
     }
+
+    @Test
+    fun whenProvidingTime_FormatsCorrectly() {
+        val providedTime = 1720040288000
+        val expectedTime = "08:58:08"
+        val actualTime = DateTimeUtils.formatTime(providedTime)
+        Assert.assertEquals(expectedTime, actualTime)
+    }
 }
