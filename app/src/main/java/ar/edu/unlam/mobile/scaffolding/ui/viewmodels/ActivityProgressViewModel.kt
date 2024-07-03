@@ -1,6 +1,7 @@
 package ar.edu.unlam.mobile.scaffolding.ui.viewmodels
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
@@ -9,6 +10,7 @@ import ar.edu.unlam.mobile.scaffolding.domain.models.Coordinate
 import ar.edu.unlam.mobile.scaffolding.domain.models.Route
 import ar.edu.unlam.mobile.scaffolding.domain.usecases.LocationUseCases
 import ar.edu.unlam.mobile.scaffolding.domain.usecases.RouteUseCases
+import ar.edu.unlam.mobile.scaffolding.domain.usecases.UserUseCases
 import com.mapbox.geojson.utils.PolylineUtils
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.Dispatchers
@@ -16,6 +18,7 @@ import kotlinx.coroutines.delay
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.asStateFlow
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import java.time.Instant
@@ -40,9 +43,11 @@ data class ActivityUIState(
     val coordinateUIState: CoordinateUIState,
 )
 
-// MET es la Unidad Metabólica de Reposo.
-// Es una medida utilizada en fisiología del ejercicio para cuantificar
-// la cantidad de energia que se gasta durante distintas actividades físicas
+/**
+ * MET es la Unidad Metabólica de Reposo.
+ * Es una medida utilizada en fisiología del ejercicio para cuantificar
+ * la cantidad de energia que se gasta durante distintas actividades físicas
+ */
 private const val MET = 13.0
 
 @HiltViewModel
@@ -51,6 +56,7 @@ class ActivityProgressViewModel
     constructor(
         private val locationUseCases: LocationUseCases,
         private val routeUseCases: RouteUseCases,
+        private val userUseCases: UserUseCases,
     ) : ViewModel() {
         private var startTime: Long = 0L
         private var isRunning: Boolean = false
@@ -129,12 +135,15 @@ class ActivityProgressViewModel
                         locationUseCases.getLocationCoordinates().value.map { it.toPoint() },
                         5,
                     )
+
                 polylineEncoded =
                     if (polylineEncodedAux.contains("?")) {
                         polylineEncodedAux.replace("?", "63")
                     } else {
                         polylineEncodedAux
                     }
+
+                Log.i("POLYLINEA CODIFI", "VALOR = $polylineEncoded")
 
                 val maxSpeed =
                     if (locationUseCases.getSpeeds().isNotEmpty()) {
@@ -155,6 +164,30 @@ class ActivityProgressViewModel
                         date = date,
                         coordinates = polylineEncoded,
                     )
+
+                viewModelScope.launch {
+                    withContext(Dispatchers.IO) {
+                        val lastRoute = routeUseCases.getLatestRoute().first()
+                        val shouldIncreaseDays =
+                            if (lastRoute == null) {
+                                true
+                            } else {
+                                TimeUnit.MILLISECONDS.toDays(route.date.time - lastRoute.date.time) != 0L
+                            }
+                        var user = userUseCases.getUser(userId).first()
+                        var modifiedUser =
+                            user.copy(
+                                calories = user.calories + route.calories.toInt(),
+                                kilometers = user.kilometers + route.distance,
+                                minutes =
+                                    user.minutes +
+                                        TimeUnit.MILLISECONDS.toMinutes(route.durationSeconds)
+                                            .toInt(),
+                                days = if (shouldIncreaseDays) user.days + 1 else user.days,
+                            )
+                        userUseCases.saveUser(modifiedUser)
+                    }
+                }
 
                 viewModelScope.launch {
                     withContext(Dispatchers.IO) {
