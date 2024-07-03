@@ -87,6 +87,7 @@ dependencies {
     debugImplementation(libs.androidx.ui.tooling)
     debugImplementation(libs.androidx.ui.test.manifest)
     debugImplementation(libs.androidx.test.monitor)
+    debugImplementation(libs.androidx.test.core)
 
     // Dagger + Hilt
     implementation(libs.google.dagger.hilt.android)
@@ -98,4 +99,5 @@ dependencies {
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")
     androidTestImplementation(libs.google.dagger.hilt.android.testing)
     testImplementation(libs.google.dagger.hilt.android.testing)
+    testImplementation(libs.test.mockk)
 }
