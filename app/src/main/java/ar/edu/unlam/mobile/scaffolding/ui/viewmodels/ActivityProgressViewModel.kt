@@ -1,6 +1,7 @@
 package ar.edu.unlam.mobile.scaffolding.ui.viewmodels
 
 import android.os.Build
+import android.util.Log
 import androidx.annotation.RequiresApi
 import androidx.compose.runtime.Immutable
 import androidx.lifecycle.ViewModel
@@ -129,12 +130,15 @@ class ActivityProgressViewModel
                         locationUseCases.getLocationCoordinates().value.map { it.toPoint() },
                         5,
                     )
+
                 polylineEncoded =
                     if (polylineEncodedAux.contains("?")) {
                         polylineEncodedAux.replace("?", "63")
                     } else {
                         polylineEncodedAux
                     }
+
+                Log.i("POLYLINEA CODIFI", "VALOR = $polylineEncoded")
 
                 val maxSpeed =
                     if (locationUseCases.getSpeeds().isNotEmpty()) {

@@ -1,6 +1,5 @@
 package ar.edu.unlam.mobile.scaffolding.ui.screens
 
-import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
@@ -51,7 +50,6 @@ fun HomeScreen(
     val routeUiState by viewModel.routeUiState.collectAsState()
 
     if (userUiState.loading) {
-        Log.i("UiState", "Cargando")
         Column(
             modifier = Modifier.fillMaxSize(),
             horizontalAlignment = Alignment.CenterHorizontally,
