@@ -11,7 +11,7 @@ import ar.edu.unlam.mobile.scaffolding.data.database.entity.User
 
 @Database(
     entities = [Route::class, User::class],
-    version = 4,
+    version = 5,
 )
 @TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {

@@ -26,7 +26,6 @@ class HistoryViewModel
     constructor(private val routeService: RouteUseCases) :
     ViewModel() {
         private val _historyUiState = MutableStateFlow(HistoryUiState())
-
         val historyUiState = _historyUiState.asStateFlow()
 
         init {

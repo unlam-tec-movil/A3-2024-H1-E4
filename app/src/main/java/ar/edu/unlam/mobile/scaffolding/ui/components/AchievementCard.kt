@@ -24,12 +24,12 @@ import ar.edu.unlam.mobile.scaffolding.R
 
 @Preview
 @Composable
-fun CardAward(
+fun AchievementCard(
     title: String = "Kilómetros",
     amount: String = "123",
     img: Int = R.drawable.trueno,
+    decimals: Int = 0,
     modifier: Modifier = Modifier,
-    action: () -> Unit = {},
 ) {
     Surface(
         modifier =
@@ -67,7 +67,7 @@ fun CardAward(
                     modifier = Modifier.padding(start = 4.dp),
                 )
             }
-            Text(text = amount, fontSize = 16.sp)
+            Text(text = "%.${decimals}f".format(amount.toDouble()), fontSize = 16.sp)
         }
     }
 }
