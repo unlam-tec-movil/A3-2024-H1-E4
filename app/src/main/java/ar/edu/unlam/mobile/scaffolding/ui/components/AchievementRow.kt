@@ -28,13 +28,13 @@ fun AchievementRow(user: User = MockEntities.user) {
                 .padding(bottom = 10.dp),
     ) {
         items(1) {
-            CardAward("Kilómetros", user.kilometers.toString(), R.drawable.shoe_prints)
+            AchievementCard("Kilómetros", user.kilometers.toString(), R.drawable.shoe_prints, 2)
             Spacer(modifier = Modifier.padding(horizontal = 5.dp))
-            CardAward("Calorías", user.calories.toString(), R.drawable.flame)
+            AchievementCard("Calorías", user.calories.toString(), R.drawable.flame, 0)
             Spacer(modifier = Modifier.padding(horizontal = 5.dp))
-            CardAward("Minutos", user.minutes.toString(), R.drawable.clock_lines)
+            AchievementCard("Minutos", user.minutes.toString(), R.drawable.clock_lines, 0)
             Spacer(modifier = Modifier.padding(horizontal = 5.dp))
-            CardAward("Días", user.days.toString(), R.drawable.calendar_days)
+            AchievementCard("Días", user.days.toString(), R.drawable.calendar_days, 0)
         }
     }
 }

@@ -75,7 +75,7 @@ dependencies {
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
     implementation(libs.androidx.room.ktx)
-    implementation("androidx.compose.material3.adaptive:adaptive:1.0.0-beta03")
+    implementation(libs.androidx.adaptive.android)
     ksp("androidx.room:room-compiler:2.6.1")
     implementation(libs.androidx.constraintlayout)
     implementation(libs.androidx.ui.text.google.fonts)
@@ -92,6 +92,13 @@ dependencies {
     ksp(libs.google.dagger.hilt.android.compiler)
     implementation(libs.google.dagger.hilt.android.testing)
     implementation(libs.androidx.hilt.navigation.compose)
+
+    // CameraX
+    implementation(libs.androidx.camera.core)
+    implementation(libs.androidx.camera.camera2)
+    implementation(libs.androidx.camera.lifecycle)
+    implementation(libs.androidx.camera.view)
+    implementation(libs.androidx.camera.extensions)
 
     // Compose
     implementation("androidx.constraintlayout:constraintlayout-compose:1.0.1")

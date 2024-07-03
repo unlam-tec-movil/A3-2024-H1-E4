@@ -1,5 +1,6 @@
 package ar.edu.unlam.mobile.scaffolding.data.database.entity
 
+import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import ar.edu.unlam.mobile.scaffolding.domain.models.User
@@ -9,6 +10,8 @@ data class User(
     @PrimaryKey(autoGenerate = true) val id: Long = 0,
     val firstName: String,
     val lastName: String,
+    @ColumnInfo(typeAffinity = ColumnInfo.BLOB)
+    val picture: ByteArray?,
     val age: Int,
     val height: Int,
     val weight: Double,
@@ -22,6 +25,7 @@ data class User(
             id,
             firstName,
             lastName,
+            picture,
             age,
             height,
             weight,
