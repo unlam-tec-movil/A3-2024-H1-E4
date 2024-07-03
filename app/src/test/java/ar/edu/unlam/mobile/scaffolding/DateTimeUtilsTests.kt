@@ -15,7 +15,7 @@ class DateTimeUtilsTests {
     }
 
     @Test
-    fun whenProvidingTime_FormatsCorrectly() {
+    fun whenProvidingTime_FormatsIncorrectly() {
         val providedTime = 1720042583000
         val expectedTime = "10:36:23"
         val actualTime = DateTimeUtils.formatTime(providedTime)
